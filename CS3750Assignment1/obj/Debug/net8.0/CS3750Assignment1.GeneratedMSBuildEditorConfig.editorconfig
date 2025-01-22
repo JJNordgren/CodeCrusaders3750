@@ -30,16 +30,16 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/3750/GroupWork/CS3750Assignment1/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+[C:/3750/GroupWork/CS3750Assignment1/Pages/Home.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/3750/GroupWork/CS3750Assignment1/Pages/InstructorClasses.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3RvckNsYXNzZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/3750/GroupWork/CS3750Assignment1/Pages/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+[C:/3750/GroupWork/CS3750Assignment1/Pages/LoginPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5QYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/3750/GroupWork/CS3750Assignment1/Pages/Privacy.cshtml]

@@ -57,7 +57,7 @@ namespace CS3750Assignment1.Pages
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/LoginPage");
 
         }
     }

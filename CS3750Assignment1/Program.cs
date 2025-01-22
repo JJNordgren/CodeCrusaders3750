@@ -11,6 +11,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 var app = builder.Build();
 
+app.MapFallbackToPage("/LoginPage");
+
+app.MapRazorPages();
+app.Run();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
