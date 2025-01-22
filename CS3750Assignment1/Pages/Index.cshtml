@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "CourseHub";
+}
+
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 400px;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Login</h2>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="Email" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" id="password" name="Password" class="form-control" required />
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/Register'">Register</button>
+                </div>
+            </form>
+
+            @if (!ModelState.IsValid)
+            {
+                <p class="text-danger text-center mt-3">@ModelState[string.Empty].Errors.FirstOrDefault()?.ErrorMessage</p>
+            }
+        </div>
+    </div>
+</div>

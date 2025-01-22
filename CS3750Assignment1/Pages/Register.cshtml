@@ -1,0 +1,43 @@
+﻿@page
+@model CS3750Assignment1.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="width: 25rem;">
+        <h1 class="text-center">Register</h1>
+        <form method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name:</label>
+                <input type="text" id="name" name="Name" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address:</label>
+                <input type="email" id="email" name="Email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="Password" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="birthdate" class="form-label">Birth Date:</label>
+                <input type="date" id="birthdate" name="BirthDate" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label d-block">Account Type:</label>
+                <div class="form-check form-check-inline">
+                    <input type="radio" id="student" name="Account Type" value="Student" class="form-check-input" required />
+                    <label for="student" class="form-check-label">Student</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" id="teacher" name="Account Type" value="Teacher" class="form-check-input" required />
+                    <label for="teacher" class="form-check-label">Teacher</label>
+                </div>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+        </form>
+    </div>
+</div>
