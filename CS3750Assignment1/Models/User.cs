@@ -1,4 +1,7 @@
-﻿namespace CS3750Assignment1.Models
+﻿using CS3750Assignment1.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace CS3750Assignment1.Models
 {
     public class User
     {
@@ -11,16 +14,25 @@
         /// </summary>
         public string email {  get; set; }
         /// <summary>
-        /// create the name variable for the database
+        /// create the first name variable for the database
         /// </summary>
-        public string name { get; set; }
+        public string firstName { get; set; }
+        /// <summary>
+        /// create the last name variable for the database
+        /// </summary>
+        public string lastName { get; set; }
+
         /// <summary>
         /// create the password variable for the database
         /// </summary>
+        [Required]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         public string password { get; set; }
         /*
         public string
         */
+        [Required]
+        [MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
         public DateTime BirthDate { get; set; }
 
         //public char userType { get; set; }

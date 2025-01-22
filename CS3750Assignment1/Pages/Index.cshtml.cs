@@ -34,7 +34,7 @@ namespace CS3750Assignment1.Pages
             if (user != null && user.password == Password)
             {
                 // Pass user name to the Login page
-                return RedirectToPage("/Login", new { userName = user.name });
+                return RedirectToPage("/Login", new { userName = user.firstName + ' ' + user.lastName });
             }
 
             ModelState.AddModelError(string.Empty, "Invalid email or password");

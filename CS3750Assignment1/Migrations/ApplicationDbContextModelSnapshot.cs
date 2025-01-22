@@ -37,7 +37,11 @@ namespace CS3750Assignment1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name")
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("lastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
