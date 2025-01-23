@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using System.Linq;
@@ -21,7 +22,15 @@ namespace CS3750Assignment1.Pages
         [BindProperty]
         public string Password { get; set; }
 
-        public IActionResult OnPost()
+        public string ErrorMessage { get; set; }
+
+        public void OnGet()
+        {
+            // Clear session on visiting login page to ensure no leftover user session
+            HttpContext.Session.Clear();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
@@ -29,21 +38,23 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.email.ToLower() == Email.ToLower());
+            var user = await _context.Users
+                .Where(u => u.email == Email && u.password == Password)
+                .FirstOrDefaultAsync();
+            //var user = _context.Users.FirstOrDefault(u => u.email.ToLower() == Email.ToLower());
 
-            if (user != null && user.password == Password)
+
+            if (user == null)
             {
                 // Pass user name to the Login page
-                return RedirectToPage("/Home", new { userName = user.firstName + ' ' + user.lastName });
+                ModelState.AddModelError(string.Empty, "Invalid email or password");
+                return Page();
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid email or password");
-            return Page();
-        }
 
-        public void OnGet()
-        {
-
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("UserType", user.userType.ToString());
+            return RedirectToPage("/Home");
         }
     }
 }

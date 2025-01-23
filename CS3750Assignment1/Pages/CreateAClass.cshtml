@@ -1,0 +1,90 @@
+﻿@page
+@model CS3750Assignment1.Pages.CreateAClassModel
+
+@{
+    ViewData["Title"] = "Create A New Class";
+}
+
+<div class="container mt-4 mb-5">
+    <h1 class="text-center">Create New Class</h1>
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="Department" class="form-label">Department</label>
+            <select class="form-control" id="Department" name="Department" asp-for="Course.Department" required>
+                <option value="">Select a Department</option>
+                @foreach (var department in Model.DepartmentOptions)
+                {
+                    <option value="@department">@department</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="Name" class="form-label">Class Name</label>
+            <input type="text" class="form-control" id="Name" name="Name" value="@Model.Course.Name" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="ClassNumber" class="form-label">Class Number</label>
+            <input type="text" class="form-control" id="ClassNumber" name="ClassNumber" value="@Model.Course.ClassNumber" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="CreditHours" class="form-label">Credit Hours</label>
+            <input type="number" class="form-control" id="CreditHours" name="CreditHours" value="@Model.Course.CreditHours" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="Capacity" class="form-label">Capacity</label>
+            <input type="number" class="form-control" id="Capacity" name="Capacity" value="@Model.Course.Capacity" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="Location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="Location" name="Location" value="@Model.Course.Location" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Class Meeting Days</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Monday" name="MeetingDays" value="Monday" />
+                    <label class="form-check-label" for="Monday">Monday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Tuesday" name="MeetingDays" value="Tuesday" />
+                    <label class="form-check-label" for="Tuesday">Tuesday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Wednesday" name="MeetingDays" value="Wednesday" />
+                    <label class="form-check-label" for="Wednesday">Wednesday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Thursday" name="MeetingDays" value="Thursday" />
+                    <label class="form-check-label" for="Thursday">Thursday</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="Friday" name="MeetingDays" value="Friday" />
+                    <label class="form-check-label" for="Friday">Friday</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="StartTime" class="form-label">Start Time</label>
+            <input type="time" class="form-control" id="StartTime" name="StartTime" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="EndTime" class="form-label">End Time</label>
+            <input type="time" class="form-control" id="EndTime" name="EndTime" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Class</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

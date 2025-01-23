@@ -51,8 +51,8 @@ namespace CS3750Assignment1.Pages
                 lastName = User.lastName,
                 email = User.email,
                 password = User.password , 
-                BirthDate = User.BirthDate
-                /*, userType = User.userType*/
+                BirthDate = User.BirthDate,
+                userType = User.userType
             };
 
             _context.Users.Add(user);

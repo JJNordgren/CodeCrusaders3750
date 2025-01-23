@@ -12,19 +12,61 @@ namespace CS3750Assignment1.Pages
 {
     public class InstructorClassesModel : PageModel
     {
+
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
+
+        /*
+        /// <summary>
+        /// workshopping this method. should ensure that there is a user
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult OnGet()
+        {
+            // Retrieve the user ID from the session
+            UserId = HttpContext.Session.GetString("UserID");
+
+            if (string.IsNullOrEmpty(UserId))
+            {
+                // If no session, redirect to the login page
+                return RedirectToPage("/LoginPage");
+            }
+
+            return Page();
+        }
+        */
 
         public InstructorClassesModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
+
         public IList<Course> Course { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            // Retrieve the user ID from the session
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                // If no session, redirect to the login page
+                return RedirectToPage("/LoginPage");
+            }
+
+            // Fetch courses for the instructor, almost positive this is wrong right now
+            //but it is a problem for near future me.
+            Course = await _context.Courses
+                .Where(c => c.InstructorId == userId) // Filter by InstructorId
+                .ToListAsync();
+
+
+            //Workshopping this
+            /*
             Course = await _context.Courses
                 .Include(c => c.Instructor).ToListAsync();
+            */
+            return Page();
         }
     }
 }
