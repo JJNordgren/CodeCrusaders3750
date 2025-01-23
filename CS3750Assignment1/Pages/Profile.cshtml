@@ -1,0 +1,63 @@
+﻿@page
+@model CS3750Assignment1.Pages.ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+            <h1 class="text-center">Profile</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name:</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" ReadOnly="True" value="Fistname" />
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" class="form-control" ReadOnly="True" value="lastName" />
+            </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address:</label>
+                <input type="email" id="email" name="Email" class="form-control" ReadOnly="True" value="email" />
+                </div>
+                <div class="mb-3">
+                    <label for="birthdate" class="form-label">Birth Date:</label>
+                <input type="date" id="birthdate" name="BirthDate" class="form-control" ReadOnly="True" value="2000-01-01" />
+                </div>
+            <div class="mb-3">
+                <label for="addressLine1" class="form-label">Address Line 1:</label>
+                <input type="text" id="addressLine1" name="addressLine1" class="form-control" ReadOnly="True" value="addressLine1" />
+            </div>
+            <div class="mb-3">
+                <label for="addressLine2" class="form-label">Address Line 2:</label>
+                <input type="text" id="addressLine2" name="addressLine2" class="form-control" ReadOnly="True" value="addressLine2" />
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City:</label>
+                <input type="text" id="city" name="city" class="form-control" ReadOnly="True" value="city" />
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State:</label>
+                <input type="text" id="state" name="state" class="form-control" ReadOnly="True" value="state" />
+            </div>
+            <div class="mb-3">
+                <label for="zip" class="form-label">Zip:</label>
+                <input type="text" id="zip" name="zip" class="form-control" ReadOnly="True" value="zip" />
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone:</label>
+                <input type="text" id="phone" name="phone" class="form-control" ReadOnly="True" value="phone" />
+            </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Edit Profile</button>
+                </div>
+            </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

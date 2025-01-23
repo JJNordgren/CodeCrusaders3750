@@ -4734,23 +4734,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\blood\\.nuget\\packages\\": {},
+    "C:\\Users\\JaKota\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\3750\\CS3750Assignment1.0\\CS3750Assignment1\\CS3750Assignment1.csproj",
+      "projectUniqueName": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1\\CS3750Assignment1.csproj",
       "projectName": "CS3750Assignment1",
-      "projectPath": "C:\\3750\\CS3750Assignment1.0\\CS3750Assignment1\\CS3750Assignment1.csproj",
-      "packagesPath": "C:\\Users\\blood\\.nuget\\packages\\",
-      "outputPath": "C:\\3750\\CS3750Assignment1.0\\CS3750Assignment1\\obj\\",
+      "projectPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1\\CS3750Assignment1.csproj",
+      "packagesPath": "C:\\Users\\JaKota\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\blood\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\JaKota\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4772,11 +4772,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4817,7 +4812,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

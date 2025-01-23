@@ -13,7 +13,17 @@
         /// <summary>
         /// create the name variable for the database
         /// </summary>
-        public string name { get; set; }
+        public string name { get; set; } = string.Empty;
+
+        public string firstName { get; set; } = string.Empty;
+        public string lastName { get; set; } = string.Empty;
+        public string addressLine1 { get; set; } = string.Empty;
+        public string addressLine2 { get; set; } = string.Empty;
+        public string city { get; set; } = string.Empty;
+        public string state { get; set; } = string.Empty;
+        public string zip { get; set; } = string.Empty;
+        public string phone { get; set; } = string.Empty;
+
         /// <summary>
         /// create the password variable for the database
         /// </summary>
