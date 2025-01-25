@@ -30,6 +30,12 @@
                 <span asp-validation-for="User.password" class="text-danger"></span>
             </div>
             <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="User.confirmPassword" class="form-control" />
+                <span asp-validation-for="User.confirmPassword" class="text-danger"></span>
+                <span id="passwordError" class="text-danger"></span> <!-- For immediate feedback -->
+            </div>
+            <div class="mb-3">
                 <label for="birthdate" class="form-label">Birth Date:</label>
                 <input type="date" id="birthdate" name="User.BirthDate" class="form-control" required />
                 <span asp-validation-for="User.BirthDate" class="text-danger"></span>
@@ -45,9 +51,30 @@
                     <label for="teacher" class="form-check-label">Teacher</label>
                 </div>
             </div>
-            <div class="d-grid">
+            <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Create Account</button>
+                <button type="submit" class="btn btn-primary" onclick="window.location.href='/Home'">Login</button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- logic to make sure passwords match immediately -->
+<script>
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+    const passwordError = document.getElementById('passwordError');
+
+    function validatePasswords() {
+        // Check if passwords match
+        if (passwordField.value !== confirmPasswordField.value) {
+            passwordError.textContent = 'Passwords do not match.';
+        } else {
+            passwordError.textContent = '';
+        }
+    }
+
+    // Add event listeners for real-time validation
+    passwordField.addEventListener('input', validatePasswords);
+    confirmPasswordField.addEventListener('input', validatePasswords);
+</script>
