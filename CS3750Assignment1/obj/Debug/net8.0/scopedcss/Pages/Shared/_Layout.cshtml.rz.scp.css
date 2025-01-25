@@ -1,48 +1,83 @@
-/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
+/* Ensure navbar brand text is light green */
 a.navbar-brand[b-62o99d4xyi] {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    color: #90EE90 !important; /* Force light green color for "CourseHub" */
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
-a[b-62o99d4xyi] {
-  color: #0077cc;
+.navbar.navbar-expand-sm .navbar-brand[b-62o99d4xyi] {
+    color: #90EE90;
+    text-decoration: none;
+}
+/* Remove any default border or line under navbar */
+.navbar[b-62o99d4xyi] {
+    border-bottom: none !important;
+    --bs-navbar-brand-color: #90EE90 !important;
+    --bs-navbar-brand-hover-color: #006400;
+}
+.navbar-brand:hover[b-62o99d4xyi] {
+    color: #006400 !important; /* Dark green */
+}
+nav.navbar .navbar-brand[b-62o99d4xyi] {
+    color: #90EE90 !important;
 }
 
-.btn-primary[b-62o99d4xyi] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* Ensure navbar toggler button text is light green */
+.navbar-toggler[b-62o99d4xyi] {
+    color: #90EE90 !important; /* Light green color for the toggler button */
 }
 
+/* Ensure links in navbar are white */
+.navbar-nav .nav-link[b-62o99d4xyi] {
+    color: white !important; /* Make links in navbar white */
+}
+
+/* Ensure active navbar link stays white */
 .nav-pills .nav-link.active[b-62o99d4xyi], .nav-pills .show > .nav-link[b-62o99d4xyi] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: white !important;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
-.border-top[b-62o99d4xyi] {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom[b-62o99d4xyi] {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow[b-62o99d4xyi] {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy[b-62o99d4xyi] {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
+/* Ensure background color for footer matches the navbar */
 .footer[b-62o99d4xyi] {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: #003366;
+    color: #90EE90;
+}
+
+/* Set header background and text color */
+header[b-62o99d4xyi] {
+    background-color: #003366;
+    color: #90EE90;
+}
+
+/* General body background color */
+.bg-dark-blue[b-62o99d4xyi] {
+    background-color: #003366; /* Dark blue for navbar and footer */
+}
+
+/* Text color for light green */
+.text-light-green[b-62o99d4xyi] {
+    color: #90EE90 !important; /* Light green color for text */
+}
+
+/* Box shadow for navbar */
+.box-shadow[b-62o99d4xyi] {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+/* Footer link color */
+footer a[b-62o99d4xyi] {
+    color: #0077cc; /* Keep privacy link blue */
+}
+
+/* Ensure no additional margins or borders for navbar */
+.navbar-collapse[b-62o99d4xyi] {
+    margin-bottom: 0 !important;
 }
