@@ -42,6 +42,17 @@ namespace CS3750Assignment1.Pages
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage); // Log or inspect errors
+                }
+
+                DepartmentOptions = new List<string> { "CS", "Math", "Science", "History", "Health" };
+
+                return Page();
+            }
 
             var userId = HttpContext.Session.GetInt32("UserId");
 
@@ -57,6 +68,7 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
+            /*
             if (!TimeSpan.TryParse(Request.Form["Course.StartTime"], out var startTime))
             {
                 ModelState.AddModelError("Course.StartTime", "Invalid start time format.");
@@ -79,20 +91,7 @@ namespace CS3750Assignment1.Pages
             {
                 ModelState.AddModelError("Course.MeetingDays", "Please select at least one meeting day.");
             }
-
-            if (!ModelState.IsValid)
-            {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine(error.ErrorMessage); // Log or inspect errors
-                }
-
-                DepartmentOptions = new List<string> { "CS", "Math", "Science", "History", "Health" };
-
-                return Page();
-            }
-            
-
+            */
 
             _context.Courses.Add(Course);
             

@@ -14,6 +14,7 @@
         </div>
         <div class="card-body">
             <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
                 <div class="mb-3">
                     <label for="Department" class="form-label">Department</label>
                     <select class="form-control" id="Department" asp-for="Course.Department" required>
@@ -28,26 +29,31 @@
                 <div class="mb-3">
                     <label for="Name" class="form-label">Class Name</label>
                     <input type="text" class="form-control" id="Name" asp-for="Course.Name" required />
+                    <span asp-validation-for="Course.Name" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="ClassNumber" class="form-label">Class Number</label>
                     <input type="text" class="form-control" id="ClassNumber" asp-for="Course.ClassNumber" required />
+                    <span asp-validation-for="Course.ClassNumber" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="CreditHours" class="form-label">Credit Hours</label>
                     <input type="number" class="form-control" id="CreditHours" asp-for="Course.CreditHours" required />
+                    <span asp-validation-for="Course.CreditHours" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="Capacity" class="form-label">Capacity</label>
                     <input type="number" class="form-control" id="Capacity" asp-for="Course.Capacity" required />
+                    <span asp-validation-for="Course.Capacity" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="Location" class="form-label">Location</label>
                     <input type="text" class="form-control" id="Location" asp-for="Course.Location" required />
+                    <span asp-validation-for="Course.Location" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
@@ -74,16 +80,19 @@
                             <label class="form-check-label" for="Friday">Friday</label>
                         </div>
                     </div>
+                    <span asp-validation-for="Course.MeetingDays" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="StartTime" class="form-label">Start Time</label>
                     <input type="time" class="form-control" id="StartTime" name="Course.StartTime" required />
+                    <span asp-validation-for="Course.StartTime" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="EndTime" class="form-label">End Time</label>
                     <input type="time" class="form-control" id="EndTime" name="Course.EndTime" required />
+                    <span asp-validation-for="Course.EndTime" class="text-danger"></span>
                 </div>
 
                 <div class="text-center">

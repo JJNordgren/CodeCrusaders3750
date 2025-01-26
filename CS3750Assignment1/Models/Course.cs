@@ -26,22 +26,22 @@ namespace CS3750Assignment1.Models
         /// <summary>
         /// stores the class number
         /// </summary>
-        [RegularExpression(@"^([0-9])([0-9])([0-9])([0-9])$", ErrorMessage = "Course Number must be only 4 digits.")]
         [Required]
+        [RegularExpression(@"^([0-9])([0-9])([0-9])([0-9])$", ErrorMessage = "Course Number must be only 4 digits.")]
         public string ClassNumber { get; set; }
 
         /// <summary>
         /// stores the amount of credit hours the class is worth
         /// </summary>
-        [Range(1,10, ErrorMessage = "Credit hours must be between 1 and 10.")]
         [Required]
+        [Range(1,10, ErrorMessage = "Credit hours must be between 1 and 10.")]
         public int CreditHours { get; set; }
 
         /// <summary>
         /// stores the maximum capacity for the class
         /// </summary>
-        [Range(1,100, ErrorMessage = "Class capacity must be between 1 and 100.")]
         [Required]
+        [Range(1,100, ErrorMessage = "Class capacity must be between 1 and 100.")]
         public int Capacity { get; set; }
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace CS3750Assignment1.Models
         /// <summary>
         /// A list of strings to store the days of the week that the class will be meeting
         /// </summary>
+        [Required(ErrorMessage = "Please select at least one meetintg day.")]
         public List<string> MeetingDays { get; set; }
 
         /// <summary>
