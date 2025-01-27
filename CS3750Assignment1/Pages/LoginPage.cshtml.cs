@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using System.Linq;
+using CS3750Assignment1.Utilities;
 
 namespace CS3750Assignment1.Pages
 {
@@ -39,10 +40,8 @@ namespace CS3750Assignment1.Pages
             }
 
             var user = await _context.Users
-                .Where(u => u.email == Email && u.password == Password)
+                .Where(u => u.email == Email) //take out password for encryption
                 .FirstOrDefaultAsync();
-            //var user = _context.Users.FirstOrDefault(u => u.email.ToLower() == Email.ToLower());
-
 
             if (user == null)
             {
@@ -51,9 +50,19 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
+            // In the absence of a salt stored in the database, use a static salt (or a different approach)
+            string salt = "static_salt";  // Just an example; replace with proper dynamic salt generation
+            bool isValid = PasswordHelper.VerifyPassword(Password, user.password, salt);
+
+            if (!isValid)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return Page();
+            }
 
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserType", user.userType.ToString());
+
             return RedirectToPage("/Home");
         }
     }
