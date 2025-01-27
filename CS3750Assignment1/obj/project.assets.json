@@ -7769,11 +7769,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kliec\\source\\repos\\CodeCrusaders3750\\CC1\\CS3750Assignment1\\CS3750Assignment1.csproj",
+      "projectUniqueName": "C:\\Users\\kliec\\source\\repos\\ConfirmPassCC\\CS3750Assignment1\\CS3750Assignment1.csproj",
       "projectName": "CS3750Assignment1",
-      "projectPath": "C:\\Users\\kliec\\source\\repos\\CodeCrusaders3750\\CC1\\CS3750Assignment1\\CS3750Assignment1.csproj",
+      "projectPath": "C:\\Users\\kliec\\source\\repos\\ConfirmPassCC\\CS3750Assignment1\\CS3750Assignment1.csproj",
       "packagesPath": "C:\\Users\\kliec\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kliec\\source\\repos\\CodeCrusaders3750\\CC1\\CS3750Assignment1\\obj\\",
+      "outputPath": "C:\\Users\\kliec\\source\\repos\\ConfirmPassCC\\CS3750Assignment1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

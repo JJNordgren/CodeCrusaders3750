@@ -5,7 +5,7 @@
 }
 
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4" style="width: 25rem;">
+    <div class="card p-4" style="width: 25rem; min-height: 45rem;">
         <h1 class="text-center">Register</h1>
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
@@ -58,6 +58,11 @@
         </form>
     </div>
 </div>
+
+<div class="text-center mt-5 mb-5">
+    <a asp-page="/LoginPage">Back to Login</a>
+</div>
+
 
 <!-- logic to make sure passwords match immediately -->
 <script>
