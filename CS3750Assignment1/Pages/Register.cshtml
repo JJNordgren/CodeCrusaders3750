@@ -8,30 +8,40 @@
     <div class="card p-4" style="width: 25rem;">
         <h1 class="text-center">Register</h1>
         <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
             <div class="mb-3">
-                <label for="name" class="form-label">Full Name:</label>
-                <input type="text" id="name" name="Name" class="form-control" required />
+                <label for="firstName" class="form-label">First Name:</label>
+                <input type="text" id="firstName" name="User.firstName" class="form-control" required />
+                <span asp-validation-for="User.firstName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input type="text" id="lastName" name="User.lastName" class="form-control" required />
+                <span asp-validation-for="User.lastName" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address:</label>
-                <input type="email" id="email" name="Email" class="form-control" required />
+                <input type="email" id="email" name="User.email" class="form-control" required />
+                <span asp-validation-for="User.email" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" id="password" name="Password" class="form-control" required />
+                <input type="password" id="password" name="User.password" class="form-control" required />
+                <span asp-validation-for="User.password" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="birthdate" class="form-label">Birth Date:</label>
-                <input type="date" id="birthdate" name="BirthDate" class="form-control" required />
+                <input type="date" id="birthdate" name="User.BirthDate" class="form-control" required />
+                <span asp-validation-for="User.BirthDate" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label d-block">Account Type:</label>
                 <div class="form-check form-check-inline">
-                    <input type="radio" id="student" name="Account Type" value="Student" class="form-check-input" required />
+                    <input type="radio" id="student" name="User.userType" value="S" class="form-check-input" required />
                     <label for="student" class="form-check-label">Student</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input type="radio" id="teacher" name="Account Type" value="Teacher" class="form-check-input" required />
+                    <input type="radio" id="teacher" name="User.userType" value="T" class="form-check-input" required />
                     <label for="teacher" class="form-check-label">Teacher</label>
                 </div>
             </div>

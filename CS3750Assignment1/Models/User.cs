@@ -1,4 +1,7 @@
-﻿namespace CS3750Assignment1.Models
+﻿using CS3750Assignment1.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace CS3750Assignment1.Models
 {
     public class User
     {
@@ -11,28 +14,38 @@
         /// </summary>
         public string email {  get; set; }
         /// <summary>
-        /// create the name variable for the database
+        /// create the first name variable for the database
         /// </summary>
-        public string name { get; set; } = string.Empty;
-
-        public string firstName { get; set; } = string.Empty;
+        public string firstName { get; set; }
+        /// <summary>
+        /// create the last name variable for the database
+        /// </summary>
         public string lastName { get; set; } = string.Empty;
+        public string name { get; set; }
+        /// <summary>
+        /// create the password variable for the database
+        /// </summary>
+        [Required]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+        public string password { get; set; }
+        /*
+        public string
+        */
+        [Required]
+        [MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
+        public DateTime BirthDate { get; set; }
+
+
         public string addressLine1 { get; set; } = string.Empty;
         public string addressLine2 { get; set; } = string.Empty;
         public string city { get; set; } = string.Empty;
         public string state { get; set; } = string.Empty;
         public string zip { get; set; } = string.Empty;
         public string phone { get; set; } = string.Empty;
-
         /// <summary>
-        /// create the password variable for the database
+        /// Stores a Char for user type, T for teacher, S for student. Left it as char so 
+        /// we could add more user types if we ever needed to.
         /// </summary>
-        public string password { get; set; }
-        /*
-        public string
-        */
-        public DateTime BirthDate { get; set; }
-
-        //public char userType { get; set; }
+        public char userType { get; set; }
     }
 }

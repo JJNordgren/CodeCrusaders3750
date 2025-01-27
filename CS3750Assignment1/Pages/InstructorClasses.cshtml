@@ -1,0 +1,51 @@
+﻿@page
+@model CS3750Assignment1.Pages.InstructorClassesModel
+
+@{
+    ViewData["Title"] = "InstructorClasses";
+}
+
+<div class="container mt-4">
+    <!-- Title centered at the top -->
+    <div class="text-center mb-4">
+        <h1>Your Classes</h1>
+    </div>
+
+    <!-- Table for listing classes -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Course[0].Department)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].ClassNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].CreditHours)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].Capacity)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].Location)</th>
+                <th>@Html.DisplayNameFor(model => model.Course[0].Instructor)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Course)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Department)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ClassNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreditHours)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Instructor.password)</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center mb-3">
+        <a class="btn btn-primary" asp-page="/CreateAClass">Create New</a>
+    </div>
+</div>
