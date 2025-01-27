@@ -19,9 +19,6 @@ namespace CS3750Assignment1.Pages
             _context = context;
         }
 
-
-
-
         [BindProperty]
         public Course Course { get; set; } = default!;
 
@@ -67,31 +64,6 @@ namespace CS3750Assignment1.Pages
                 DepartmentOptions = new List<string> { "CS", "Math", "Science", "History", "Health" };
                 return Page();
             }
-
-            /*
-            if (!TimeSpan.TryParse(Request.Form["Course.StartTime"], out var startTime))
-            {
-                ModelState.AddModelError("Course.StartTime", "Invalid start time format.");
-            }
-            else
-            {
-                Course.StartTime = startTime;
-            }
-
-            if (!TimeSpan.TryParse(Request.Form["Course.EndTime"], out var endTime))
-            {
-                ModelState.AddModelError("Course.EndTime", "Invalid end time format.");
-            }
-            else
-            {
-                Course.EndTime = endTime;
-            }
-
-            if (Request.Form["Course.MeetingDays"].Count == 0)
-            {
-                ModelState.AddModelError("Course.MeetingDays", "Please select at least one meeting day.");
-            }
-            */
 
             _context.Courses.Add(Course);
             
