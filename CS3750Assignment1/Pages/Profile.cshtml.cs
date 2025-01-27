@@ -30,6 +30,13 @@ namespace CS3750Assignment1.Pages
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var userId = HttpContent.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToPage("/loginPage");
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
