@@ -53,14 +53,10 @@
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary">Create Account</button>
-                <button type="submit" class="btn btn-primary" onclick="window.location.href='/Home'">Login</button>
+                <button type="submit" class="btn btn-secondary" onclick="window.location.href='/LoginPage'">Login</button>
             </div>
         </form>
     </div>
-</div>
-
-<div class="text-center mt-5 mb-5">
-    <a asp-page="/LoginPage">Back to Login</a>
 </div>
 
 
@@ -82,4 +78,16 @@
     // Add event listeners for real-time validation
     passwordField.addEventListener('input', validatePasswords);
     confirmPasswordField.addEventListener('input', validatePasswords);
+
+    // Function to clear error message when user starts typing
+    function clearError(event) {
+        event.target.nextElementSibling.textContent = ''; // Clears the next sibling span (error message)
+    }
+
+    // Select all input fields and attach event listeners
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', clearError);
+    });
+
+
 </script>
