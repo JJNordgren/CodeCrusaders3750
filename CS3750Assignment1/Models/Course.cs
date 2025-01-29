@@ -68,6 +68,8 @@ namespace CS3750Assignment1.Models
         [Required]
         public TimeSpan EndTime { get; set; }
 
+        public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+
         /// <summary>
         /// stores the instructor's ID
         /// </summary>
