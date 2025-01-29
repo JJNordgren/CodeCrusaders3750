@@ -37,6 +37,15 @@ namespace CS3750Assignment1.Pages
             {
                 return RedirectToPage("/loginPage");
             }
+            var user = await _context.Users.FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return RedirectToPage("/loginPage");
+            }
+            else
+            {
+                User= user;
+            }
 
             if (!ModelState.IsValid)
             {
