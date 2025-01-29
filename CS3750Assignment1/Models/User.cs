@@ -43,6 +43,8 @@ namespace CS3750Assignment1.Models
         /// </summary>
         public char userType { get; set; }
 
+        public string? Salt { get; set; }
+
         //public string? ProfileImagePath { get; set; } = null; 
     }
 }
