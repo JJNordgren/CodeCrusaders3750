@@ -78,4 +78,16 @@
     // Add event listeners for real-time validation
     passwordField.addEventListener('input', validatePasswords);
     confirmPasswordField.addEventListener('input', validatePasswords);
+
+    // Function to clear error message when user starts typing
+    function clearError(event) {
+        event.target.nextElementSibling.textContent = ''; // Clears the next sibling span (error message)
+    }
+
+    // Select all input fields and attach event listeners
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', clearError);
+    });
+
+
 </script>
