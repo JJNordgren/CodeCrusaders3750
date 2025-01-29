@@ -6,85 +6,106 @@
 }
 
 <div class="container mt-4 mb-5">
-    <h1 class="text-center">Create New Class</h1>
+    <h1 class="text-center mb-4">Create New Class</h1>
 
-    <form method="post">
-        <div class="mb-3">
-            <label for="Department" class="form-label">Department</label>
-            <select class="form-control" id="Department" name="Department" asp-for="Course.Department" required>
-                <option value="">Select a Department</option>
-                @foreach (var department in Model.DepartmentOptions)
-                {
-                    <option value="@department">@department</option>
-                }
-            </select>
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="card-title mb-0">Class Details</h4>
         </div>
-
-        <div class="mb-3">
-            <label for="Name" class="form-label">Class Name</label>
-            <input type="text" class="form-control" id="Name" name="Name" value="@Model.Course.Name" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="ClassNumber" class="form-label">Class Number</label>
-            <input type="text" class="form-control" id="ClassNumber" name="ClassNumber" value="@Model.Course.ClassNumber" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="CreditHours" class="form-label">Credit Hours</label>
-            <input type="number" class="form-control" id="CreditHours" name="CreditHours" value="@Model.Course.CreditHours" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="Capacity" class="form-label">Capacity</label>
-            <input type="number" class="form-control" id="Capacity" name="Capacity" value="@Model.Course.Capacity" required />
-        </div>
-
-        <div class="mb-3">
-            <label for="Location" class="form-label">Location</label>
-            <input type="text" class="form-control" id="Location" name="Location" value="@Model.Course.Location" required />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Class Meeting Days</label>
-            <div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="Monday" name="MeetingDays" value="Monday" />
-                    <label class="form-check-label" for="Monday">Monday</label>
+        <div class="card-body">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
+                <div class="mb-3">
+                    <label for="Department" class="form-label">Department</label>
+                    <select class="form-control" id="Department" asp-for="Course.Department" required>
+                        <option value="">Select a Department</option>
+                        @foreach (var Department in Model.DepartmentOptions)
+                        {
+                            <option value="@Department">@Department</option>
+                        }
+                    </select>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="Tuesday" name="MeetingDays" value="Tuesday" />
-                    <label class="form-check-label" for="Tuesday">Tuesday</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="Wednesday" name="MeetingDays" value="Wednesday" />
-                    <label class="form-check-label" for="Wednesday">Wednesday</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="Thursday" name="MeetingDays" value="Thursday" />
-                    <label class="form-check-label" for="Thursday">Thursday</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" class="form-check-input" id="Friday" name="MeetingDays" value="Friday" />
-                    <label class="form-check-label" for="Friday">Friday</label>
-                </div>
-            </div>
-        </div>
 
-        <div class="mb-3">
-            <label for="StartTime" class="form-label">Start Time</label>
-            <input type="time" class="form-control" id="StartTime" name="StartTime" required />
-        </div>
+                <div class="mb-3">
+                    <label for="Name" class="form-label">Class Name</label>
+                    <input type="text" class="form-control" id="Name" asp-for="Course.Name" required />
+                    <span asp-validation-for="Course.Name" class="text-danger"></span>
+                </div>
 
-        <div class="mb-3">
-            <label for="EndTime" class="form-label">End Time</label>
-            <input type="time" class="form-control" id="EndTime" name="EndTime" required />
-        </div>
+                <div class="mb-3">
+                    <label for="ClassNumber" class="form-label">Class Number</label>
+                    <input type="text" class="form-control" id="ClassNumber" asp-for="Course.ClassNumber" required />
+                    <span asp-validation-for="Course.ClassNumber" class="text-danger"></span>
+                </div>
 
-        <button type="submit" class="btn btn-success">Create Class</button>
-    </form>
+                <div class="mb-3">
+                    <label for="CreditHours" class="form-label">Credit Hours</label>
+                    <input type="number" class="form-control" id="CreditHours" asp-for="Course.CreditHours" required />
+                    <span asp-validation-for="Course.CreditHours" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Capacity" class="form-label">Capacity</label>
+                    <input type="number" class="form-control" id="Capacity" asp-for="Course.Capacity" required />
+                    <span asp-validation-for="Course.Capacity" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="Location" asp-for="Course.Location" required />
+                    <span asp-validation-for="Course.Location" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Class Meeting Days</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="Monday" name="Course.MeetingDays" value="Monday" />
+                            <label class="form-check-label" for="Monday">Monday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="Tuesday" name="Course.MeetingDays" value="Tuesday" />
+                            <label class="form-check-label" for="Tuesday">Tuesday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="Wednesday" name="Course.MeetingDays" value="Wednesday" />
+                            <label class="form-check-label" for="Wednesday">Wednesday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="Thursday" name="Course.MeetingDays" value="Thursday" />
+                            <label class="form-check-label" for="Thursday">Thursday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="Friday" name="Course.MeetingDays" value="Friday" />
+                            <label class="form-check-label" for="Friday">Friday</label>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Course.MeetingDays" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="StartTime" class="form-label">Start Time</label>
+                    <input type="time" class="form-control" id="StartTime" name="Course.StartTime" required />
+                    <span asp-validation-for="Course.StartTime" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="EndTime" class="form-label">End Time</label>
+                    <input type="time" class="form-control" id="EndTime" name="Course.EndTime" required />
+                    <span asp-validation-for="Course.EndTime" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Create Class</button>
+                    <a href="/InstructorClasses" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
