@@ -50,9 +50,8 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
-            // In the absence of a salt stored in the database, use a static salt (or a different approach)
-            string salt = "static_salt";  // Just an example; replace with proper dynamic salt generation
-            bool isValid = PasswordHelper.VerifyPassword(Password, user.password, salt);
+            // Retrieve salt stored for the user and verify pass
+            bool isValid = PasswordHelper.VerifyPassword(Password, user.password, user.Salt);
 
             if (!isValid)
             {

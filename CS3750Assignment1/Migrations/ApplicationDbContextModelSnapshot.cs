@@ -83,6 +83,9 @@ namespace CS3750Assignment1.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Salt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("confirmPassword")
                         .HasColumnType("nvarchar(max)");
 
