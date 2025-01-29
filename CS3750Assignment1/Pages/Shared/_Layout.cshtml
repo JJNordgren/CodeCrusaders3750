@@ -41,6 +41,12 @@
                                     <a class="nav-link text-white" asp-area="" asp-page="/InstructorClasses">Classes</a>
                                 </li>
                             }
+                            @if (Context.Session.GetString("UserType") == "S")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="" asp-page="">Register</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
