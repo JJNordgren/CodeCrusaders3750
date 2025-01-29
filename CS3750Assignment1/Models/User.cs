@@ -28,6 +28,9 @@ namespace CS3750Assignment1.Models
         [Required]
         [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         public string password { get; set; }
+
+        [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string? confirmPassword { get; set; }
         /*
         public string
         */
@@ -39,5 +42,7 @@ namespace CS3750Assignment1.Models
         /// we could add more user types if we ever needed to.
         /// </summary>
         public char userType { get; set; }
+
+        //public string? ProfileImagePath { get; set; } = null; 
     }
 }
