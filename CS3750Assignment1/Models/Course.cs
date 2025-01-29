@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS3750Assignment1.Models
 {
@@ -18,20 +19,26 @@ namespace CS3750Assignment1.Models
         /// Stores the name of the class
         /// </summary>
         public string Name { get; set; }
-        
+
         /// <summary>
         /// stores the class number
         /// </summary>
+        [RegularExpression(@"^([0-9])([0-9])([0-9])([0-9])$", ErrorMessage = "Course Number must be only 4 digits.")]
+        [Required]
         public string ClassNumber { get; set; }
 
         /// <summary>
         /// stores the amount of credit hours the class is worth
         /// </summary>
+        [Range(1,10, ErrorMessage = "Credit hours must be between 1 and 10.")]
+        [Required]
         public int CreditHours { get; set; }
 
         /// <summary>
         /// stores the maximum capacity for the class
         /// </summary>
+        [Range(1,100, ErrorMessage = "Class capacity must be between 1 and 100.")]
+        [Required]
         public int Capacity { get; set; }
 
         /// <summary>

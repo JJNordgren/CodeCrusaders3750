@@ -30,7 +30,7 @@ namespace CS3750Assignment1.Models
         public string password { get; set; }
 
         [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string confirmPassword { get; set; }
+        public string? confirmPassword { get; set; }
         /*
         public string
         */
