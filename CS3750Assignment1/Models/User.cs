@@ -39,12 +39,12 @@ namespace CS3750Assignment1.Models
         public DateTime BirthDate { get; set; }
 
 
-        public string addressLine1 { get; set; } = string.Empty;
-        public string addressLine2 { get; set; } = string.Empty;
-        public string city { get; set; } = string.Empty;
-        public string state { get; set; } = string.Empty;
-        public string zip { get; set; } = string.Empty;
-        public string phone { get; set; } = string.Empty;
+        public string? addressLine1 { get; set; } = string.Empty;
+        public string? addressLine2 { get; set; } = string.Empty;
+        public string? city { get; set; } = string.Empty;
+        public string? state { get; set; } = string.Empty;
+        public string? zip { get; set; } = string.Empty;
+        public string? phone { get; set; } = string.Empty;
         /// <summary>
         /// Stores a Char for user type, T for teacher, S for student. Left it as char so 
         /// we could add more user types if we ever needed to.
