@@ -30,7 +30,7 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
             // Hash the password (use a static salt or generate it dynamically if needed)
-            string salt;
+            string salt = "static_salt";
             User.password = PasswordHelper.HashPassword(User.password, out salt);
 
             // Clear confirmPassword since it is not stored

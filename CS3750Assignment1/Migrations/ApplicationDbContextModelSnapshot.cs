@@ -84,7 +84,6 @@ namespace CS3750Assignment1.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("confirmPassword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
