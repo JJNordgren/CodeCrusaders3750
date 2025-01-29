@@ -44,20 +44,6 @@ namespace CS3750Assignment1.Pages
 
             TempData["SuccessMessage"] = "Registration successful! You can now log in.";
             return RedirectToPage("/LoginPage");
-
-
-            //change it to name = user.Name etc.
-            /*
-            var user = new User
-            {
-                firstName = User.firstName,
-                lastName = User.lastName,
-                email = User.email,
-                password = User.password ,
-                confirmPassword = User.confirmPassword,
-                BirthDate = User.BirthDate,
-                userType = User.userType
-            };*/
         }
     }
 }
