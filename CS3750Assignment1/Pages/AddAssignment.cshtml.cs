@@ -47,7 +47,7 @@ namespace CS3750Assignment1.Pages
             _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Home");
         }
     }
 }
