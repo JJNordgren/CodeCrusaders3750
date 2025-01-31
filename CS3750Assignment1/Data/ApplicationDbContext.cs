@@ -50,6 +50,7 @@ namespace CS3750Assignment1.Data
                 .HasForeignKey(a => a.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+        public DbSet<CS3750Assignment1.Models.Assignment> Assignment { get; set; } = default!;
     }
 
 }

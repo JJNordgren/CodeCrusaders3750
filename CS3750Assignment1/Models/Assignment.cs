@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS3750Assignment1.Models
@@ -48,6 +49,7 @@ namespace CS3750Assignment1.Models
         public int CourseId { get; set; }
 
         [ForeignKey("CourseId")]
+        [ValidateNever]
         public Course Course { get; set; }
 
         /// <summary>
@@ -57,6 +59,7 @@ namespace CS3750Assignment1.Models
         public int InstructorId { get; set; }
 
         [ForeignKey("InstructorId")]
+        [ValidateNever]
         public User Instructor { get; set; }
     }
 }

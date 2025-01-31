@@ -1,0 +1,68 @@
+﻿@page
+@model CS3750Assignment1.Pages.AddAssignmentModel
+
+@{
+    ViewData["Title"] = "Add Assignment";
+}
+
+<h1 class="text-center mt-3">Add Assignment</h1>
+
+<div class="card mt-4 mb-5 shadow-sm">
+    <div class="card-body">
+        <h4 class="card-title text-center">Assignment Details</h4>
+        <hr />
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.Title" class="form-label"></label>
+                <input asp-for="Assignment.Title" class="form-control" />
+                <span asp-validation-for="Assignment.Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.Description" class="form-label"></label>
+                <textarea asp-for="Assignment.Description" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Assignment.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.DueDate" class="form-label"></label>
+                <input asp-for="Assignment.DueDate" type="datetime-local" class="form-control" />
+                <span asp-validation-for="Assignment.DueDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.MaxPoints" class="form-label"></label>
+                <input asp-for="Assignment.MaxPoints" type="number" class="form-control" />
+                <span asp-validation-for="Assignment.MaxPoints" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.AssignmentType" class="form-label"></label>
+                <select asp-for="Assignment.AssignmentType" class="form-select">
+                    <option value="">Select Type</option>
+                    <option value="T">Text Box</option>
+                    <option value="F">File Upload</option>
+                </select>
+                <span asp-validation-for="Assignment.AssignmentType" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mt-4">
+                <button type="submit" class="btn btn-primary mb-2" style="width: 150px;">Create</button>
+                <a asp-page="" class="btn btn-secondary" style="width: 150px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
