@@ -4,6 +4,18 @@
     ViewData["Title"] = "CourseHub";
 }
 
+<!-- Success Message Code Block-->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    // Clear TempData after displaying it
+    TempData["SuccessMessage"] = null;
+}
+
 
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow-lg p-4" style="width: 400px;">
@@ -20,7 +32,7 @@
                     <input type="password" id="password" name="Password" class="form-control" required />
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary" onclick="window.location.href='/Home'">Login</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                     <button type="button" class="btn btn-secondary" onclick="window.location.href='/Register'">Register</button>
                 </div>
             </form>
@@ -32,3 +44,8 @@
         </div>
     </div>
 </div>
+<script>
+    setTimeout(() => {
+        document.querySelector(".alert")?.remove();
+    }, 5000); // Removes the message after 5 seconds
+</script>
