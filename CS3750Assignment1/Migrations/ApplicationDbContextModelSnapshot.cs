@@ -169,6 +169,9 @@ namespace CS3750Assignment1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("picturePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("userType")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");

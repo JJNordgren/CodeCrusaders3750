@@ -1,0 +1,42 @@
+﻿@page
+@model CS3750Assignment1.Pages.ProfilePicture.EditModel
+ @{
+    ViewData["Title"] = "Edit";
+} 
+
+<h1>Edit Image</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+            <div>
+                @if (Model.User.picturePath == null)
+                {
+                    <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%;" />
+                }
+                else
+                {
+                    <img src="@Model.User.picturePath" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%;" />
+                }
+                
+            </div>
+
+             <form id="uploadForm" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
+                <fieldset>
+                  <legend> Upload Image </legend>
+                  <label for="Image">Image</label>
+                  <input type="file" name="Image" />
+                  <br/>
+                  <input type="submit" value="Upload" />
+                </fieldset>
+            </form>
+    </div>
+</div>
+
+@* This is used to edit profile details for debuggin purposes
+    <div style="margin:30px;">
+    <a asp-page="./Index">Back to List</a>
+</div> *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
