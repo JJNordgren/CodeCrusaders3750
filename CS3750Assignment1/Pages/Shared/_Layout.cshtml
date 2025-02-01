@@ -55,7 +55,7 @@
                             }
                         </ul>
                     </div>
-                </div>
+                
                     @if (string.IsNullOrEmpty(@Context.Session.GetString("PicturePath"))) 
                     {
                         <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
@@ -69,9 +69,9 @@
                             <img src="@picturePath" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;" />
                         </a>
                     }
-            </div>
+                </div>
        
-            </nav>
+          </nav>
         }
     </header>
 
