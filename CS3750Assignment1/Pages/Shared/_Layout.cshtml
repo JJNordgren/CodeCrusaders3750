@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+@using CS3750Assignment1.Models
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -43,6 +46,23 @@
                         }
                     </ul>
                 </div>
+                    @if (string.IsNullOrEmpty(@Context.Session.GetString("PicturePath"))) 
+                    {
+                        <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
+                            <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Default Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;" />
+                        </a>
+                    }
+                    else
+                    {
+                        var picturePath = Context.Session.GetString("PicturePath");
+                        <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
+                            <img src="@picturePath" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;" />
+                        </a>
+                    }
+            </div>
+            <div>
+                    
+                   
             </div>
         </nav>
         }

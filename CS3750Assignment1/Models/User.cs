@@ -39,5 +39,10 @@ namespace CS3750Assignment1.Models
         /// we could add more user types if we ever needed to.
         /// </summary>
         public char userType { get; set; }
+
+        /// <summary>
+        /// Stores the ProfilePicture for the user. This will be a link to the image root.
+        /// </summary>
+        public string? picturePath { get; set; }
     }
 }

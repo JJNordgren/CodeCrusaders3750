@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace CS3750Assignment1.Pages
 {
@@ -52,8 +53,14 @@ namespace CS3750Assignment1.Pages
             }
 
 
+
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserType", user.userType.ToString());
+            if (user.picturePath != null)
+            {
+                HttpContext.Session.SetString("PicturePath", user.picturePath.ToString());
+            }
+
             return RedirectToPage("/Home");
         }
     }
