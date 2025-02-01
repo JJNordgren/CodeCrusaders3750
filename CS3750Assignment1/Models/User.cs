@@ -28,6 +28,9 @@ namespace CS3750Assignment1.Models
         [Required]
         [MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
         public string password { get; set; }
+
+        [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string? confirmPassword { get; set; }
         /*
         public string
         */
@@ -44,5 +47,8 @@ namespace CS3750Assignment1.Models
         /// Stores the ProfilePicture for the user. This will be a link to the image root.
         /// </summary>
         public string? picturePath { get; set; }
+      
+        public string? Salt { get; set; }
+
     }
 }

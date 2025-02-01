@@ -21,22 +21,20 @@
                 <th>@Html.DisplayNameFor(model => model.Course[0].CreditHours)</th>
                 <th>@Html.DisplayNameFor(model => model.Course[0].Capacity)</th>
                 <th>@Html.DisplayNameFor(model => model.Course[0].Location)</th>
-                <th>@Html.DisplayNameFor(model => model.Course[0].Instructor)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Course)
             {
-                <tr>
+                <tr class="course-list">
                     <td>@Html.DisplayFor(modelItem => item.Department)</td>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.ClassNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.CreditHours)</td>
                     <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Instructor.password)</td>
-                    <td>
+                    <td class="course-buttons">
                         <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                         <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                         <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
