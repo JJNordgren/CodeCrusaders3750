@@ -133,7 +133,7 @@ namespace CS3750Assignment1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Registration");
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("CS3750Assignment1.Models.User", b =>

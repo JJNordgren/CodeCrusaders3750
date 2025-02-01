@@ -12,6 +12,7 @@ namespace CS3750Assignment1.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
 
         /// <summary>
         /// ensures that the entity framework is aware of the foreign key instructorId 
