@@ -27,6 +27,28 @@ namespace CS3750Assignment1.Data
                 .WithMany()
                 .HasForeignKey(c => c.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Student)
+                .WithMany()
+                .HasForeignKey(r => r.UserId);
+
+            modelBuilder.Entity<Registration>()
+                .HasOne(r => r.Course)
+                .WithMany()
+                .HasForeignKey(r => r.CourseId);
+
+            modelBuilder.Entity<Assignment>()
+                .HasOne(a => a.Course)
+                .WithMany(c => c.Assignments)
+                .HasForeignKey(a => a.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Assignment>()
+                .HasOne(a => a.Instructor)
+                .WithMany()
+                .HasForeignKey(a => a.InstructorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

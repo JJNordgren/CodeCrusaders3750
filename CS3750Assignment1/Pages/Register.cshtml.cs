@@ -29,32 +29,21 @@ namespace CS3750Assignment1.Pages
                 // If not valid, return the form with validation messages
                 return Page();
             }
-            // Hash the password (use a static salt or generate it dynamically if needed)
+
+            // Generate a unique salt for each user
             string salt;
             User.password = PasswordHelper.HashPassword(User.password, out salt);
+            User.Salt = salt; // Store the generated salt in the database
 
             // Clear confirmPassword since it is not stored
             User.confirmPassword = null;
 
-            // Save the user to the database (no salt field)
+            // Save the user to the database with the hashed password and salt
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = "Registration successful! You can now log in.";
             return RedirectToPage("/LoginPage");
-
-
-            //change it to name = user.Name etc.
-            /*
-            var user = new User
-            {
-                firstName = User.firstName,
-                lastName = User.lastName,
-                email = User.email,
-                password = User.password ,
-                confirmPassword = User.confirmPassword,
-                BirthDate = User.BirthDate,
-                userType = User.userType
-            };*/
         }
     }
 }
