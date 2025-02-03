@@ -68,7 +68,10 @@ namespace CS3750Assignment1.Pages
                 myuser.BirthDate = User.BirthDate;
                 myuser.addressLine1 = User.addressLine1;
                 myuser.addressLine2 = User.addressLine2;
-
+                myuser.city = User.city;
+                myuser.state = User.state;
+                myuser.zip = User.zip;
+                myuser.phone = User.phone;
 
             }
 
