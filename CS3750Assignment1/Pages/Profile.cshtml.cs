@@ -47,6 +47,11 @@ namespace CS3750Assignment1.Pages
                 User= user;
             }
 
+            // Save the user to the database
+            _context.Users.Update(User);
+            await _context.SaveChangesAsync();
+
+
             User = await _context.Users.FindAsync(userId);
             //await _context.SaveChangesAsync();
 
