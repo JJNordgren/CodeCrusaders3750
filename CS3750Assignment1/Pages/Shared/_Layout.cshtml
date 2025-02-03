@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CS3750Assignment1.styles.css" asp-append-version="true" />
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column min-vh-100">
     <header class="bg-dark-blue text-light-green">
         @if (Context.Session.GetInt32("UserId") == null)
         {
@@ -88,13 +88,13 @@
 
     <!-- Main content -->
     <div class="container flex-grow-1">
-        <main role="main" class="">
+        <main role="main" class="pb-5 mb-5">
             @RenderBody()
         </main>
     </div>
 
     <!-- Footer -->
-    <footer class="footer text-muted bg-dark-blue">
+    <footer class="mt-auto footer text-muted py-3 bg-dark-blue">
         <div class="container text-white">
             &copy; 2025 - CourseHub - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
