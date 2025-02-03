@@ -10,15 +10,17 @@
 </div>
 
 
-<div class="card" style="width: 18rem;">
-    @foreach (var item in Model.Course) {
+ @foreach (var item in Model.Course) {
+    <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Department + " " + item.ClassNumber)</h5>
+            <h5 class="card-title">@($"{item.Department} {item.ClassNumber}")</h5>
             <p class="card-text">@Html.DisplayFor(modelItem => item.Name)</p>
             <p class="card-text">@Html.DisplayFor(modelItem => item.Location)</p>
-            <p class="card-text">@Html.DisplayFor(modelItem => item.MeetingDays)</p>
-            <p class="card-text">@Html.DisplayFor(modelItem => item.StartTime + item.EndTime)</p>
+            <div>
+                @string.Join(", ", item.MeetingDays)
+            </div>
+            <p class="card-text">@($"{item.StartTime} - {item.EndTime}")</p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
-    }
-</div>
+    </div>
+}
