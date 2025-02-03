@@ -61,6 +61,18 @@
     </div>
 </div>
 
+
+<script>
+    function clearError(event) {
+        event.target.nextElementSibling.textContent = ''; // Clears the next sibling span (error message)
+    }
+
+    // Select all input fields and attach event listeners
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', clearError);
+    });
+</script>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
