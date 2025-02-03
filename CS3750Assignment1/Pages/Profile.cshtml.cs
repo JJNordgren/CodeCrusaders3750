@@ -44,12 +44,8 @@ namespace CS3750Assignment1.Pages
             }
             else
             {
-                User= user;
+                User = user;
             }
-
-            // Save the user to the database
-            _context.Users.Update(User);
-            await _context.SaveChangesAsync();
 
 
             User = await _context.Users.FindAsync(userId);
@@ -57,5 +53,33 @@ namespace CS3750Assignment1.Pages
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync()
+        {  
+            //Selecting the user to update
+            var myuser = await _context.Users.FirstOrDefaultAsync(x => x.email == User.email);
+           
+
+            //Updating the values based on what is on the form
+            if (myuser != null)
+            {
+                myuser.firstName = User.firstName;
+                myuser.lastName = User.lastName;
+                myuser.BirthDate = User.BirthDate;
+                myuser.addressLine1 = User.addressLine1;
+                myuser.addressLine2 = User.addressLine2;
+
+
+            }
+
+            
+
+            _context.Users.Update(myuser);
+            await _context.SaveChangesAsync();
+           
+
+            return Page();
+        }
     }
+             
 }

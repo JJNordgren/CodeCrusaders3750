@@ -23,49 +23,49 @@
         document.getElementById('editButton').style.display = 'none';  // Hide the Edit button
     }
 </script>
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center min-vh-100">
+    <div class="col-md-4" style="padding: 20px; margin-bottom: 20px;">
             <h1 class="text-center">Profile</h1>
             <form method="post">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First Name:</label>
-                <input type="text" id="firstName" name="User.firstName" class="form-control" readonly value="@Model.User.firstName" />
+                <input type="text" id="firstName" asp-for="User.firstName" class="form-control" readonly value="@Model.User.firstName" />
             </div>
             <div class="mb-3">
                 <label for="lastName" class="form-label">Last Name:</label>
-                <input type="text" id="lastName" name="User.lastName" class="form-control" readonly value="@Model.User.lastName" />
+                <input type="text" id="lastName" asp-for="User.lastName" class="form-control" readonly value="@Model.User.lastName" />
             </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address:</label>
-                <input type="email" id="email" name="User.email" class="form-control" readonly value="@Model.User.email" />
+                <input type="email" id="User.email" name="User.email" class="form-control" readonly value="@Model.User.email" />
                 </div>
                 <div class="mb-3">
                     <label for="birthdate" class="form-label">Birth Date:</label>
-                <input type="date" id="birthdate" name="User.BirthDate" class="form-control" readonly value="@Model.User.BirthDate" />
+                <input type="date" id="BirthDate" asp-for="User.BirthDate" class="form-control" readonly value="@Model.User.BirthDate" />
                 </div>
             <div class="mb-3">
                 <label for="addressLine1" class="form-label">Address Line 1:</label>
-                <input type="text" id="addressLine1" name="User.addressLine1" class="form-control" readonly value="@Model.User.addressLine1" />
+                <input type="text" id="addressLine1" asp-for="User.addressLine1" class="form-control" readonly value="@Model.User.addressLine1" />
             </div>
             <div class="mb-3">
                 <label for="addressLine2" class="form-label">Address Line 2:</label>
-                <input type="text" id="addressLine2" name="User.addressLine2" class="form-control" readonly value="@Model.User.addressLine2" />
+                <input type="text" id="addressLine2" asp-for="User.addressLine1" class="form-control" readonly value="@Model.User.addressLine2" />
             </div>
             <div class="mb-3">
                 <label for="city" class="form-label">City:</label>
-                <input type="text" id="city" name="User.city" class="form-control" readonly value="@Model.User.city" />
+                <input type="text" id="User.city" name="User.city" class="form-control" readonly value="@Model.User.city" />
             </div>
             <div class="mb-3">
                 <label for="state" class="form-label">State:</label>
-                <input type="text" id="state" name="User.state" class="form-control" readonly value="@Model.User.state" />
+                <input type="text" id="User.state" name="User.state" class="form-control" readonly value="@Model.User.state" />
             </div>
             <div class="mb-3">
                 <label for="zip" class="form-label">Zip:</label>
-                <input type="text" id="zip" name="User.zip" class="form-control" readonly value="@Model.User.zip" />
+                <input type="text" id="User.zip" name="User.zip" class="form-control" readonly value="@Model.User.zip" />
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone:</label>
-                <input type="text" id="phone" name="User.phone" class="form-control" readonly value="@Model.User.phone" />
+                <input type="text" id="User.phone" name="User.phone" class="form-control" readonly value="@Model.User.phone" />
             </div>
                 
                 <div class="d-grid">
