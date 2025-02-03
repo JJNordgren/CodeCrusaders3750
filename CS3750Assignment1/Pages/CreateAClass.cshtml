@@ -14,7 +14,7 @@
         </div>
         <div class="card-body">
             <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
+                <div asp-validation-summary="All" id="all-validations" class="text-danger"></div> <!--shows all errors at top of the page-->
                 <div class="mb-3">
                     <label for="Department" class="form-label">Department</label>
                     <select class="form-control" id="Department" asp-for="Course.Department" required>
@@ -58,7 +58,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Class Meeting Days</label>
-                    <div>
+                    <div id="meetingDays">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" class="form-check-input" id="Monday" name="Course.MeetingDays" value="Monday" />
                             <label class="form-check-label" for="Monday">Monday</label>
@@ -80,7 +80,7 @@
                             <label class="form-check-label" for="Friday">Friday</label>
                         </div>
                     </div>
-                    <span asp-validation-for="Course.MeetingDays" class="text-danger"></span>
+                    <span asp-validation-for="Course.MeetingDays" id="checkBoxError" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
@@ -109,3 +109,24 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<script>
+    // Function to clear error message when user starts typing
+    function clearError(event) {
+        $(event.target).parent().next("span").textContent = ''; // Clears the next sibling span (error message)
+    }
+
+    function checkBoxClearError(event) {
+        document.getElementById("checkBoxError").textContent = '';
+        document.getElementById("all-validations").textContent = '';
+    }
+
+    // Select all input fields and attach event listeners
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', clearError);
+    });
+    let checkBox = document.getElementsByClassName("form-check-input");
+    [...checkBox].forEach(input => {
+        input.addEventListener('change', checkBoxClearError);
+    });
+</script>
