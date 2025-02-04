@@ -21,10 +21,8 @@ body {
   margin-bottom: 60px;
 }
 
-/*course-list {
-    display: flex;
+.trunc-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-course-buttons {
-    justify-content: space-between;
-}*/
