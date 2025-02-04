@@ -21,10 +21,23 @@ namespace CS3750Assignment1.Pages
 
         public IList<Course> Course { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                // If no session, redirect to the login page
+                return RedirectToPage("/LoginPage");
+            }
+
             Course = await _context.Courses
-                .Include(c => c.Instructor).ToListAsync();
+                .Where(c => c.InstructorId == userId 
+                /*|| c.Id == the_courseID_attached_to_registration_matching_userID*/).ToListAsync();
+
+            
+
+            return Page();
         }
     }
 }
