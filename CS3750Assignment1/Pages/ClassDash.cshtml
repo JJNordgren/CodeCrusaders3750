@@ -1,0 +1,48 @@
+﻿@page
+@model CS3750Assignment1.Pages.ClassDashModel
+
+@{
+    ViewData["Title"] = Model.CourseName;
+}
+
+<h1>@Model.CourseName</h1>
+
+<p>
+    <a asp-page="./AddAssignment">Add Assignment</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Assignment[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assignment[0].DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assignment[0].AssignmentType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Assignment) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignmentType)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

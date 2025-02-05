@@ -21,8 +21,22 @@ namespace CS3750Assignment1.Pages
 
         public IActionResult OnGet()
         {
-        ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "ClassNumber");
-        ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "password");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var courseId = HttpContext.Session.GetInt32("CourseId");
+
+            if (userId == null)
+            {
+                // If no session, redirect to the login page
+                return RedirectToPage("/LoginPage");
+            }
+            if (courseId == null)
+            {
+                // If no course for some reason, redirect to the dashboard
+                return RedirectToPage("/Dashboard");
+            }
+
+            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "ClassNumber");
+            ViewData["InstructorId"] = new SelectList(_context.Users, "Id", "password");
             return Page();
         }
 
@@ -32,13 +46,12 @@ namespace CS3750Assignment1.Pages
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            //these can be implemented later
-            //Assignment.CourseId = int.Parse(HttpContext.Session.GetString("CourseId"));
-            //Assignment.InstructorId = int.Parse(HttpContext.Session.GetString("UserId"));
-            
-            //hardcoded values for testing purposes
-            Assignment.CourseId = 6;
-            Assignment.InstructorId = 17;
+            var cId = HttpContext.Session.GetInt32("CourseId");
+            var uId = HttpContext.Session.GetInt32("UserId");
+
+            Assignment.CourseId = cId.Value;
+            Assignment.InstructorId = uId.Value;
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -47,7 +60,7 @@ namespace CS3750Assignment1.Pages
             _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Home");
+            return RedirectToPage("./ClassDash");
         }
     }
 }
