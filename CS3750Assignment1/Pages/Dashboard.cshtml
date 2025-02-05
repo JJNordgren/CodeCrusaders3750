@@ -16,12 +16,24 @@
         {
             <div class="col">
                 <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                    <a asp-page="./ClassDash" asp-route-id="@item.Id" style="text-decoration: none;">
-                        <div class="card-header" style="text-decoration: none; color: black;">
-                            <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
-                            <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
-                        </div>
-                    </a>
+                    @if (HttpContext.Session.GetString("UserType") == "T")
+                    {
+                        <a asp-page="./ClassDash" asp-route-id="@item.Id" style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
+                                <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
+                            </div>
+                        </a>
+                    }
+                    @if (HttpContext.Session.GetString("UserType") == "S")
+                    {
+                        <a asp-page="" asp-route-id="@item.Id" style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
+                                <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
+                            </div>
+                        </a>
+                    }
                     <div class="card-body">
                         @* Shows instructor name <p>@($"{item.Instructor?.lastName}, {item.Instructor?.firstName}")</p> *@
                         <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Location)</p>
