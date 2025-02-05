@@ -20,8 +20,8 @@ namespace CS3750Assignment1.Models
         /// <summary>
         /// create the last name variable for the database
         /// </summary>
-        public string lastName { get; set; }
-
+        public string lastName { get; set; } = string.Empty;
+        public string name { get; set; }
         /// <summary>
         /// create the password variable for the database
         /// </summary>
@@ -37,6 +37,14 @@ namespace CS3750Assignment1.Models
         [Required]
         [MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
         public DateTime BirthDate { get; set; }
+
+
+        public string? addressLine1 { get; set; } = string.Empty;
+        public string? addressLine2 { get; set; } = string.Empty;
+        public string? city { get; set; } = string.Empty;
+        public string? state { get; set; } = string.Empty;
+        public string? zip { get; set; } = string.Empty;
+        public string? phone { get; set; } = string.Empty;
         /// <summary>
         /// Stores a Char for user type, T for teacher, S for student. Left it as char so 
         /// we could add more user types if we ever needed to.

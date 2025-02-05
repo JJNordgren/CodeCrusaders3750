@@ -165,16 +165,35 @@ namespace CS3750Assignment1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("picturePath")
+                    b.Property<string>("phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("addressLine1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("addressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("state")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userType")
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("zip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
