@@ -16,7 +16,7 @@
         {
             <div class="col">
                 <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                    <a href="" style="text-decoration: none;">
+                    <a asp-page="./ClassDash" asp-route-id="@item.Id" style="text-decoration: none;">
                         <div class="card-header" style="text-decoration: none; color: black;">
                             <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
                             <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>

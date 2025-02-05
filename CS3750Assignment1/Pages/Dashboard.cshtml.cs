@@ -26,6 +26,9 @@ namespace CS3750Assignment1.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+            // If we return to the Dashboard, clear the courseId from the session
+            HttpContext.Session.Remove("CourseId");
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userType = HttpContext.Session.GetString("UserType");
 
@@ -81,7 +84,14 @@ namespace CS3750Assignment1.Pages
             }
             
         }
+
+        //public async Task<IActionResult> OnPostAsync()
+        //{
+
+
+        //    HttpContext.Session.SetInt32("CourseId", user.Id);
+
+        //    return RedirectToPage("/ClassDash");
+        //}
     }
-
-
 }
