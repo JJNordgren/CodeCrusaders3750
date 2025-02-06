@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,17 +22,22 @@ namespace CS3750Assignment1.Models
         [ForeignKey("AssignmentId")]
         [ValidateNever]
         public Assignment Assignment { get; set; }
-        
+
+        [BindNever]
         public List<string>? FilePath { get; set; } = new List<string>();
 
         public string? TextSubmission { get; set; }
 
+        [BindNever]
         [Required]
         public int TotalPoints { get; set; }
 
         public int? Grade { get; set; }
 
+        [BindNever]
+
         [Required]
         public DateTime SubmissionTime { get; set; }
+
     }
 }
