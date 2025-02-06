@@ -1,0 +1,45 @@
+﻿@page
+@model CS3750Assignment1.Pages.AssignmentSubmissionModel
+@{
+    ViewData["Title"] = "Submit Assignment";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header text-center bg-primary text-white">
+            <h2>Submit Assignment</h2>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title">@Model.Assignment.Title</h3>
+            <p class="card-text">@Model.Assignment.Description</p>
+            <p><strong>Due Date:</strong> @Model.Assignment.DueDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Max Points:</strong> @Model.Assignment.MaxPoints</p>
+
+            <form method="post" enctype="multipart/form-data" class="mt-4">
+                <input type="hidden" asp-for="Submission.AssignmentId" />
+
+                @if (Model.Assignment.AssignmentType == 'T')
+                {
+                    <div class="mb-3">
+                        <label asp-for="Submission.TextSubmission" class="form-label"></label>
+                        <textarea asp-for="Submission.TextSubmission" class="form-control form-control-lg" rows="5"></textarea>
+                        <span asp-validation-for="Submission.TextSubmission" class="text-danger"></span>
+                    </div>
+                }
+                else if (Model.Assignment.AssignmentType == 'F')
+                {
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label">Upload File</label>
+                        <input type="file" id="fileUpload" name="FileUpload" class="form-control" />
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-primary mt-3 w-100">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
