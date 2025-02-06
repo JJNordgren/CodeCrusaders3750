@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Collections.Generic;
 
 namespace CS3750Assignment1.Pages
 {
@@ -30,9 +31,9 @@ namespace CS3750Assignment1.Pages
         [BindProperty]
         public Submission Submission { get; set; } = new Submission();
 
-        // For file upload (currently one file)
+        // For file upload (multiple files now)
         [BindProperty, ValidateNever]
-        public IFormFile UploadedFile { get; set; }
+        public List<IFormFile> UploadedFiles { get; set; } = new List<IFormFile>();
 
         // This flag tells the view whether to display the submission details or the form.
         public bool SubmissionCompleted { get; set; } = false;
@@ -40,7 +41,7 @@ namespace CS3750Assignment1.Pages
         // OnGetAsync checks if a submission exists for the current user and assignment.
         public async Task<IActionResult> OnGetAsync(int? id, bool resubmit = false)
         {
-            // For testing, the assignment ID is hardcoded to 1.
+            // For testing, the assignment ID is hardcoded to 2.
             int assignmentId = 1;
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -106,24 +107,22 @@ namespace CS3750Assignment1.Pages
             }
 
             // Validate file submissions for file-type assignments.
-            if (assignment.AssignmentType == 'F' && (UploadedFile == null || UploadedFile.Length == 0))
+            // (For multiple files, ensure at least one file is provided.)
+            if (assignment.AssignmentType == 'F' && (UploadedFiles == null || !UploadedFiles.Any() || UploadedFiles.Sum(f => f.Length) == 0))
             {
-                ModelState.AddModelError("UploadedFile", "Please select at least one file.");
+                ModelState.AddModelError("UploadedFiles", "Please select at least one file.");
             }
 
-            // Now remove errors for fields that are not applicable.
+            // Remove errors not applicable to the current type.
             if (assignment.AssignmentType == 'T')
             {
-                // For text assignments, we ignore file errors.
-                ModelState.Remove("UploadedFile");
+                ModelState.Remove("UploadedFiles");
             }
             else if (assignment.AssignmentType == 'F')
             {
-                // For file assignments, ignore text submission errors.
                 ModelState.Remove("Submission.TextSubmission");
             }
 
-            // If there are any errors, reload assignment info and return.
             if (!ModelState.IsValid)
             {
                 Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == Submission.AssignmentId);
@@ -137,24 +136,32 @@ namespace CS3750Assignment1.Pages
                 .FirstOrDefaultAsync();
 
             // Process file upload if assignment is file-type.
-            if (assignment.AssignmentType == 'F' && UploadedFile != null && UploadedFile.Length > 0)
+            if (assignment.AssignmentType == 'F' && UploadedFiles != null && UploadedFiles.Any())
             {
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(UploadedFile.FileName);
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "FileSubmissions");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await UploadedFile.CopyToAsync(fileStream);
-                }
+                // Ensure the FilePath list is initialized.
                 if (Submission.FilePath == null)
                 {
-                    Submission.FilePath = new System.Collections.Generic.List<string>();
+                    Submission.FilePath = new List<string>();
                 }
-                Submission.FilePath.Add(uniqueFileName);
+
+                foreach (var file in UploadedFiles)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                        var uploadsFolder = Path.Combine(_environment.WebRootPath, "FileSubmissions");
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                        Submission.FilePath.Add(uniqueFileName);
+                    }
+                }
             }
 
             Submission.SubmissionTime = DateTime.Now;
@@ -166,6 +173,7 @@ namespace CS3750Assignment1.Pages
                 existingSubmission.TextSubmission = Submission.TextSubmission;
                 if (Submission.FilePath != null && Submission.FilePath.Any())
                 {
+                    // Replace the file list with the new one.
                     existingSubmission.FilePath = Submission.FilePath;
                 }
                 existingSubmission.SubmissionTime = Submission.SubmissionTime;
@@ -179,9 +187,8 @@ namespace CS3750Assignment1.Pages
 
             await _context.SaveChangesAsync();
 
-            // Use a redirect so the GET reloads the saved submission.
+            // Redirect so the GET reloads the saved submission.
             return RedirectToPage();
         }
-
     }
 }

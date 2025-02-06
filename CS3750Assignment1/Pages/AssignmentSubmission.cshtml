@@ -39,14 +39,15 @@
                     else if (Model.Assignment.AssignmentType == 'F')
                     {
                         <div class="mb-3">
-                            <label for="UploadedFile" class="form-label">Upload File</label>
-                            <!-- Added required and custom data-val-required -->
-                            <input type="file" asp-for="UploadedFile"
+                            <label for="UploadedFiles" class="form-label">Upload File(s)</label>
+                            <!-- Use the new bound property and add the multiple attribute -->
+                            <input type="file" asp-for="UploadedFiles"
                                    class="form-control"
+                                   multiple
                                    required
                                    data-val-required="Please select at least one file." />
                             <!-- This span will display error messages in red text -->
-                            <span asp-validation-for="UploadedFile" class="text-danger"></span>
+                            <span asp-validation-for="UploadedFiles" class="text-danger"></span>
                         </div>
                     }
 
