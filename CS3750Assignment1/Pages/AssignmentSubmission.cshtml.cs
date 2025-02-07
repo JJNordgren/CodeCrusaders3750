@@ -42,7 +42,7 @@ namespace CS3750Assignment1.Pages
         public async Task<IActionResult> OnGetAsync(int? id, bool resubmit = false)
         {
             // For testing, the assignment ID is hardcoded to 2.
-            int assignmentId = 1;
+            int assignmentId = 14;
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
