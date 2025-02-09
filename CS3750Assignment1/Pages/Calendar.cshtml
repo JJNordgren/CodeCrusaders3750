@@ -19,6 +19,10 @@
             initialView: 'dayGridMonth',
             events: '/Calendar?handler=GetEvents',
             displayEventTime: false, // Disable default event time display
+
+            datesSet: function() {
+            calendar.refetchEvents();},
+
             eventContent: function(arg) {
                 let eventTime = `${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
