@@ -65,7 +65,8 @@ namespace CS3750Assignment1.Pages
 
                 // Retrieve assignments for those courses
                 Assignments = await _context.Assignments
-                    .Where(a => courseIds.Contains(a.CourseId)) // <-- Fix: Get assignments from all registered courses
+                    .Where(a => courseIds.Contains(a.CourseId) && a.DueDate >= DateTime.Now) // <-- Fix: Get assignments from all registered courses
+                    .OrderBy(a => a.DueDate)
                     .ToListAsync();
             }
 

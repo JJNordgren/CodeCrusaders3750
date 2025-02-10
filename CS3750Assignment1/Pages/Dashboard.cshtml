@@ -59,39 +59,23 @@
     {
         <div class="ToDo">
             <h1 class="text-center mb-4 mt-4">To Do</h1>
-            @foreach (var course in Model.Course)
+            @foreach (var assignment in Model.Assignments)
             {
-                @if (Model.IsRegistered(course.Id))
-                {
-                    var sortedAssignments = course.Assignments
-                    .Where(assignment => assignment.DueDate >= DateTime.Now)
-                    .OrderBy(assignment => assignment.DueDate)
-                    .Take(5);
-
-                    foreach (var assignment in sortedAssignments)
-                    {
-                        <div class="row">
-                            <div class="col">
-                                <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                                    <a asp-page="./ClassDash" asp-route-id="@assignment.Id" style="text-decoration: none;">
-                                        <div class="card-header" style="text-decoration: none; color: black;">
-                                            <h5 class="card-title" style="text-decoration: none;">@($"{assignment.Title}")</h5>
-                                            <p class="card-text">@($"{course.Department} {course.ClassNumber}")</p>
-                                        </div>
-                                    </a>
-                                    <div class="card-body">
-                                        <p class="card-text">@($"{assignment.DueDate}")</p>
-                                    </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                            <a asp-page="./ClassDash" asp-route-id="@assignment.Id" style="text-decoration: none;">
+                                <div class="card-header" style="text-decoration: none; color: black;">
+                                    <h5 class="card-title" style="text-decoration: none;">@($"{assignment.Title}")</h5>
+                                    <p class="card-text">@($"{assignment.Course.Department} {assignment.Course.ClassNumber}")</p>
                                 </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">@($"{assignment.DueDate}")</p>
                             </div>
                         </div>
-                    }
-                }
+                    </div>
+                </div>
             }
         </div>
     }
-
-
-        </div>
-    }
-</div>
