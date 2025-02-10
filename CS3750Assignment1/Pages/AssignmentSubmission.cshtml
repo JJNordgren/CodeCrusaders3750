@@ -91,7 +91,7 @@
 
                     <div class="text-center">
                         <!-- Resubmit resets the form -->
-                        <a class="btn btn-secondary me-2" href="@Url.Page("AssignmentSubmission", new { resubmit = true })">
+                        <a class="btn btn-secondary me-2" href="@Url.Page("AssignmentSubmission", new { id = Model.Assignment.Id, resubmit = true })">
                             Resubmit
                         </a>
                         <!-- Back to Course button -->

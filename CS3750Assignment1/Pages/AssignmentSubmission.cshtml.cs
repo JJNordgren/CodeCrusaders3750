@@ -41,21 +41,22 @@ namespace CS3750Assignment1.Pages
         // OnGetAsync checks if a submission exists for the current user and assignment.
         public async Task<IActionResult> OnGetAsync(int? id, bool resubmit = false)
         {
-            // For testing, the assignment ID is hardcoded to 2.
-            //int assignmentId = 14;
+            // First, ensure id is provided.
+            if (id == null)
+            {
+                return NotFound();
+            }
+            int assignmentId = id.Value;
+
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
                 return RedirectToPage("/LoginPage");
             }
 
-            Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == id);
+            // Now load the assignment using the assignmentId from the URL.
+            Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == assignmentId);
             if (Assignment == null)
-            {
-                return NotFound();
-            }
-
-            if (id == null)
             {
                 return NotFound();
             }
@@ -64,7 +65,7 @@ namespace CS3750Assignment1.Pages
             {
                 // Check for an existing submission.
                 var existingSubmission = await _context.Submissions
-                    .Where(s => s.AssignmentId == id && s.UserId == userId.Value)
+                    .Where(s => s.AssignmentId == assignmentId && s.UserId == userId.Value)
                     .OrderByDescending(s => s.SubmissionTime)
                     .FirstOrDefaultAsync();
 
@@ -112,7 +113,6 @@ namespace CS3750Assignment1.Pages
             }
 
             // Validate file submissions for file-type assignments.
-            // (For multiple files, ensure at least one file is provided.)
             if (assignment.AssignmentType == 'F' && (UploadedFiles == null || !UploadedFiles.Any() || UploadedFiles.Sum(f => f.Length) == 0))
             {
                 ModelState.AddModelError("UploadedFiles", "Please select at least one file.");
@@ -143,12 +143,10 @@ namespace CS3750Assignment1.Pages
             // Process file upload if assignment is file-type.
             if (assignment.AssignmentType == 'F' && UploadedFiles != null && UploadedFiles.Any())
             {
-                // Ensure the FilePath list is initialized.
                 if (Submission.FilePath == null)
                 {
                     Submission.FilePath = new List<string>();
                 }
-
                 foreach (var file in UploadedFiles)
                 {
                     if (file != null && file.Length > 0)
@@ -186,14 +184,13 @@ namespace CS3750Assignment1.Pages
             }
             else
             {
-                // Create a new submission record.
                 _context.Submissions.Add(Submission);
             }
 
             await _context.SaveChangesAsync();
 
-            // Redirect so the GET reloads the saved submission.
-            return RedirectToPage();
+            // Redirect and pass the assignment id so that OnGetAsync receives it.
+            return RedirectToPage(new { id = Submission.AssignmentId });
         }
     }
 }
