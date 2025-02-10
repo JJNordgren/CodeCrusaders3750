@@ -24,6 +24,9 @@ namespace CS3750Assignment1.Pages
 
         public IList<Registration> Registrations { get; set; } = default!;
 
+        public IList<Assignment> Assignments { get; set; } = default!;
+
+
         public async Task<IActionResult> OnGetAsync()
         {
             // If we return to the Dashboard, clear the courseId from the session
@@ -58,6 +61,15 @@ namespace CS3750Assignment1.Pages
                 Registrations = await _context.Registrations
                     .Where(r => r.UserId == userId)
                     .ToListAsync();
+
+                // Retrieves the assignments table based on CourseId
+                var courseId = HttpContext.Session.GetInt32("CourseId");
+                if (courseId.HasValue)
+                {
+                    Assignments = await _context.Assignments
+                        .Where(a => a.CourseId == courseId.Value)
+                        .ToListAsync();
+                }
             }
             
 
