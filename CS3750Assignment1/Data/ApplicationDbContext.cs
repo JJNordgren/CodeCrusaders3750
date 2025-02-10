@@ -13,6 +13,7 @@ namespace CS3750Assignment1.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Registration> Registrations { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         /// <summary>
         /// ensures that the entity framework is aware of the foreign key instructorId 
@@ -52,7 +53,7 @@ namespace CS3750Assignment1.Data
                 .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<CS3750Assignment1.Models.Assignment> Assignment { get; set; } = default!;
-        public IEnumerable<object> Assignments { get; internal set; }
+        //public IEnumerable<object> Assignments { get; internal set; } //FIXME commented this out and now Student to do list works
     }
 
 }
