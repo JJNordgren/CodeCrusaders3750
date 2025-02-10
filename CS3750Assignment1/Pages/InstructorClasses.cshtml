@@ -35,9 +35,9 @@
                     <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.Location)</td>
                     <td class="course-buttons">
-                        <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-warning btn-sm" asp-page="/EditCourse" asp-route-id="@item.Id">Edit</a> |
+                        <a class="btn btn-info btn-sm" asp-page="./CourseDetails" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btn-danger btn-sm" asp-page="./DeleteCourse" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

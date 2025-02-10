@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(150); // Adjust timeout as needed
+    options.IdleTimeout = TimeSpan.FromMinutes(300); // Adjust timeout as needed
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true; // Required for GDPR compliance
 });
