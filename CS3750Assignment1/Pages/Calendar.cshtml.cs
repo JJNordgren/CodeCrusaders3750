@@ -82,7 +82,8 @@ namespace CS3750Assignment1.Pages
                             title = $"{course.Department} {course.ClassNumber}\n",
                             start = currentDate.Add(course.StartTime).ToString("yyyy-MM-ddTHH:mm:ss"),
                             end = currentDate.Add(course.EndTime).ToString("yyyy-MM-ddTHH:mm:ss"),
-                            location = course.Location
+                            location = course.Location,
+                            url = $"/ClassDash?id={course.Id}"
                         });
                     }
 
