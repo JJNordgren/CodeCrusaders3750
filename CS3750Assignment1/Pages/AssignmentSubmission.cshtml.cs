@@ -42,15 +42,20 @@ namespace CS3750Assignment1.Pages
         public async Task<IActionResult> OnGetAsync(int? id, bool resubmit = false)
         {
             // For testing, the assignment ID is hardcoded to 2.
-            int assignmentId = 14;
-            int? userId = HttpContext.Session.GetInt32("UserId");
+            //int assignmentId = 14;
+            var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
                 return RedirectToPage("/LoginPage");
             }
 
-            Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == assignmentId);
+            Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == id);
             if (Assignment == null)
+            {
+                return NotFound();
+            }
+
+            if (id == null)
             {
                 return NotFound();
             }
@@ -59,7 +64,7 @@ namespace CS3750Assignment1.Pages
             {
                 // Check for an existing submission.
                 var existingSubmission = await _context.Submissions
-                    .Where(s => s.AssignmentId == assignmentId && s.UserId == userId.Value)
+                    .Where(s => s.AssignmentId == id && s.UserId == userId.Value)
                     .OrderByDescending(s => s.SubmissionTime)
                     .FirstOrDefaultAsync();
 
