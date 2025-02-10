@@ -53,7 +53,6 @@ namespace CS3750Assignment1.Data
                 .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<CS3750Assignment1.Models.Assignment> Assignment { get; set; } = default!;
-        //public IEnumerable<object> Assignments { get; internal set; } //FIXME commented this out and now Student to do list works
     }
 
 }
