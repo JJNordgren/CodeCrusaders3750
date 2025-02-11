@@ -29,12 +29,14 @@ namespace CS3750Assignment1.Pages
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
+
             if (userId == null)
             {
                 // If no session, redirect to the login page
                 return RedirectToPage("/LoginPage");
             }
 
+            var userType = HttpContext.Session.GetString("UserType");
             var courseId = HttpContext.Session.GetInt32("CourseId");
             // id is the course ID, passed in when clicking the link from Dashboard
             // here we're verifying that we either clicked on the course, and thus have an id
