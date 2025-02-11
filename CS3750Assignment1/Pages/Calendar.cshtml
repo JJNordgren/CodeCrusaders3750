@@ -16,8 +16,37 @@
         document.addEventListener('DOMContentLoaded', function() {
           var calendarEl = document.getElementById('calendar');
           var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth'
-          });
+            initialView: 'dayGridMonth',
+            events: '/Calendar?handler=GetEvents',
+            displayEventTime: false, // Disable default event time display
+
+            datesSet: function() {
+            calendar.refetchEvents();
+            },
+
+            eventContent: function(arg) {
+                let eventTime = `${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+                // Create a custom event structure
+                let customEvent = document.createElement('div');
+                customEvent.innerHTML = `<strong>${eventTime}</strong><br />${arg.event.title}<br /><i style="font-weight:normal;">${arg.event.extendedProps.location}</i>`;
+
+                // Adding a little styling to ensure it looks good
+                customEvent.style.whiteSpace = "normal"; // Prevent overflow and ensure wrapping
+                customEvent.style.border = "2px solid darkblue"; // Dark blue border
+                customEvent.style.padding = ".5px"; // Padding for better spacing
+                customEvent.style.borderRadius = "5px"; // Optional rounded corners
+                customEvent.style.marginBottom = ".5px"; // Space between events
+                return { domNodes: [customEvent] };
+            },
+
+            eventClick: function(info) {
+                if (info.event.url) {
+                    window.location.href = info.event.url; // Navigate to course details
+                    info.jsEvent.preventDefault(); // Prevent default behavior
+                }
+            }
+         });
           calendar.render();
         });
 

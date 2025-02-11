@@ -26,3 +26,23 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+.Dashboard {
+    grid-area: Dashboard;
+}
+
+.ToDo {
+    grid-area: ToDo;
+    background-color: darkgray;
+    margin: 10px;
+}
+
+
+.Dash_container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "Dashboard ToDo";
+}

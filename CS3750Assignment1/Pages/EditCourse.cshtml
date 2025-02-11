@@ -1,0 +1,96 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.EditCourseModel
+
+@{
+    ViewData["Title"] = "Edit Class";
+}
+
+<div class="container mt-4 mb-5">
+    <h1 class="text-center mb-4">Edit Class</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white">
+            <h4 class="card-title mb-0">Modify Class Details</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <input type="hidden" asp-for="Course.Id" />
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select class="form-control" asp-for="Course.Department" required>
+                        <option value="">Select a Department</option>
+                        @foreach (var department in Model.DepartmentOptions)
+                        {
+                            <option value="@department">@department</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Class Name</label>
+                    <input type="text" class="form-control" asp-for="Course.Name" required />
+                    <span asp-validation-for="Course.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Class Number</label>
+                    <input type="text" class="form-control" asp-for="Course.ClassNumber" required />
+                    <span asp-validation-for="Course.ClassNumber" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Credit Hours</label>
+                    <input type="number" class="form-control" asp-for="Course.CreditHours" required />
+                    <span asp-validation-for="Course.CreditHours" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Capacity</label>
+                    <input type="number" class="form-control" asp-for="Course.Capacity" required />
+                    <span asp-validation-for="Course.Capacity" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" asp-for="Course.Location" required />
+                    <span asp-validation-for="Course.Location" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Class Meeting Days</label>
+                    <div>
+                        @foreach (var day in new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" })
+                        {
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" name="Course.MeetingDays"
+                                    value="@day" @(Model.Course.MeetingDays.Contains(day) ? "checked" : "") />
+                                <label class="form-check-label">@day</label>
+                            </div>
+                        }
+                    </div>
+                    <span asp-validation-for="Course.MeetingDays" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Start Time</label>
+                    <input type="time" class="form-control" asp-for="Course.StartTime" required />
+                    <span asp-validation-for="Course.StartTime" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">End Time</label>
+                    <input type="time" class="form-control" asp-for="Course.EndTime" required />
+                    <span asp-validation-for="Course.EndTime" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a href="/InstructorClasses" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -24,9 +24,12 @@ namespace CS3750Assignment1.Pages
 
         public IList<Registration> Registrations { get; set; } = default!;
 
+        public IList<Assignment> Assignments { get; set; } = default!;
+
+
         public async Task<IActionResult> OnGetAsync()
         {
-            // If we return to the Dashboard, clear the courseId from the session
+            // Clear stored courseId when returning to Dashboard
             HttpContext.Session.Remove("CourseId");
 
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -34,32 +37,38 @@ namespace CS3750Assignment1.Pages
 
             if (userId == null)
             {
-                // If no session, redirect to the login page
                 return RedirectToPage("/LoginPage");
             }
 
-            // Checks for an instructor and loads courses list
             if (userType == "T")
             {
+                // Load courses for instructors
                 Course = await _context.Courses
-                .Where(c => c.InstructorId == userId)
-                .ToListAsync();
-            }
-
-            // Checks for a student and loads courses list and registrations list
-            if (userType == "S")
-            {
-                //retrieves courses
-                Course = await _context.Courses
-                    .Include(c => c.Instructor)
+                    .Where(c => c.InstructorId == userId)
                     .ToListAsync();
-
-                //retrieves the registrations table
+            }
+            else if (userType == "S")
+            {
+                // Load student's registered courses
                 Registrations = await _context.Registrations
                     .Where(r => r.UserId == userId)
                     .ToListAsync();
+
+                // Get the CourseIds the student is registered in
+                var courseIds = Registrations.Select(r => r.CourseId).ToList();
+
+                // Retrieve only the courses the student is registered in
+                Course = await _context.Courses
+                    .Where(c => courseIds.Contains(c.Id))
+                    .Include(c => c.Instructor)
+                    .ToListAsync();
+
+                // Retrieve assignments for those courses
+                Assignments = await _context.Assignments
+                    .Where(a => courseIds.Contains(a.CourseId) && a.DueDate >= DateTime.Now) // <-- Fix: Get assignments from all registered courses
+                    .OrderBy(a => a.DueDate)
+                    .ToListAsync();
             }
-            
 
             return Page();
         }

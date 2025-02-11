@@ -1,0 +1,128 @@
+﻿@page
+@model CS3750Assignment1.Pages.AssignmentSubmissionModel
+@{
+    ViewData["Title"] = "Submit Assignment";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <!-- Changed header background to a dark blue (or use bg-secondary as needed) -->
+        <div class="card-header text-center bg-secondary text-white">
+            <h2>Submit Assignment</h2>
+        </div>
+        <div class="card-body">
+            <!-- Always display assignment info -->
+            <h3 class="card-title">@Model.Assignment.Title</h3>
+            <p class="card-text">@Model.Assignment.Description</p>
+            <p><strong>Due Date:</strong> @Model.Assignment.DueDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Max Points:</strong> @Model.Assignment.MaxPoints</p>
+
+            @if (!Model.SubmissionCompleted)
+            {
+                <!-- Submission Form -->
+                <form method="post" enctype="multipart/form-data" class="mt-4">
+                    <input type="hidden" asp-for="Submission.AssignmentId" />
+
+                    @if (Model.Assignment.AssignmentType == 'T')
+                    {
+                        <div class="mb-3">
+                            <label asp-for="Submission.TextSubmission" class="form-label"></label>
+                            <!-- Added required and custom data-val-required -->
+                            <textarea asp-for="Submission.TextSubmission"
+                                      class="form-control form-control-lg"
+                                      rows="5"
+                                      required
+                                      data-val-required="A text submission is required."></textarea>
+                            <span asp-validation-for="Submission.TextSubmission" class="text-danger"></span>
+                        </div>
+                    }
+                    else if (Model.Assignment.AssignmentType == 'F')
+                    {
+                        <div class="mb-3">
+                            <label for="UploadedFiles" class="form-label">Upload File(s)</label>
+                            <!-- Use the new bound property and add the multiple attribute -->
+                            <input type="file" asp-for="UploadedFiles"
+                                   class="form-control"
+                                   multiple
+                                   required
+                                   data-val-required="Please select at least one file." />
+                            <!-- This span will display error messages in red text -->
+                            <span asp-validation-for="UploadedFiles" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <!-- Center the submit button and use a smaller size -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <!-- Submission Details -->
+                <div class="mt-4">
+                    @if (Model.Assignment.AssignmentType == 'T')
+                    {
+                        <div class="mb-3">
+                            <h5>Your Answer:</h5>
+                            <p>@Model.Submission.TextSubmission</p>
+                        </div>
+                    }
+                    else if (Model.Assignment.AssignmentType == 'F')
+                    {
+                        <div class="mb-3">
+                            <h5>Uploaded File(s):</h5>
+                            @if (Model.Submission.FilePath != null && Model.Submission.FilePath.Any())
+                            {
+                                foreach (var file in Model.Submission.FilePath)
+                                {
+                                    <p>
+                                        <!-- Use the helper to display the file name without the GUID -->
+                                        <a href="~/FileSubmissions/@file" target="_blank">@DisplayFileName(file)</a>
+                                    </p>
+                                }
+                            }
+                            else
+                            {
+                                <p>No file uploaded.</p>
+                            }
+                        </div>
+                    }
+
+                    <div class="text-center">
+                        <!-- Resubmit resets the form -->
+                        <a class="btn btn-secondary me-2" href="@Url.Page("AssignmentSubmission", new { id = Model.Assignment.Id, resubmit = true })">
+                            Resubmit
+                        </a>
+                        <!-- Back to Course button -->
+                        <a class="btn btn-primary" asp-page="/ClassDash" asp-route-id="@Model.CourseID">
+                            Back to Course
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@functions {
+    // Helper function to remove the GUID prefix.
+    // Assumes file names are stored as "{guid}_{originalFileName}"
+    public string DisplayFileName(string fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return fileName;
+        }
+        var parts = fileName.Split('_');
+        if (parts.Length > 1)
+        {
+            return string.Join("_", parts.Skip(1));
+        }
+        return fileName;
+    }
+}
