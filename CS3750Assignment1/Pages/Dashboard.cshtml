@@ -59,7 +59,10 @@
     {
         <div class="ToDo">
             <h1 class="text-center mb-4 mt-4">To Do</h1>
-            @foreach (var assignment in Model.Assignments)
+            @{
+                var topAssignments = Model.Assignments.Take(5);
+            }
+            @foreach (var assignment in topAssignments)
             {
                 <div class="row">
                     <div class="col">
@@ -79,3 +82,4 @@
             }
         </div>
     }
+</div>
