@@ -57,17 +57,21 @@ namespace CS3750Assignment1.Pages
                 return RedirectToPage("/LoginPage");
             }
 
-            var courseId = HttpContext.Session.GetInt32("CourseId");
-            if (courseId != null)
-            {
-                CourseID = courseId;
-            }
-
             // Now load the assignment using the assignmentId from the URL.
             Assignment = await _context.Assignment.FirstOrDefaultAsync(a => a.Id == assignmentId);
             if (Assignment == null)
             {
                 return NotFound();
+            }
+
+            var courseId = HttpContext.Session.GetInt32("CourseId");
+            if (courseId != null)
+            {
+                CourseID = courseId;
+            }
+            else
+            {
+                CourseID = Assignment.CourseId;
             }
 
             if (!resubmit)
