@@ -21,7 +21,8 @@
             displayEventTime: false, // Disable default event time display
 
             datesSet: function() {
-            calendar.refetchEvents();},
+            calendar.refetchEvents();
+            },
 
             eventContent: function(arg) {
                 let eventTime = `${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
@@ -36,13 +37,16 @@
                 customEvent.style.padding = ".5px"; // Padding for better spacing
                 customEvent.style.borderRadius = "5px"; // Optional rounded corners
                 customEvent.style.marginBottom = ".5px"; // Space between events
-
-
-
-
                 return { domNodes: [customEvent] };
+            },
+
+            eventClick: function(info) {
+                if (info.event.url) {
+                    window.location.href = info.event.url; // Navigate to course details
+                    info.jsEvent.preventDefault(); // Prevent default behavior
+                }
             }
-          });
+         });
           calendar.render();
         });
 

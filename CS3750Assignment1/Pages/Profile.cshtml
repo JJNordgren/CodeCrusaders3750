@@ -67,11 +67,12 @@
                 <label for="phone" class="form-label">Phone:</label>
                 <input type="text" id="phone" asp-for="User.phone" class="form-control" readonly value="@Model.User.phone" />
             </div>
-                
-                <div class="d-grid">
-                    <button onclick="enableTextBoxes()" id="editButton" class="btn btn-primary">Edit Profile</button>
-                    <button type="submit" id="saveButton" class="btn btn-success" style="display: none;">Save Changes</button>
-                </div>
+
+            <div class="d-grid">
+                <button onclick="enableTextBoxes()" id="editButton" class="btn btn-primary">Edit Profile</button>
+                <button type="submit" id="saveButton" class="btn btn-success" style="display: none;">Save Changes</button>
+                <button onclick="window.location.href='/Dashboard'" class="btn btn-secondary">Back</button>
+            </div>
             </form>
     </div>
 </div>

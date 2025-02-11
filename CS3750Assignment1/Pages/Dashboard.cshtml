@@ -4,35 +4,82 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+<div class="Dash_container">
 
-<div class="text-center mb-4 mt-4">
-    <h1>Dashboard</h1>  
-</div>
+    <div class="Dashboard">
+        <div class="text-center mb-4 mt-4">
+            <h1>Dashboard</h1>
+        </div>
 
-<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
-     @foreach (var item in Model.Course) {
-		@* Checks to see if the student is registered for the course *@
-        @if (Model.IsRegistered(item.Id))
-        {
-            <div class="col">
-                <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                    <a asp-page="./ClassDash" asp-route-id="@item.Id" style="text-decoration: none;">
-                        <div class="card-header" style="text-decoration: none; color: black;">
-                            <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
-                            <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
+    
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            @foreach (var item in Model.Course)
+            {
+                @* Checks to see if the student is registered for the course *@
+                @if (Model.IsRegistered(item.Id))
+                {
+                    <div class="col">
+                        <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                            @if (HttpContext.Session.GetString("UserType") == "T")
+                            {
+                                <a asp-page="./ClassDash" asp-route-id="@item.Id" style="text-decoration: none;">
+                                    <div class="card-header" style="text-decoration: none; color: black;">
+                                        <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
+                                        <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
+                                    </div>
+                                </a>
+                            }
+                            @if (HttpContext.Session.GetString("UserType") == "S")
+                            {
+                                <a asp-page="" asp-route-id="@item.Id" style="text-decoration: none;">
+                                    <div class="card-header" style="text-decoration: none; color: black;">
+                                        <h5 class="card-title" style="text-decoration: none;">@($"{item.Department} {item.ClassNumber}")</h5>
+                                        <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Name)</p>
+                                    </div>
+                                </a>
+
+                            }
+                            <div class="card-body">
+                                @* Shows instructor name <p>@($"{item.Instructor?.lastName}, {item.Instructor?.firstName}")</p> *@
+                                <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Location)</p>
+                                <div class="trunc-ellipsis">
+                                    @string.Join(", ", item.MeetingDays)
+                                </div>
+                                <p class="card-text">@($"{item.StartTime} - {item.EndTime}")</p>
+                            </div>
                         </div>
-                    </a>
-                    <div class="card-body">
-                        @* Shows instructor name <p>@($"{item.Instructor?.lastName}, {item.Instructor?.firstName}")</p> *@
-                        <p class="card-text trunc-ellipsis">@Html.DisplayFor(modelItem => item.Location)</p>
-                        <div class="trunc-ellipsis">
-                            @string.Join(", ", item.MeetingDays)
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+
+    @if (HttpContext.Session.GetString("UserType") == "S")
+    {
+        <div class="ToDo">
+            <h1 class="text-center mb-4 mt-4">To Do</h1>
+            @{
+                var topAssignments = Model.Assignments.Take(5);
+            }
+            @foreach (var assignment in topAssignments)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                            <a asp-page="./ClassDash" asp-route-id="@assignment.Id" style="text-decoration: none;">
+                                <div class="card-header" style="text-decoration: none; color: black;">
+                                    <h5 class="card-title" style="text-decoration: none;">@($"{assignment.Title}")</h5>
+                                    <p class="card-text">@($"{assignment.Course.Department} {assignment.Course.ClassNumber}")</p>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <p class="card-text">@($"{assignment.DueDate}")</p>
+                            </div>
                         </div>
-                        <p class="card-text">@($"{item.StartTime} - {item.EndTime}")</p>
                     </div>
                 </div>
-            </div>
-        }
-       
+            }
+        </div>
     }
 </div>

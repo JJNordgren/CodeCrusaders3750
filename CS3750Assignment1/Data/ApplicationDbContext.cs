@@ -13,6 +13,7 @@ namespace CS3750Assignment1.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Registration> Registrations { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
 
