@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.CourseDetailsModel
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Course Details</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-info text-white">
+            <h4 class="card-title mb-0">@Model.Course.Name</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Department:</dt>
+                <dd class="col-sm-8">@Model.Course.Department</dd>
+
+                <dt class="col-sm-4">Class Number:</dt>
+                <dd class="col-sm-8">@Model.Course.ClassNumber</dd>
+
+                <dt class="col-sm-4">Credit Hours:</dt>
+                <dd class="col-sm-8">@Model.Course.CreditHours</dd>
+
+                <dt class="col-sm-4">Capacity:</dt>
+                <dd class="col-sm-8">@Model.Course.Capacity</dd>
+
+                <dt class="col-sm-4">Location:</dt>
+                <dd class="col-sm-8">@Model.Course.Location</dd>
+
+                <dt class="col-sm-4">Meeting Days:</dt>
+                <dd class="col-sm-8">@string.Join(", ", Model.Course.MeetingDays)</dd>
+
+                <dt class="col-sm-4">Start Time:</dt>
+                <dd class="col-sm-8">@Model.Course.StartTime</dd>
+
+                <dt class="col-sm-4">End Time:</dt>
+                <dd class="col-sm-8">@Model.Course.EndTime</dd>
+            </dl>
+        </div>
+
+        <div class="card-footer text-center">
+            <a asp-page="./InstructorClasses" class="btn btn-secondary">Back to Classes</a>
+        </div>
+    </div>
+</div>
