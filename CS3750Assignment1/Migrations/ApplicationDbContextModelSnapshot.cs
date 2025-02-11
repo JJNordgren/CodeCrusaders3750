@@ -150,6 +150,18 @@ namespace CS3750Assignment1.Migrations
                     b.Property<string>("Salt")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("addressLine1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("addressLine2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("amountPaid")
+                        .HasColumnType("float");
+
+                    b.Property<string>("city")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("confirmPassword")
                         .HasColumnType("nvarchar(max)");
 
@@ -176,13 +188,7 @@ namespace CS3750Assignment1.Migrations
                     b.Property<string>("phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("addressLine1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("addressLine2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("city")
+                    b.Property<string>("picturePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("state")

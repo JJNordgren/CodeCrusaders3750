@@ -55,8 +55,16 @@ namespace CS3750Assignment1.Models
         /// Stores the ProfilePicture for the user. This will be a link to the image root.
         /// </summary>
         public string? picturePath { get; set; }
-      
+
+        /// <summary>
+        /// Stores the salt for the user. This is used for password hashing.
+        /// </summary>
         public string? Salt { get; set; }
+
+        /// <summary>
+        /// AmountPaid is the amount of money the user has paid for the course.
+        /// </summary>
+        public double? amountPaid { get; set; } = 0;
 
     }
 }
