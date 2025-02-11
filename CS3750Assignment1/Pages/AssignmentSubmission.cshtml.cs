@@ -35,6 +35,9 @@ namespace CS3750Assignment1.Pages
         [BindProperty, ValidateNever]
         public List<IFormFile> UploadedFiles { get; set; } = new List<IFormFile>();
 
+        // For accessing it as a model in the html page
+        public int? CourseID { get; set; }
+
         // This flag tells the view whether to display the submission details or the form.
         public bool SubmissionCompleted { get; set; } = false;
 
@@ -52,6 +55,12 @@ namespace CS3750Assignment1.Pages
             if (userId == null)
             {
                 return RedirectToPage("/LoginPage");
+            }
+
+            var courseId = HttpContext.Session.GetInt32("CourseId");
+            if (courseId != null)
+            {
+                CourseID = courseId;
             }
 
             // Now load the assignment using the assignmentId from the URL.

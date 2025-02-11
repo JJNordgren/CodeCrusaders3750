@@ -5,11 +5,17 @@
     ViewData["Title"] = Model.CourseName;
 }
 
-<h1>@Model.CourseName</h1>
+<div class="text-center mb-4 mt-4">
+    <h1>@Model.CourseName</h1>
+</div>
 
-<p>
-    <a asp-page="./AddAssignment">Add Assignment</a>
-</p>
+@if (HttpContext.Session.GetString("UserType") == "T")
+{
+    <p>
+        <a class="btn btn-primary btn-sm" asp-page="./AddAssignment">Add Assignment</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -40,15 +46,15 @@
             @if (HttpContext.Session.GetString("UserType") == "T")
             {
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             }
             @if (HttpContext.Session.GetString("UserType") == "S")
             {
                 <td>
-                    <a asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
+                    <a class="btn btn-primary btn-sm" asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
                 </td>
             }
         </tr>
