@@ -29,22 +29,28 @@ namespace CS3750Assignment1.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+            await LoadDataAsync();
+            return Page();
+        }
+
+        // This method is used to load the data for the page and check if the user is logged in to prevent unauthorized access
+        private async Task LoadDataAsync()
+        {
             var userId = HttpContext.Session.GetInt32("UserId");
 
             if (userId == null)
             {
                 // If no session, redirect to the login page
-                return RedirectToPage("/LoginPage");
+                RedirectToPage("/LoginPage");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId.Value);
+
             if (user == null)
             {
-                return RedirectToPage("/LoginPage");
+                RedirectToPage("/LoginPage");
             }
 
-            user.amountPaid += amount;
-            await _context.SaveChangesAsync();
             totalAmountPaid = user.amountPaid ?? 0.0;
 
             // Retrieves courses
@@ -60,8 +66,6 @@ namespace CS3750Assignment1.Pages
             Credits = CalculateCredits(userId.Value);
             Tuition = Credits * 100;
             Tuition = Tuition - totalAmountPaid;
-
-            return Page();
         }
 
         public int CalculateCredits(int userId)
@@ -85,6 +89,30 @@ namespace CS3750Assignment1.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            await LoadDataAsync();
+
+            // Checks for decimals, decimals result in an error because they are set equal to a long datatype which doesn't support decimals. 
+            // Stripe accepts the data type long for the amount
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "The amount must be a positive whole number.");
+                return Page();
+            }
+
+            // Checks if the amount is less than 1
+            if (amount < 1)
+            {
+                ModelState.AddModelError(string.Empty, "The amount must be a positive whole number.");
+                return Page();
+            }
+
+            // In the OnGetAsync we set Tuition = Tuition - totalAmountPaid; So below we check if the remaining balance is less than the amount the user is trying to pay
+            if (amount > (decimal)Tuition)
+            {
+                ModelState.AddModelError(string.Empty, "The amount exceeds the remaining tuition balance.");
+                return Page();
+            }
+
             StripeConfiguration.ApiKey = "sk_test_51QpBLxB7E0YPWfnAnQvYRQbYhYRtwZ1CT8oPSWEq5LNNtsM7gBwUvMjeqgMJ49CiyUXPDxYBENe0t0d5btpNnKdL00xEEQZpYK";
 
             var options = new SessionCreateOptions
@@ -116,8 +144,6 @@ namespace CS3750Assignment1.Pages
             Response.Headers.Add("Location", session.Url);
             Response.Redirect(session.Url);
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            var student = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId.Value);
 
             return Page();
         }

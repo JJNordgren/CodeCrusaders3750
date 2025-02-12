@@ -15,6 +15,15 @@
                 <h3 class="me-5">Remaining Balance: $@Model.Tuition</h3>
                 <h3>Amount Paid: $@Model.totalAmountPaid</h3>
             </div>
+            @if (!ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
             <div class="mb-3">
                 <label for="amount" class="form-label">Amount to Pay:</label>
                 <input type="text" id="amount" name="amount" class="form-control" required />
