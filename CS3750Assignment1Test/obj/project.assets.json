@@ -1069,23 +1069,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JaKota\\.nuget\\packages\\": {},
+    "C:\\Users\\willg\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
+      "projectUniqueName": "C:\\CS3750_VS2022_RazorPages_GroupProject\\CourseHub\\Main\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
       "projectName": "CS3750Assignment1Test",
-      "projectPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
-      "packagesPath": "C:\\Users\\JaKota\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\obj\\",
+      "projectPath": "C:\\CS3750_VS2022_RazorPages_GroupProject\\CourseHub\\Main\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
+      "packagesPath": "C:\\Users\\willg\\.nuget\\packages\\",
+      "outputPath": "C:\\CS3750_VS2022_RazorPages_GroupProject\\CourseHub\\Main\\CS3750Assignment1Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\JaKota\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\willg\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1107,7 +1107,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0": {
@@ -1146,7 +1152,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
