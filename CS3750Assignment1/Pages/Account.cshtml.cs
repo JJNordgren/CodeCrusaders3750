@@ -20,6 +20,8 @@ namespace CS3750Assignment1.Pages
         [BindProperty]
         public long amount { get; set; } = default!;
 
+        public double totalAmountPaid { get; set; }
+
         public AccountModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -35,6 +37,16 @@ namespace CS3750Assignment1.Pages
                 return RedirectToPage("/LoginPage");
             }
 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId.Value);
+            if (user == null)
+            {
+                return RedirectToPage("/LoginPage");
+            }
+
+            user.amountPaid += amount;
+            await _context.SaveChangesAsync();
+            totalAmountPaid = user.amountPaid ?? 0.0;
+
             // Retrieves courses
             Course = await _context.Courses
                 .Include(c => c.Instructor)
@@ -47,6 +59,7 @@ namespace CS3750Assignment1.Pages
 
             Credits = CalculateCredits(userId.Value);
             Tuition = Credits * 100;
+            Tuition = Tuition - totalAmountPaid;
 
             return Page();
         }
@@ -93,8 +106,8 @@ namespace CS3750Assignment1.Pages
                     },
                 },
                 Mode = "payment",
-                SuccessUrl = "http://localhost:4242/success",
-                CancelUrl = "http://localhost:4242/cancel",
+                SuccessUrl = $"http://localhost:5097/Success?amount={amount}",
+                CancelUrl = "http://localhost:5097/Cancel",
             };
 
             var service = new SessionService();

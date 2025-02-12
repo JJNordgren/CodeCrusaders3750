@@ -46,3 +46,8 @@ body {
     grid-template-areas:
         "Dashboard ToDo";
 }
+
+
+.border-bottom-dark-blue {
+    border-bottom: 4px solid #003366; /* Dark blue color */
+}
