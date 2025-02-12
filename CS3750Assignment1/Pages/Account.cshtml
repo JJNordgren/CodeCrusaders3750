@@ -6,7 +6,37 @@
 
 <div class="row justify-content-center min-vh-100">
     <div class="col-md-11" style="padding: 20px; margin-bottom: 20px; max-width: 650px;">
-        <form method="post">
+        @if (Model.Tuition != 0)
+        {
+            <form method="post">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="border-bottom-dark-blue">Payment</h1>
+                    <h3 class="text-end">Credits: @Model.Credits</h3>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="me-5">Remaining Balance: $@Model.Tuition</h3>
+                    <h3>Amount Paid: $@Model.totalAmountPaid</h3>
+                </div>
+                @if (!ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <p>@error.ErrorMessage</p>
+                        }
+                    </div>
+                }
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount to Pay:</label>
+                    <input type="text" id="amount" name="amount" class="form-control" required />
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Pay</button>
+                    <button type="submit" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
+                </div>
+            </form>
+        }
+        else{
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h1 class="border-bottom-dark-blue">Payment</h1>
                 <h3 class="text-end">Credits: @Model.Credits</h3>
@@ -15,23 +45,14 @@
                 <h3 class="me-5">Remaining Balance: $@Model.Tuition</h3>
                 <h3>Amount Paid: $@Model.totalAmountPaid</h3>
             </div>
-            @if (!ModelState.IsValid)
-            {
-                <div class="alert alert-danger">
-                    @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <p>@error.ErrorMessage</p>
-                    }
-                </div>
-            }
-            <div class="mb-3">
-                <label for="amount" class="form-label">Amount to Pay:</label>
-                <input type="text" id="amount" name="amount" class="form-control" required />
-            </div>
-           <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Pay</button>
+			<div class="alert alert-success" role="alert">
+				<h4 class="alert-heading">Congratulations!</h4>
+				<p>Your payments are up to date.</p>
+			</div>
+            <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
             </div>
-        </form>
+        }
+        
     </div>
 </div>

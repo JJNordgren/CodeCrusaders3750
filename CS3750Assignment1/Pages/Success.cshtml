@@ -20,9 +20,21 @@
         <div class="mb-3">
 			<h3>Payment Success: $@Model.amount</h3>
         </div>
-        <div class="d-grid gap-2">
-            <button type="button" class="btn btn-primary" onclick=" window.location.href='/Account'">Make a Payment</button>
-            <button type="button" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
-        </div>
+
+        @if(Model.Tuition != 0){
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary" onclick=" window.location.href='/Account'">Make a Payment</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
+            </div>
+        } else{
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Congratulations!</h4>
+                <p>Your payments are up to date.</p>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
+            </div>
+        }
+        
     </div>
 </div>

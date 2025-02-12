@@ -30,6 +30,9 @@ namespace CS3750Assignment1.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             await LoadDataAsync();
+
+            
+
             return Page();
         }
 

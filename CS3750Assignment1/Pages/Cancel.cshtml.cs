@@ -59,6 +59,11 @@ namespace CS3750Assignment1.Pages
             Tuition = Credits * 100;
             Tuition = Tuition - totalAmountPaid;
 
+            if(Tuition <= 0)
+            {
+                return RedirectToPage("Success");
+            }
+
             return Page();
         }
 
