@@ -43,7 +43,7 @@ namespace CS3750Assignment1.Pages
             {
                 return RedirectToPage("/LoginPage");
             }
-
+           
             user.amountPaid += amount;
             await _context.SaveChangesAsync();
             totalAmountPaid = user.amountPaid ?? 0.0;
