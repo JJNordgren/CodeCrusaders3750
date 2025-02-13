@@ -36,7 +36,6 @@ namespace CS3750Assignment1.Models
         [Range(1, 1000, ErrorMessage = "Max points must be between 1 and 1000.")]
         public int MaxPoints { get; set; }
 
-        public int? ReceivedPoints { get; set; }
 
         /// <summary>
         /// Assignment type (e.g., H for Homework, P for Project, Q for Quiz)
