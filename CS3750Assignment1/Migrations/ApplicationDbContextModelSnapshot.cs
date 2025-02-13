@@ -17,7 +17,7 @@ namespace CS3750Assignment1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -48,6 +48,9 @@ namespace CS3750Assignment1.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("MaxPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReceivedPoints")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -212,10 +215,6 @@ namespace CS3750Assignment1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

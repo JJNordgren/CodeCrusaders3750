@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj": {}
+    "C:\\3750\\GroupWork\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj": {
+    "C:\\3750\\GroupWork\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
+        "projectUniqueName": "C:\\3750\\GroupWork\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
         "projectName": "CS3750Assignment1Test",
-        "projectPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
-        "packagesPath": "C:\\Users\\JaKota\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JaKota\\Desktop\\School\\Spring 2025\\CS3750\\Project\\CS3750Assignment1Test\\obj\\",
+        "projectPath": "C:\\3750\\GroupWork\\CS3750Assignment1Test\\CS3750Assignment1Test.csproj",
+        "packagesPath": "C:\\Users\\blood\\.nuget\\packages\\",
+        "outputPath": "C:\\3750\\GroupWork\\CS3750Assignment1Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\JaKota\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\blood\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -78,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
