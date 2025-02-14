@@ -1,3 +1,5 @@
 .vs/
 CS3750Assignment1/bin/
 CS3750Assignment1/obj/
+/CS3750Assignment1Test/bin/Debug/net8.0
+/CS3750Assignment1Test/obj
