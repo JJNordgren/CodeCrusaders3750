@@ -1,0 +1,88 @@
+﻿@page "{submissionId:int}"
+@model CS3750Assignment1.Pages.AssignmentGrading.GradeAssignmentModel
+@{
+    ViewData["Title"] = "Grade Assignment";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>Grade Assignment</h2>
+        </div>
+        <div class="card-body">
+            <!-- Display noneditable assignment info -->
+            <h3>@Model.Assignment.Title</h3>
+            <p>@Model.Assignment.Description</p>
+            <p><strong>Due Date:</strong> @Model.Assignment.DueDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Max Points:</strong> @Model.Assignment.MaxPoints</p>
+
+            <!-- If the assignment is file-based, display the student's uploaded file links -->
+            @if (Model.Assignment.AssignmentType == 'F')
+            {
+                    <div class="mb-3">
+                        <h5>Student Uploaded File(s):</h5>
+                    @if (Model.Submission.FilePath != null && Model.Submission.FilePath.Any())
+                    {
+                        foreach (var file in Model.Submission.FilePath)
+                        {
+                                        <p>
+                                            <a href="~/FileSubmissions/@file" target="_blank">@DisplayFileName(file)</a>
+                                        </p>
+                        }
+                    }
+                    else
+                    {
+                                <p>No file uploaded.</p>
+                    }
+                    </div>
+            }
+            else if (Model.Assignment.AssignmentType == 'T')
+            {
+                    <!-- Optionally, display the student's text submission if applicable -->
+                @if (!string.IsNullOrWhiteSpace(Model.Submission.TextSubmission))
+                {
+                            <div class="mb-3">
+                                <h5>Student Submission:</h5>
+                                <p>@Model.Submission.TextSubmission</p>
+                            </div>
+                }
+            }
+
+            <!-- Grade Form -->
+            <form method="post">
+                <div class="mb-3">
+                    <label for="ReceivedPoints" class="form-label">Received Points</label>
+                    <div class="input-group">
+                        <input type="number" asp-for="ReceivedPoints" class="form-control" />
+                        <span class="input-group-text">/ @Model.Assignment.MaxPoints</span>
+                    </div>
+                    <span asp-validation-for="ReceivedPoints" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Submit Grade</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}
+
+@functions {
+    // Helper function to remove the GUID prefix from the file name.
+    public string DisplayFileName(string fileName)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return fileName;
+        }
+        var parts = fileName.Split('_');
+        if (parts.Length > 1)
+        {
+            return string.Join("_", parts.Skip(1));
+        }
+        return fileName;
+    }
+}
