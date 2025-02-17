@@ -94,8 +94,7 @@
                         </div>
                     }
                     <div class="d-flex align-items-center ms-3">
-                        <i onclick="openNotificationForm()" id="notificationIcon" class="material-icons" style="width: 40px; height: 40px; cursor: pointer;">notifications</i>
-
+                        <i onclick="toggleNotificationForm()" id="notificationIcon" class="material-icons" style="width: 40px; height: 40px; cursor: pointer;">notifications</i>
                     </div>
                 </div>
             </nav>
@@ -127,7 +126,7 @@
                             <div class="card-header" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" style="text-decoration: none;">American History</h5>
                                 <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
@@ -139,8 +138,8 @@
                         <a style="text-decoration: none;">
                             <div class="card-header" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
+                                <p class="card-text">Assignment 2 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
@@ -152,8 +151,8 @@
                         <a style="text-decoration: none;">
                             <div class="card-header" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
+                                <p class="card-text">Assignment 3 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
@@ -165,8 +164,8 @@
                         <a style="text-decoration: none;">
                             <div class="card-header" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
+                                <p class="card-text">Assignment 4 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
@@ -178,36 +177,30 @@
                         <a style="text-decoration: none;">
                             <div class="card-header" style="text-decoration: none; color: black;">
                                 <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
+                                <p class="card-text">Assignment 5 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button>Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+         
         </form>
     </div>
 
     <script>
-        function openNotificationForm() {
-            document.getElementById("NotificationForm").style.display = "block";
+        function toggleNotificationForm() {
+            var notificationForm = document.getElementById("NotificationForm");
+            if (notificationForm.style.display === "block") {
+                notificationForm.style.display = "none";
+            } else {
+                notificationForm.style.display = "block";
+            }
         }
 
-        function closeNewCustomerForm() {
-            document.getElementById("NotificationForm").style.display = "none";
+        function closeNotificationRow(button) {
+            var row = button.closest('.row');
+            row.style.display = 'none';
         }
     </script>
 
