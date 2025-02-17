@@ -51,3 +51,48 @@ body {
 .border-bottom-dark-blue {
     border-bottom: 4px solid #003366; /* Dark blue color */
 }
+
+.NotificationContainer {
+    position: relative;
+    top: 0;
+    width: 100%;
+    background-color: darkgray;
+    margin: 10px;
+    z-index: 1;
+}
+
+.NotificationForm {
+    grid-area: NotificationForm;
+    max-width: 18rem;
+    margin: auto;
+}
+
+.mx-auto.card.mb-3 {
+    max-width: 18rem;
+}
+
+.card-header {
+    text-decoration: none;
+    color: black;
+}
+
+.card-title {
+    text-decoration: none;
+}
+
+.card-body {
+    background-color: white;
+}
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 80px; /* Adjust this value as needed to place the popup below the navbar */
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    padding: 1rem;
+    width: 300px;
+    max-height: calc(100vh - 100px); /* Ensure the popup doesn't go off the page */
+    overflow-y: auto; /* Make the popup content scrollable */
