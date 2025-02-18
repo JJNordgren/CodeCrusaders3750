@@ -12,6 +12,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CS3750Assignment1.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="bg-dark-blue text-light-green">
@@ -42,15 +53,8 @@
                                 <a class="nav-link text-white" asp-page="/Dashboard">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li>
-
-                            <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-page="/Calendar">Calendar</a>
                             </li>
-
-                            
-
                             @if (Context.Session.GetString("UserType") == "T")
                             {
                                 <li class="nav-item">
@@ -68,8 +72,8 @@
                             }
                         </ul>
                     </div>
-                
-                    @if (string.IsNullOrEmpty(@Context.Session.GetString("PicturePath"))) 
+
+                    @if (string.IsNullOrEmpty(@Context.Session.GetString("PicturePath")))
                     {
                         <div class="d-flex align-items-center">
                             <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
@@ -86,9 +90,11 @@
                             </a>
                         </div>
                     }
+                    <div class="d-flex align-items-center ms-3">
+                        <i onclick="toggleNotificationForm()" id="notificationIcon" class="material-icons" style="width: 50px; height: 50px; cursor: pointer;">notifications</i>
+                    </div>
                 </div>
-       
-          </nav>
+            </nav>
         }
     </header>
 
@@ -105,6 +111,95 @@
             &copy; 2025 - CourseHub - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
+
+    <!-- Notification popup -->
+    <div class="form-popup" id="NotificationForm">
+    <form class="form-container">
+                <h1 class="text-center mb-4 mt-4">Notifications</h1>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                        <a style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
+                                <p class="card-text">Assignment 1 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                        <a style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
+                                <p class="card-text">Assignment 2 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                        <a style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
+                                <p class="card-text">Assignment 3 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                        <a style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
+                                <p class="card-text">Assignment 4 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
+                        <a style="text-decoration: none;">
+                            <div class="card-header" style="text-decoration: none; color: black;">
+                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
+                                <p class="card-text">Assignment 5 90/100</p>
+                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+         
+        </form>
+    </div>
+
+    <script>
+        function toggleNotificationForm() {
+            var notificationForm = document.getElementById("NotificationForm");
+            if (notificationForm.style.display === "block") {
+                notificationForm.style.display = "none";
+            } else {
+                notificationForm.style.display = "block";
+            }
+        }
+
+        function closeNotificationRow(button) {
+            var row = button.closest('.row');
+            row.style.display = 'none';
+        }
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

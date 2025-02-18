@@ -1,0 +1,52 @@
+﻿@page "{assignmentId:int}"
+@model CS3750Assignment1.Pages.AssignmentGrading.AssignmentSubmissionsModel
+@{
+    ViewData["Title"] = "Assignment Submissions";
+}
+
+<h1>Submissions for "@Model.AssignmentTitle"</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Submission Date</th>
+            <th>Submission Time</th>
+            <th>Late</th>
+            <th>Grade</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var submission in Model.Submissions)
+{
+    <tr>
+        <td>@submission.Student.firstName</td>
+        <td>@submission.Student.lastName</td>
+        <td>@submission.SubmissionTime.ToShortDateString()</td>
+        <td>@submission.SubmissionTime.ToShortTimeString()</td>
+        <td>
+            @* Check if the submission was after the due date *@
+            @if (submission.SubmissionTime > Model.AssignmentDueDate)
+            {
+                <span class="text-danger">Late</span>
+            }
+        </td>
+        <td>
+            @if (submission.Grade.HasValue)
+            {
+                @submission.Grade
+            }
+        </td>
+        <td>
+            <a class="btn btn-primary btn-sm"
+               asp-page="/AssignmentGrading/GradeAssignment"
+               asp-route-submissionId="@submission.Id">
+                Grade
+            </a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
