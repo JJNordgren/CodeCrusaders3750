@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using iTextSharp.text.pdf.qrcode;
 
 namespace CS3750Assignment1.Pages
 {
@@ -21,11 +23,49 @@ namespace CS3750Assignment1.Pages
             _logger = logger;
         }
 
+        public List<string> DepartmentOptions { get; set; } = new List<string>();
+
+
+
         public IList<Course> Course { get; set; } = default!;
         public IList<Registration> Registrations { get; set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public string? SearchString { get; set; }
+
+        public SelectList? Department { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string? CourseDepartment { get; set; }
+
+
+
         public async Task<IActionResult> OnGetAsync()
         {
+
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Courses
+                                            orderby m.Department
+                                            select m.Department;
+
+            var courses = from m in _context.Courses
+                         select m;
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                courses = courses.Where(s => s.Name.Contains(SearchString));
+            }
+
+            if (!string.IsNullOrEmpty(CourseDepartment))
+            {
+                courses = courses.Where(x => x.Department == CourseDepartment);
+            }
+
+            Department = new SelectList(await genreQuery.Distinct().ToListAsync());
+            Course = await courses.ToListAsync();
+
+
             // Retrieve the user ID from the session
             var userId = HttpContext.Session.GetInt32("UserId");
 
