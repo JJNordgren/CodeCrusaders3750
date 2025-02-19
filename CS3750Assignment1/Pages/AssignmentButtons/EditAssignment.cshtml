@@ -1,0 +1,75 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.AssignmentButtons.EditAssignmentModel
+
+@{
+    ViewData["Title"] = "Edit Assignment";
+}
+
+<h1 class="text-center mt-3">Edit Assignment</h1>
+
+<div class="card mt-4 mb-5 shadow-sm">
+    <div class="card-body">
+        <h4 class="card-title text-center">Assignment Details</h4>
+        <hr />
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Assignment.Id" />
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.Title" class="form-label"></label>
+                <input asp-for="Assignment.Title" class="form-control" />
+                <span asp-validation-for="Assignment.Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.Description" class="form-label"></label>
+                <textarea asp-for="Assignment.Description" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Assignment.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.DueDate" class="form-label"></label>
+                <input asp-for="Assignment.DueDate" type="datetime-local" class="form-control" />
+                <span asp-validation-for="Assignment.DueDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.MaxPoints" class="form-label"></label>
+                <input asp-for="Assignment.MaxPoints" type="number" class="form-control" />
+                <span asp-validation-for="Assignment.MaxPoints" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <span class="text-danger">*</span>
+                <label asp-for="Assignment.AssignmentType" class="form-label"></label>
+                <select asp-for="Assignment.AssignmentType" class="form-select" asp-items="Model.AssignmentTypeList">
+                    <option value="">Select Type</option>
+                </select>
+                <span asp-validation-for="Assignment.AssignmentType" class="text-danger"></span>
+            </div>
+
+
+            <div class="d-flex flex-column align-items-center mt-4">
+                <button type="submit" class="btn btn-primary mb-2" style="width: 150px;">Save Changes</button>
+                <a asp-page="/ClassDash" class="btn btn-secondary" style="width: 150px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function clearError(event) {
+        event.target.nextElementSibling.textContent = ''; // Clears the next sibling span (error message)
+    }
+    document.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', clearError);
+    });
+</script>
+
+@section Scripts {
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}

@@ -1,0 +1,35 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.AssignmentButtons.AssignmentDetailsModel
+
+@{
+    ViewData["Title"] = "Assignment Details";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Assignment Details</h1>
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h4 class="card-title mb-0">@Model.Assignment.Title</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Description:</dt>
+                <dd class="col-sm-8">@Model.Assignment.Description</dd>
+
+                <dt class="col-sm-4">Due Date:</dt>
+                <dd class="col-sm-8">@Model.Assignment.DueDate</dd>
+
+                <dt class="col-sm-4">Max Points:</dt>
+                <dd class="col-sm-8">@Model.Assignment.MaxPoints</dd>
+
+                <dt class="col-sm-4">Assignment Type:</dt>
+                <dd class="col-sm-8">
+                    @(Model.Assignment.AssignmentType == 'T' ? "Text Box" : "File Upload")
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-page="/ClassDash" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
