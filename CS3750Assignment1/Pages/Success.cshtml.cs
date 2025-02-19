@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 
+// Add necessary using directive for ReceiptDetails
+//using StripePaymentProcessing;
+
 namespace CS3750Assignment1.Pages
 {
     public class SuccessModel : PageModel
@@ -62,6 +65,9 @@ namespace CS3750Assignment1.Pages
             Tuition = Credits * 100;
             Tuition = Tuition - totalAmountPaid;
 
+            // Generate and display the receipt
+            //GenerateReceipt(user, amount);
+
             return Page();
         }
 
@@ -83,6 +89,38 @@ namespace CS3750Assignment1.Pages
 
             return credits;
         }
+
+        //// Add the GenerateReceipt method to create and display the receipt
+        //private void GenerateReceipt(User user, long amount)
+        //{
+        //    // Create an instance of ReceiptDetails and populate it with necessary information
+        //    var receiptDetails = new ReceiptDetails
+        //    {
+        //        AccountType = "Credit",
+        //        ApplicationCryptogram = "9F26",
+        //        ApplicationPreferredName = "Visa",
+        //        AuthorizationCode = "123456",
+        //        AuthorizationResponseCode = "00",
+        //        CVM = "PIN",
+        //        DedicatedFileName = "A0000000031010",
+        //        TSI = "F800",
+        //        TVR = "0000008000"
+        //    };
+
+        //    // Display receipt details (this is a simple example, you can expand it as needed)
+        //    Console.WriteLine("Receipt Details:");
+        //    Console.WriteLine($"Account Type: {receiptDetails.AccountType}");
+        //    Console.WriteLine($"Application Cryptogram: {receiptDetails.ApplicationCryptogram}");
+        //    Console.WriteLine($"Application Preferred Name: {receiptDetails.ApplicationPreferredName}");
+        //    Console.WriteLine($"Authorization Code: {receiptDetails.AuthorizationCode}");
+        //    Console.WriteLine($"Authorization Response Code: {receiptDetails.AuthorizationResponseCode}");
+        //    Console.WriteLine($"CVM: {receiptDetails.CVM}");
+        //    Console.WriteLine($"Dedicated File Name: {receiptDetails.DedicatedFileName}");
+        //    Console.WriteLine($"TSI: {receiptDetails.TSI}");
+        //    Console.WriteLine($"TVR: {receiptDetails.TVR}");
+
+        //    // You can also add code here to render the receipt details in the view if needed
+        //}
 
     }
 }
