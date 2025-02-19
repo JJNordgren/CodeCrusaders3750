@@ -24,6 +24,12 @@
             calendar.refetchEvents();
             },
 
+            eventOverlap: function(stillEvent, movingEvent) {
+                // Customize overlap handling logic here
+                // Return true to allow overlap, false to prevent
+                return stillEvent.extendedProps.isAssignment === movingEvent.extendedProps.isAssignment;
+            },
+
             eventContent: function(arg) {
                 let eventTime = `${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
@@ -33,7 +39,7 @@
 
                 // Adding a little styling to ensure it looks good
                 customEvent.style.whiteSpace = "normal"; // Prevent overflow and ensure wrapping
-                customEvent.style.border = "2px solid darkblue"; // Dark blue border
+                customEvent.style.border = arg.event.extendedProps.isAssignment ? "2px solid red" : "2px solid darkblue"; // Red border for assignments, dark blue for others
                 customEvent.style.padding = ".5px"; // Padding for better spacing
                 customEvent.style.borderRadius = "5px"; // Optional rounded corners
                 customEvent.style.marginBottom = ".5px"; // Space between events
