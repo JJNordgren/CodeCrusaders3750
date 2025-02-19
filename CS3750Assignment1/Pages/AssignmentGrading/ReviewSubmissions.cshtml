@@ -13,11 +13,11 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Grade', 'Number of Students'],
-                ['A (90% - 100%)', @Model.NumStudentsPerGrade[0]],
-                ['B (80% - 89%)', @Model.NumStudentsPerGrade[1]],
-                ['C (70% - 79%)', @Model.NumStudentsPerGrade[2]],
-                ['D (64% - 69%)', @Model.NumStudentsPerGrade[3]],
-                ['E (0%  - 63%)', @Model.NumStudentsPerGrade[4]]
+                ['A', @Model.NumStudentsPerGrade[0]],
+                ['B', @Model.NumStudentsPerGrade[1]],
+                ['C', @Model.NumStudentsPerGrade[2]],
+                ['D', @Model.NumStudentsPerGrade[3]],
+                ['E', @Model.NumStudentsPerGrade[4]]
             ]);
 
             var options = {
