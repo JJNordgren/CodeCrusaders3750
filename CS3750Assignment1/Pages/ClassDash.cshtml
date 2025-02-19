@@ -46,7 +46,7 @@
             @if (HttpContext.Session.GetString("UserType") == "T")
             {
                 <td>
-                    <a class="btn btn-primary btn-sm" asp-page="/AssignmentGrading/AssignmentSubmissions" asp-route-assignmentId="@item.Id">Submissions</a>
+                    <a class="btn btn-primary btn-sm" asp-page="/AssignmentGrading/ReviewSubmissions" asp-route-assignmentId="@item.Id">Submissions</a>
                 </td>
                 <td>
                     <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
