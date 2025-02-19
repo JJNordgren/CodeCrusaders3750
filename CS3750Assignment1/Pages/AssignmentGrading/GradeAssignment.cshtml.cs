@@ -77,7 +77,7 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
             await _context.SaveChangesAsync();
 
             // Redirect back to the submissions list (or another page as needed).
-            return RedirectToPage("/AssignmentGrading/AssignmentSubmissions", new { assignmentId = submissionToUpdate.AssignmentId });
+            return RedirectToPage("/AssignmentGrading/ReviewSubmissions", new { assignmentId = submissionToUpdate.AssignmentId });
         }
     }
 }

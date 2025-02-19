@@ -24,7 +24,7 @@
         @if(Model.Tuition != 0){
             <div class="d-grid gap-2">
                 <button type="button" class="btn btn-primary" onclick=" window.location.href='/Account'">Make a Payment</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Dashboard'">Back to Dashboard</button>
             </div>
         } else{
             <div class="alert alert-success" role="alert">
@@ -32,7 +32,7 @@
                 <p>Your payments are up to date.</p>
             </div>
             <div class="d-grid gap-2">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Home'">Back to Home</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/Dashboard'">Back to Dashboard</button>
             </div>
         }
         

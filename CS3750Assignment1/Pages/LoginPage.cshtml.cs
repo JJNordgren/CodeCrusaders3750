@@ -68,7 +68,7 @@ namespace CS3750Assignment1.Pages
                 HttpContext.Session.SetString("PicturePath", user.picturePath.ToString());
             }
 
-            return RedirectToPage("/Home");
+            return RedirectToPage("/Dashboard");
         }
     }
 }
