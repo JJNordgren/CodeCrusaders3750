@@ -47,5 +47,62 @@ namespace CS3750Assignment1Test
                 Assert.IsTrue(M == N + 1);
             }
         }
+
+        [TestMethod]
+        public async Task StudentRegisterCourse()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()); // Use unique database name
+            //.UseInMemoryDatabase("InMemoryDb");
+
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+                int N = db.Registrations.Count();
+
+                var userId = 19; // Greg Heffley
+                var courseId = 11; // Historic Analysis, History 3332
+
+                var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
+                //var course = new Course { };
+                var student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                //var student = new User { };
+                // Id
+                //email 
+                //firstName
+                //lastName 
+                //[Required]
+                //[MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+                //password
+                //[Required]
+                //[MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
+                // BirthDate (DateTime) 
+
+
+                var registration = new Registration
+                {
+                    UserId = userId,
+                    Student = student,
+                    CourseId = courseId,
+                    Course = course
+                };
+
+                db.Registrations.Add(registration);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Assert.Fail($"Error saving registration: {ex.Message}");
+                }
+
+
+                int M = db.Registrations.Count();
+
+                // Assert: Verify expected results
+                Assert.IsTrue(M == N + 1);
+            }
+        }
     }
 }
