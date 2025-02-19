@@ -4,18 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS3750Assignment1Test
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void AddCourseTest()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                .UseInMemoryDatabase("InMemoryDb");
 
+            // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
@@ -32,7 +35,7 @@ namespace CS3750Assignment1Test
                     Location = "NB 101",
                     StartTime = DateTime.Parse("08:00 AM").TimeOfDay,
                     EndTime = DateTime.Parse("09:00 PM").TimeOfDay,
-                    InstructorId = 17, // WaldoWildcat@weber.edu
+                    InstructorId = 17, // Random Number, Null variable
                     MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
                 };
 
@@ -55,18 +58,59 @@ namespace CS3750Assignment1Test
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()); // Use unique database name
             //.UseInMemoryDatabase("InMemoryDb");
 
+          // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But the data is empty
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 int N = db.Registrations.Count();
 
-                var userId = 19; // Greg Heffley
-                var courseId = 11; // Historic Analysis, History 3332
+                //Recogniz
+                var userId = 19; // Random Number
+                var courseId = 11; // Random Number
 
+                // This variables is null becasue the database is empty
                 var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
-                //var course = new Course { };
+                //var course = new Course {
+                //  department = "CS",
+                //  Name = "1010",
+                //  ClassNumber = "1010",
+                //  CreditHours = 3,
+                //  Capacity = 30,
+                //  Location = "NB 101",
+                //  MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
+                //  StartTime = DateTime.Parse("08:00 AM").TimeOfDay,
+                //  EndTime = DateTime.Parse("09:00 PM").TimeOfDay,
+                //  Assignments = new List<Assignment>(),
+                //  InstructorId = 17, // Random Number, Null variable
+                //  Instructor = instructor // instructor will be the variable for the instructor that you create, similar to student below
+                //};
+
+                // Required Variables:
+                //public string Department { get; set; }
+                //string Name
+                //string ClassNumber
+                //int CreditHours { get; set; }
+                //int Capacity { get; set; }
+                //string Location { get; set; }
+                //List<string> MeetingDays { get; set; }
+                //TimeSpan StartTime { get; set; }
+                //TimeSpan EndTime { get; set; }
+                //ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+                //int InstructorId { get; set; }
+                // User Instructor { get; set; }
+
+                // This variables is null becasue the database is empty
                 var student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-                //var student = new User { };
-                // Id
+
+                // To add a student variable use similar code to below
+                //var newStudent = new User {
+                //    email = "a@a.com",
+                //    firstName = "John",
+                //    lastName = "Doe",
+                //    password = "password",
+                //    BirthDate = DateTime.Parse("01/01/2000"),
+                //    userType = 'S',
+                //};
+                // Required fields for User are below add them to the newStudent variable above if you need a new student
                 //email 
                 //firstName
                 //lastName 
@@ -76,6 +120,7 @@ namespace CS3750Assignment1Test
                 //[Required]
                 //[MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
                 // BirthDate (DateTime) 
+                //userType 
 
 
                 var registration = new Registration
