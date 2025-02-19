@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CS3750Assignment1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250210154513_assign_to_appDbContext")]
-    partial class assign_to_appDbContext
+    [Migration("20250219172131_newDatabase")]
+    partial class newDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -139,6 +139,44 @@ namespace CS3750Assignment1.Migrations
                     b.ToTable("Registrations");
                 });
 
+            modelBuilder.Entity("CS3750Assignment1.Models.Submission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.PrimitiveCollection<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubmissionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TextSubmission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Submissions");
+                });
+
             modelBuilder.Entity("CS3750Assignment1.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -159,6 +197,9 @@ namespace CS3750Assignment1.Migrations
                     b.Property<string>("addressLine2")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double?>("amountPaid")
+                        .HasColumnType("float");
+
                     b.Property<string>("city")
                         .HasColumnType("nvarchar(max)");
 
@@ -174,10 +215,6 @@ namespace CS3750Assignment1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -251,6 +288,25 @@ namespace CS3750Assignment1.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("CS3750Assignment1.Models.Submission", b =>
+                {
+                    b.HasOne("CS3750Assignment1.Models.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CS3750Assignment1.Models.User", "Student")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
 
                     b.Navigation("Student");
                 });

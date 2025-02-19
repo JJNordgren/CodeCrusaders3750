@@ -50,9 +50,6 @@ namespace CS3750Assignment1.Migrations
                     b.Property<int>("MaxPoints")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReceivedPoints")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
