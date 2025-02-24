@@ -28,7 +28,6 @@ namespace CS3750Assignment1.Pages.AssignmentButtons
             if (Assignment == null)
                 return NotFound();
 
-            // Optionally: restrict details view based on role if needed
 
             return Page();
         }
