@@ -1,0 +1,39 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.AssignmentButtons.DeleteAssignmentModel
+
+@{
+    ViewData["Title"] = "Delete Assignment";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center text-danger mb-4">Delete Assignment</h1>
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h4 class="card-title mb-0">Are you sure you want to delete this assignment?</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Title:</dt>
+                <dd class="col-sm-8">@Model.Assignment.Title</dd>
+
+                <dt class="col-sm-4">Due Date:</dt>
+                <dd class="col-sm-8">@Model.Assignment.DueDate</dd>
+
+                <dt class="col-sm-4">Max Points:</dt>
+                <dd class="col-sm-8">@Model.Assignment.MaxPoints</dd>
+
+                <dt class="col-sm-4">Assignment Type:</dt>
+                <dd class="col-sm-8">
+                    @(Model.Assignment.AssignmentType == 'T' ? "Text Box" : "File Upload")
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <form method="post">
+                <input type="hidden" asp-for="Assignment.Id" />
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a asp-page="/ClassDash" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
