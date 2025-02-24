@@ -45,7 +45,7 @@
     @if (HttpContext.Session.GetString("UserType") == "S")
     {
         <div class="ToDo">
-            <h1 class="text-center mb-4 mt-4">To Do</h1>
+            <h1 class="text-center m-4">To Do</h1>
             @{
                 var topAssignments = Model.Assignments.Take(5);
             }
