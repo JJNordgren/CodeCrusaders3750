@@ -26,6 +26,7 @@
                         foreach (var file in Model.Submission.FilePath)
                         {
                                         <p>
+                                            <iframe src="~/FileSubmissions/@file" width="100%" height="500px"></iframe>
                                             <a href="~/FileSubmissions/@file" target="_blank">@DisplayFileName(file)</a>
                                         </p>
                         }

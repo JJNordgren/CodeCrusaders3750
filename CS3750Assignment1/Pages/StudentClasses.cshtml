@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{searchString?}"
 @model CS3750Assignment1.Pages.StudentClassesModel
 @{
     ViewData["Title"] = "Register Classes";
@@ -9,6 +9,16 @@
     <div class="text-center mb-4">
         <h1>Your Classes</h1>
     </div>
+
+    <form method="get">
+        <p>
+            <select asp-for="CourseDepartment" asp-items="Model.Department">
+                <option value="">All</option>
+            </select>
+            <label>Name: <input type="text" asp-for="SearchString" /></label>
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
 
     <!-- Table for listing classes -->
     @if (Model.Course != null && Model.Course.Any())
@@ -63,7 +73,6 @@
         <p>No courses available.</p>
     }
 </div>
-
 
 
 
