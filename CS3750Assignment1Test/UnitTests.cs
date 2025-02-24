@@ -1,0 +1,153 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.EntityFrameworkCore;
+using CS3750Assignment1.Data;
+using CS3750Assignment1.Models;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CS3750Assignment1Test
+{
+    [TestClass]
+    public class UnitTests
+    {
+        [TestMethod]
+        public void AddCourseTest()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+               .UseInMemoryDatabase("InMemoryDb");
+
+            // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+                // Arrange: Set up test data
+
+                int N = db.Courses.Count();
+
+                Course course = new Course
+                {
+                    Department = "CS",
+                    Name = "1010",
+                    ClassNumber = "1010",
+                    CreditHours = 3,
+                    Capacity = 30,
+                    Location = "NB 101",
+                    StartTime = DateTime.Parse("08:00 AM").TimeOfDay,
+                    EndTime = DateTime.Parse("09:00 PM").TimeOfDay,
+                    InstructorId = 17, // Random Number, Null variable
+                    MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
+                };
+
+                db.Courses.Add(course);
+
+                // Saves it to the database
+                db.SaveChanges();
+
+                int M = db.Courses.Count();
+
+                // Assert: Verify expected results
+                Assert.IsTrue(M == N + 1);
+            }
+        }
+
+        [TestMethod]
+        public async Task StudentRegisterCourse()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()); // Use unique database name
+            //.UseInMemoryDatabase("InMemoryDb");
+
+          // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But the data is empty
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+                int N = db.Registrations.Count();
+
+                //Recogniz
+                var userId = 19; // Random Number
+                var courseId = 11; // Random Number
+
+                // This variables is null becasue the database is empty
+                var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
+                //var course = new Course {
+                //  department = "CS",
+                //  Name = "1010",
+                //  ClassNumber = "1010",
+                //  CreditHours = 3,
+                //  Capacity = 30,
+                //  Location = "NB 101",
+                //  MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
+                //  StartTime = DateTime.Parse("08:00 AM").TimeOfDay,
+                //  EndTime = DateTime.Parse("09:00 PM").TimeOfDay,
+                //  Assignments = new List<Assignment>(),
+                //  InstructorId = 17, // Random Number, Null variable
+                //  Instructor = instructor // instructor will be the variable for the instructor that you create, similar to student below
+                //};
+
+                // Required Variables:
+                //public string Department { get; set; }
+                //string Name
+                //string ClassNumber
+                //int CreditHours { get; set; }
+                //int Capacity { get; set; }
+                //string Location { get; set; }
+                //List<string> MeetingDays { get; set; }
+                //TimeSpan StartTime { get; set; }
+                //TimeSpan EndTime { get; set; }
+                //ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
+                //int InstructorId { get; set; }
+                // User Instructor { get; set; }
+
+                // This variables is null becasue the database is empty
+                var student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                // To add a student variable use similar code to below
+                //var newStudent = new User {
+                //    email = "a@a.com",
+                //    firstName = "John",
+                //    lastName = "Doe",
+                //    password = "password",
+                //    BirthDate = DateTime.Parse("01/01/2000"),
+                //    userType = 'S',
+                //};
+                // Required fields for User are below add them to the newStudent variable above if you need a new student
+                //email 
+                //firstName
+                //lastName 
+                //[Required]
+                //[MinLength(8, ErrorMessage = "Password must be at least 8 characters long.")]
+                //password
+                //[Required]
+                //[MinAge(16, ErrorMessage = "You must be at least 16 years old.")]
+                // BirthDate (DateTime) 
+                //userType 
+
+
+                var registration = new Registration
+                {
+                    UserId = userId,
+                    Student = student,
+                    CourseId = courseId,
+                    Course = course
+                };
+
+                db.Registrations.Add(registration);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Assert.Fail($"Error saving registration: {ex.Message}");
+                }
+
+
+                int M = db.Registrations.Count();
+
+                // Assert: Verify expected results
+                Assert.IsTrue(M == N + 1);
+            }
+        }
+    }
+}
