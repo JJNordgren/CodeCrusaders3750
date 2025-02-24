@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,22 +10,36 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace CS3750Assignment1.Pages
 {
     public class DashboardModel : PageModel
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
+        private readonly JsonSerializerOptions _jsonOptions;
+        private readonly ILogger<DashboardModel> _logger; //FIX ME DELETE after testing
 
-        public DashboardModel(CS3750Assignment1.Data.ApplicationDbContext context)
+        public DashboardModel(CS3750Assignment1.Data.ApplicationDbContext context, ILogger<DashboardModel> logger) //FIXME DELETE after testing ", ILogger<DashboardModel> logger"
         {
             _context = context;
+            _logger = logger; //FIX ME DELETE ME AFTER TESTING
+
+            // Initialize lists if they are null
+            Course = Course ?? new List<Course>();
+            Assignments = Assignments ?? new List<Assignment>();
+            Registrations = Registrations ?? new List<Registration>();
+
+            // Initialize JsonSerializerOptions with ReferenceHandler.Preserve
+            _jsonOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = true
+            };
         }
 
         public IList<Course> Course { get;set; } = default!;
-
         public IList<Registration> Registrations { get; set; } = default!;
-
         public IList<Assignment> Assignments { get; set; } = default!;
 
 
@@ -40,17 +56,42 @@ namespace CS3750Assignment1.Pages
                 return RedirectToPage("/LoginPage");
             }
 
-            if (userType == "T")
+            if (userType == "T") 
             {
-                // Load courses for instructors
-                Course = await _context.Courses
+                // Check if the instructor's courses have changed
+                var instructorCourseChanged = HttpContext.Session.GetString("InstructorCourseChanged"); //This only loads when Instructor logs in, when a instructor creates or deletes a course by checking flag
+                if (instructorCourseChanged == "true")
+                {
+                    // Load courses for instructors
+                    Course = await _context.Courses
                     .Where(c => c.InstructorId == userId)
                     .ToListAsync();
+
+                    // Store the data in the session
+                    HttpContext.Session.SetString("InstructorCourses", JsonSerializer.Serialize(Course, _jsonOptions));
+
+                    // Set the flag to false after loading the data
+                    HttpContext.Session.SetString("InstructorCourseChanged", "false");
+
+                }
+                else
+                {
+                    // Load the data from the previous session
+                    var storedCourses = HttpContext.Session.GetString("InstructorCourses");
+                    if (!string.IsNullOrEmpty(storedCourses))
+                    {
+                        Course = JsonSerializer.Deserialize<List<Course>>(storedCourses, _jsonOptions);
+                    }
+                }
             }
-            else if (userType == "S")
+            else if (userType == "S") 
             {
-                // Load student's registered courses
-                Registrations = await _context.Registrations
+                // Check if the student's courses have changed
+                var studentCourseChanged = HttpContext.Session.GetString("StudentCourseChanged"); //This only loads when Student logs in, when a student registers or drops a course
+                if (studentCourseChanged == "true")
+                {
+                    // Load student's registered courses
+                    Registrations = await _context.Registrations
                     .Where(r => r.UserId == userId)
                     .ToListAsync();
 
@@ -65,9 +106,36 @@ namespace CS3750Assignment1.Pages
 
                 // Retrieve assignments for those courses
                 Assignments = await _context.Assignment
-                    .Where(a => courseIds.Contains(a.CourseId) && a.DueDate >= DateTime.Now) // <-- Fix: Get assignments from all registered courses
+                    .Where(a => courseIds.Contains(a.CourseId) && a.DueDate >= DateTime.Now)
                     .OrderBy(a => a.DueDate)
                     .ToListAsync();
+
+                    // Store the data in the session
+                    HttpContext.Session.SetString("StudentCourses", JsonSerializer.Serialize(Course, _jsonOptions));
+                    HttpContext.Session.SetString("StudentAssignments", JsonSerializer.Serialize(Assignments, _jsonOptions));
+
+                    // Set the flag to false after loading the data
+                    HttpContext.Session.SetString("StudentCourseChanged", "false");
+                }
+                else //FIXME error is in here, when student doesnt add/drop a course and goes back to dashboard
+                {
+                    // Load the data from the previous session
+                    var storedCourses = HttpContext.Session.GetString("StudentCourses"); //FIXME data isn't being loaded into courses?
+                    var storedAssignments = HttpContext.Session.GetString("StudentAssignments");
+
+                    Console.WriteLine($"Stored Courses: {storedCourses}"); // Debugging
+                    Console.WriteLine($"Stored Assignments: {storedAssignments}"); // Debugging
+
+                    if (!string.IsNullOrEmpty(storedCourses))
+                    {
+                        Course = JsonSerializer.Deserialize<List<Course>>(storedCourses, _jsonOptions); //FIXME The courses data is not being loaded to dashboard from previous session
+                    }
+                    
+                    if (!string.IsNullOrEmpty(storedAssignments))
+                    {
+                        Assignments = JsonSerializer.Deserialize<List<Assignment>>(storedAssignments, _jsonOptions);
+                    }
+                }
             }
 
             return Page();
@@ -91,16 +159,6 @@ namespace CS3750Assignment1.Pages
             {
                 return true;
             }
-            
         }
-
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-
-
-        //    HttpContext.Session.SetInt32("CourseId", user.Id);
-
-        //    return RedirectToPage("/ClassDash");
-        //}
     }
 }

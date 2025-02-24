@@ -68,6 +68,21 @@ namespace CS3750Assignment1.Pages
                 HttpContext.Session.SetString("PicturePath", user.picturePath.ToString());
             }
 
+            // Initialize the session flags to "false"
+            HttpContext.Session.SetString("InstructorCourseChanged", "false");
+            HttpContext.Session.SetString("StudentCourseChanged", "false");
+
+
+            // Set the session flag when a student or instructor logs in
+            if (user.userType == 'S')
+            {
+                HttpContext.Session.SetString("StudentCourseChanged", "true");
+            }
+            else if (user.userType == 'T')
+            {
+                HttpContext.Session.SetString("InstructorCourseChanged", "true");
+            }
+
             return RedirectToPage("/Dashboard");
         }
     }

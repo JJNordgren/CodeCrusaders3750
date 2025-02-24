@@ -51,6 +51,8 @@ namespace CS3750Assignment1.Pages
 
             return Page();
         }
+        // ... other code ...
+
         public async Task<JsonResult> OnGetGetEventsAsync()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -137,13 +139,15 @@ namespace CS3750Assignment1.Pages
                                 var formattedDueDate = assignment.DueDate.ToString("yyyy-MM-dd");
                                 var day = new System.TimeSpan(1, 0, 0, 0);
                                 var formattedDueDatePlusADay = assignment.DueDate.Add(day).ToString("yyyy-MM-dd");
+                                HttpContext.Session.SetInt32("UserId", userId.Value);
+                                HttpContext.Session.SetString("UserType", userType);
                                 events.Add(new
                                 {
                                     title = $"{course.Department} {course.ClassNumber}\n{assignment.Title}",
                                     start = formattedDueDate, // Use only the date part FIXME can't get this to work, makes everything disappear off calendar
                                     end = formattedDueDatePlusADay,
                                     allDay = true, // Set allDay to true
-                                    url = $"/AssignmentDetails?id={assignment.Id}",
+                                    url = $"/AssignmentSubmission?id={assignment.Id}",
                                     isAssignment = true // This is an assignment
                                 });
                             }

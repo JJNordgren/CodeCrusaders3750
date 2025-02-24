@@ -69,6 +69,9 @@ namespace CS3750Assignment1.Pages
             
             await _context.SaveChangesAsync();
 
+            // Set the session flag when an instructor adds or deletes a course
+            HttpContext.Session.SetString("InstructorCourseChanged", "true");
+
             return RedirectToPage("./InstructorClasses");
         }
     }
