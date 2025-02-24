@@ -1,7 +1,10 @@
 using CS3750Assignment1.Models;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Stripe.V2;
 using System.Xml.Linq;
 
 // Add necessary using directive for ReceiptDetails
@@ -21,6 +24,7 @@ namespace CS3750Assignment1.Pages
         public long amount { get; set; } = default!;
 
         public double totalAmountPaid { get; set; }
+        public string ReceiptPath { get; set; } = default!;
 
 
         public SuccessModel(CS3750Assignment1.Data.ApplicationDbContext context)
@@ -66,7 +70,7 @@ namespace CS3750Assignment1.Pages
             Tuition = Tuition - totalAmountPaid;
 
             // Generate and display the receipt
-            //GenerateReceipt(user, amount);
+            ReceiptPath = GenerateReceipt(user, amount);
 
             return Page();
         }
@@ -90,37 +94,42 @@ namespace CS3750Assignment1.Pages
             return credits;
         }
 
-        //// Add the GenerateReceipt method to create and display the receipt
-        //private void GenerateReceipt(User user, long amount)
-        //{
-        //    // Create an instance of ReceiptDetails and populate it with necessary information
-        //    var receiptDetails = new ReceiptDetails
-        //    {
-        //        AccountType = "Credit",
-        //        ApplicationCryptogram = "9F26",
-        //        ApplicationPreferredName = "Visa",
-        //        AuthorizationCode = "123456",
-        //        AuthorizationResponseCode = "00",
-        //        CVM = "PIN",
-        //        DedicatedFileName = "A0000000031010",
-        //        TSI = "F800",
-        //        TVR = "0000008000"
-        //    };
+        // Add the GenerateReceipt method to create and display the receipt
+        private string GenerateReceipt(User user, long amount) { 
+            var uniqueFileName = Guid.NewGuid().ToString() + "_receipt.pdf";
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Receipts");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-        //    // Display receipt details (this is a simple example, you can expand it as needed)
-        //    Console.WriteLine("Receipt Details:");
-        //    Console.WriteLine($"Account Type: {receiptDetails.AccountType}");
-        //    Console.WriteLine($"Application Cryptogram: {receiptDetails.ApplicationCryptogram}");
-        //    Console.WriteLine($"Application Preferred Name: {receiptDetails.ApplicationPreferredName}");
-        //    Console.WriteLine($"Authorization Code: {receiptDetails.AuthorizationCode}");
-        //    Console.WriteLine($"Authorization Response Code: {receiptDetails.AuthorizationResponseCode}");
-        //    Console.WriteLine($"CVM: {receiptDetails.CVM}");
-        //    Console.WriteLine($"Dedicated File Name: {receiptDetails.DedicatedFileName}");
-        //    Console.WriteLine($"TSI: {receiptDetails.TSI}");
-        //    Console.WriteLine($"TVR: {receiptDetails.TVR}");
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                Document document = new Document(PageSize.A4, 25, 25, 30, 30);
+            PdfWriter writer = PdfWriter.GetInstance(document, fs);
+            document.Open();
+                Font boldLargeFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
 
-        //    // You can also add code here to render the receipt details in the view if needed
-        //}
+                // Create a chunk with the bold and large font
+                Chunk boldLargeChunk = new Chunk("PAYMENT RECEIPT", boldLargeFont);
+
+                // Add the chunk to the document
+                document.Add(boldLargeChunk);
+                document.Add(new Paragraph(""));
+                document.Add(new Paragraph("Tuition Payment"));
+                document.Add(new Paragraph("Customer Name: " + user.firstName + " " + user.lastName));
+                document.Add(new Paragraph("Customer Phone Number: " + user.phone));
+                document.Add(new Paragraph("Customer Email: " + user.email));
+                document.Add(new Paragraph("Amount Paid: $" + amount));
+                document.Add(new Paragraph("Remaining Balance: $" + (Tuition - totalAmountPaid)));
+
+                document.Close();
+                writer.Close();
+            }
+
+            return uniqueFileName;
+        }
 
     }
 }
