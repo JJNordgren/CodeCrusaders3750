@@ -41,7 +41,14 @@
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AssignmentType)
+                    @if (item.AssignmentType == 'T')
+                    {
+                        @:Text Box
+                    }
+                    @if (item.AssignmentType == 'F')
+                    {
+                        @:File Upload
+                    }
             </td>
             @if (HttpContext.Session.GetString("UserType") == "T")
             {
