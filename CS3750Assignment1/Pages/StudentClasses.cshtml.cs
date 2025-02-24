@@ -43,39 +43,42 @@ namespace CS3750Assignment1.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+            // Retrieve the user ID from the session.
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                // If no session, redirect to the login page.
+                return RedirectToPage("/LoginPage");
+            }
 
-            // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from m in _context.Courses
-                                            orderby m.Department
-                                            select m.Department;
+            await LoadCoursesAsync(userId.Value);
 
+            // Use LINQ to get list of departments.
+            IQueryable<string> departmentQuery = from m in _context.Courses
+                                                 orderby m.Department
+                                                 select m.Department;
+
+            // Get all courses initially.
             var courses = from m in _context.Courses
-                         select m;
+                          select m;
 
+            // Apply search string filter.
             if (!string.IsNullOrEmpty(SearchString))
             {
                 courses = courses.Where(s => s.Name.Contains(SearchString));
             }
 
+            // Apply department filter.
             if (!string.IsNullOrEmpty(CourseDepartment))
             {
                 courses = courses.Where(x => x.Department == CourseDepartment);
             }
 
-            Department = new SelectList(await genreQuery.Distinct().ToListAsync());
+            // Set the Department select list and Course list.
+            Department = new SelectList(await departmentQuery.Distinct().ToListAsync());
             Course = await courses.ToListAsync();
 
-
-            // Retrieve the user ID from the session
-            var userId = HttpContext.Session.GetInt32("UserId");
-
-            if (userId == null)
-            {
-                // If no session, redirect to the login page
-                return RedirectToPage("/LoginPage");
-            }
-
-            await LoadCoursesAsync(userId.Value);
+            
             return Page();
         }
 

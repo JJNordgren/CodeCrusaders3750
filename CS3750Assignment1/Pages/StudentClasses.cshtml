@@ -10,13 +10,11 @@
         <h1>Your Classes</h1>
     </div>
 
-    <form>
+    <form method="get">
         <p>
-            
-            <select asp-for="CourseDepartment" asp-items=" Model.Department">
+            <select asp-for="CourseDepartment" asp-items="Model.Department">
                 <option value="">All</option>
             </select>
-            
             <label>Name: <input type="text" asp-for="SearchString" /></label>
             <input type="submit" value="Filter" />
         </p>
@@ -75,7 +73,6 @@
         <p>No courses available.</p>
     }
 </div>
-
 
 
 
