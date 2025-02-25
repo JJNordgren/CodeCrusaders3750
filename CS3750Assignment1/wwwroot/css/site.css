@@ -84,15 +84,33 @@ body {
     background-color: white;
 }
 .form-popup {
-  display: none;
-  position: fixed;
-  top: 80px; /* Adjust this value as needed to place the popup below the navbar */
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-  padding: 1rem;
-  width: 300px;
-  max-height: calc(100vh - 100px); /* Ensure the popup doesn't go off the page */
-  overflow-y: auto; /* Make the popup content scrollable */
+    display: none;
+    position: fixed;
+    top: 80px; /* Adjust this value as needed to place the popup below the navbar */
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    padding: 1rem;
+    width: 300px;
+    max-height: calc(100vh - 100px); /* Ensure the popup doesn't go off the page */
+    overflow-y: auto; /* Make the popup content scrollable */
+}
+
+.titleNGrade {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        ".  title   grade";
+    justify-content: center;
+}
+
+.title {
+    grid-area: title;
+}
+
+.grade {
+    grid-area: grade;
+}

@@ -21,6 +21,13 @@ namespace CS3750Assignment1.Pages
 
         public IList<Assignment> Assignment { get;set; } = default!;
 
+        public IList<Submission> Submission { get; set; } = default!;
+
+        public IList<Submission> StudentSubmission { get; set; } = default!;
+
+        public double CurrentGrade { get; set; } = 0;
+        public double TotalPoints { get; set; } = 0;
+
         /// <summary>
         /// We're going to need this in at least two places
         /// </summary>
@@ -63,11 +70,35 @@ namespace CS3750Assignment1.Pages
                 .Select(c => new { c.Department, c.ClassNumber })
                 .FirstOrDefaultAsync();
 
+            // Get all assignments for this course
             Assignment = await _context.Assignment
                 .Where(a => a.CourseId == courseId)
                 .Include(a => a.Course)
                 .Include(a => a.Instructor)
                 .ToListAsync();
+
+            // Get all submissions of all students for assignments in the course
+            var assignmentIDs = Assignment.Select(x => x.Id).ToList();
+            Submission = await _context.Submissions
+                .Where(x => assignmentIDs.Contains(x.AssignmentId))
+                .ToListAsync();
+
+            // Get all submissions for the current user
+            StudentSubmission = Submission.Where(x => x.UserId == userId).ToList();
+            // Some might not yet be graded. For calculations of grades, let's remove the assignments that haven't been graded
+            var GradedSubmissions = StudentSubmission.Where(x => x.Grade != null).ToList();
+            TotalPoints = GradedSubmissions.Sum(x => x.TotalPoints);
+            // There is a chance that between non-submissions and non-graded assignments, students might not have a grade in the class.
+            if (GradedSubmissions.Count > 0)
+            {
+                // Calculating grades
+                double messyGrade = (GradedSubmissions.Sum(x => x.Grade ?? 0) / TotalPoints) * 100;
+                CurrentGrade = Math.Round(messyGrade, 2);
+            }
+            else
+            { // We check in cshtml that the grade is greater than 0, that's how we only display a total grade if there is at least one graded assignment
+                CurrentGrade = -1;
+            }
 
             CourseName = $"{course.Department} {course.ClassNumber}";
 
