@@ -69,41 +69,48 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Assignment) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DueDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AssignmentType)
-                </td>
-                @if (HttpContext.Session.GetString("UserType") == "T")
-                {
-                    <td>
-                        <a class="btn btn-primary btn-sm" asp-page="/AssignmentGrading/ReviewSubmissions" asp-route-assignmentId="@item.Id">Submissions</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" asp-page="/AssignmentButtons/EditAssignment" asp-route-id="@item.Id">Edit</a> |
-                        <a class="btn btn-info btn-sm" asp-page="/AssignmentButtons/AssignmentDetails" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger btn-sm" asp-page="/AssignmentButtons/DeleteAssignment" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-                @if (HttpContext.Session.GetString("UserType") == "S")
-                {
-                    var submission = Model.StudentSubmission.FirstOrDefault(s => s.AssignmentId == item.Id);
-                    @if (submission != null) {
-                        <td>@((@submission.Grade) != null ? submission.Grade : "?" ) / @submission.TotalPoints</td>
+@foreach (var item in Model.Assignment) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                    @if (item.AssignmentType == 'T')
+                    {
+                        @:Text Box
                     }
-                    else {
-                        <td>N/A</td>
+                    @if (item.AssignmentType == 'F')
+                    {
+                        @:File Upload
                     }
-                    <td>
-                        <a class="btn btn-primary btn-sm" asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
-                    </td>
+            </td>
+            @if (HttpContext.Session.GetString("UserType") == "T")
+            {
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-page="/AssignmentGrading/ReviewSubmissions" asp-route-assignmentId="@item.Id">Submissions</a>
+                </td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-page="/AssignmentButtons/EditAssignment" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-info btn-sm" asp-page="/AssignmentButtons/AssignmentDetails" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger btn-sm" asp-page="/AssignmentButtons/DeleteAssignment" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+            @if (HttpContext.Session.GetString("UserType") == "S")
+            {
+                var submission = Model.StudentSubmission.FirstOrDefault(s => s.AssignmentId == item.Id);
+                @if (submission != null) {
+                    <td>@((@submission.Grade) != null ? submission.Grade : "?" ) / @submission.TotalPoints</td>
                 }
+                else {
+                    <td>N/A</td>
+                }
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
+                </td>
+            }
         </tr>
 }
     </tbody>
