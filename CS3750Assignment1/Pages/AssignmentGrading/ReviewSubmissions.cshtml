@@ -63,9 +63,8 @@
             }
         </td>
         <td>
-            @if (submission.Grade.HasValue)
-            {
-                @submission.Grade
+            @if (submission.Grade.HasValue) { 
+                @(submission.Grade + "/" + submission.TotalPoints) 
             }
         </td>
         <td>

@@ -41,6 +41,10 @@ namespace CS3750Assignment1.Pages
         // This flag tells the view whether to display the submission details or the form.
         public bool SubmissionCompleted { get; set; } = false;
 
+        // An array to be used to make the pie chart      A   B  C  D  E
+        public int[] NumStudentsPerGrade { get; set; } = [0, 0, 0, 0, 0];
+        public IList<Submission> Submissions { get; set; } = new List<Submission>();
+
         // OnGetAsync checks if a submission exists for the current user and assignment.
         public async Task<IActionResult> OnGetAsync(int? id, bool resubmit = false)
         {
@@ -76,16 +80,38 @@ namespace CS3750Assignment1.Pages
 
             if (!resubmit)
             {
-                // Check for an existing submission.
-                var existingSubmission = await _context.Submissions
-                    .Where(s => s.AssignmentId == assignmentId && s.UserId == userId.Value)
+                // Get all submissions: needed for displaying pie chart
+                List<Submission> allSubmissions = await _context.Submissions.Where(s => s.AssignmentId == assignmentId).ToListAsync();
+                List<Submission> gradedSubmissions = allSubmissions.Where(s => s.Grade != null).ToList();
+
+                // Check for an existing submission for this student
+                var existingSubmission = allSubmissions
+                    .Where(s => s.UserId == userId.Value)
                     .OrderByDescending(s => s.SubmissionTime)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefault();
 
                 if (existingSubmission != null)
                 {
                     Submission = existingSubmission;
                     SubmissionCompleted = true;
+
+                    // If the student has a submission, make the pie chart
+                    List<double> listOfGrades = new List<double>();
+                    foreach (var s in gradedSubmissions)
+                    {
+                        // First, let's turn the grade into a percentage:
+                        double percentGrade = ((double)s.Grade! / s.TotalPoints) * 100;
+                        listOfGrades.Add(percentGrade);
+
+                        // Now count how many grades fall under each category
+                        // [ A, B, C, D, E ]
+                        // [ 0, 1, 2, 3, 4 ]
+                        NumStudentsPerGrade[0] = listOfGrades.Count(x => x >= 90);
+                        NumStudentsPerGrade[1] = listOfGrades.Count(x => x >= 80 && x < 90);
+                        NumStudentsPerGrade[2] = listOfGrades.Count(x => x >= 70 && x < 80);
+                        NumStudentsPerGrade[3] = listOfGrades.Count(x => x >= 64 && x < 70);
+                        NumStudentsPerGrade[4] = listOfGrades.Count(x => x < 64);
+                    }
                 }
                 else
                 {

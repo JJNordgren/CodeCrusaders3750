@@ -5,9 +5,40 @@
     ViewData["Title"] = Model.CourseName;
 }
 
+<HeadContent>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Grade', 'Number of Students'],
+                ['A', @Model.OverallGrades[0]],
+                ['B', @Model.OverallGrades[1]],
+                ['C', @Model.OverallGrades[2]],
+                ['D', @Model.OverallGrades[3]],
+                ['E', @Model.OverallGrades[4]]
+            ]);
+
+            var options = {
+                height: 400,
+                title: 'Overall Class Grade',
+                colors: ['#28A745', '#9ACD32', '#EAB308', '#FF8C00', '#DC3545'],
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</HeadContent>
+
 <div class="text-center mb-4 mt-4 titleNGrade">
     <h1 class="title">@Model.CourseName</h1>
-    @if (@Model.CurrentGrade >= 0) {
+    @if (@Model.CurrentGrade >= 0 && HttpContext.Session.GetString("UserType") == "S")
+    {
         <h3 class="grade">Grade: @Model.CurrentGrade%</h3>
     }
 </div>
@@ -77,3 +108,5 @@
 }
     </tbody>
 </table>
+
+<div id="donutchart"></div>

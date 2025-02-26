@@ -25,8 +25,9 @@ namespace CS3750Assignment1.Pages
 
         public IList<Submission> StudentSubmission { get; set; } = default!;
 
-        public double CurrentGrade { get; set; } = 0;
+        public double? CurrentGrade { get; set; } = null;
         public double TotalPoints { get; set; } = 0;
+        public int[] OverallGrades { get; set; } = new int[5];
 
         /// <summary>
         /// We're going to need this in at least two places
@@ -83,22 +84,53 @@ namespace CS3750Assignment1.Pages
                 .Where(x => assignmentIDs.Contains(x.AssignmentId))
                 .ToListAsync();
 
-            // Get all submissions for the current user
-            StudentSubmission = Submission.Where(x => x.UserId == userId).ToList();
-            // Some might not yet be graded. For calculations of grades, let's remove the assignments that haven't been graded
-            var GradedSubmissions = StudentSubmission.Where(x => x.Grade != null).ToList();
-            TotalPoints = GradedSubmissions.Sum(x => x.TotalPoints);
-            // There is a chance that between non-submissions and non-graded assignments, students might not have a grade in the class.
-            if (GradedSubmissions.Count > 0)
+            // Setting up variables for accumulating the total scores of all students who have submitted assignments
+            var studentIds = Submission.Select(x => x.UserId).Distinct().ToList();
+            List<double> listOfGrades = new List<double>();
+            foreach (var studentId in studentIds)
             {
-                // Calculating grades
-                double messyGrade = (GradedSubmissions.Sum(x => x.Grade ?? 0) / TotalPoints) * 100;
-                CurrentGrade = Math.Round(messyGrade, 2);
+                // Get all submissions for the student
+                var submission = Submission.Where(x => x.UserId == studentId).ToList();
+
+                // Some might not yet be graded. For calculations of grades, let's remove the assignments that haven't been graded
+                var GradedSubmissions = submission.Where(x => x.Grade != null).ToList();
+                var sumOfPoints = GradedSubmissions.Sum(x => x.TotalPoints);
+                var resultingGrade = 0.0;
+
+                // There is a chance that between non-submissions and non-graded assignments, students might not have a grade in the class.
+                if (GradedSubmissions.Count > 0)
+                {
+                    // Calculating grades:
+                    // "messyGrade" because it isn't rounding yet
+                    // ! is used to tell the compiler that we know it's not null, but it doesn't
+                    double messyGrade = ((double)GradedSubmissions.Sum(x => x.Grade)! / sumOfPoints) * 100;
+                    resultingGrade = Math.Round(messyGrade, 2);
+                }
+                else
+                { // We check in cshtml that the grade is greater than 0, that's how we only display a total grade if there is at least one graded assignment
+                    resultingGrade = -1;
+                }
+
+                // Only add the calculated grade to the list we'll count from for the overall grade chart if it was a valid grade
+                if (resultingGrade != -1)
+                {
+                    listOfGrades.Add(resultingGrade);
+                }
+
+                // And grab the data for the user to be displayed on the class dash
+                if (studentId == userId)
+                {
+                    StudentSubmission = submission;
+                    TotalPoints = sumOfPoints;
+                    CurrentGrade = resultingGrade;
+                }
             }
-            else
-            { // We check in cshtml that the grade is greater than 0, that's how we only display a total grade if there is at least one graded assignment
-                CurrentGrade = -1;
-            }
+
+            OverallGrades[0] = listOfGrades.Count(x => x >= 90);
+            OverallGrades[1] = listOfGrades.Count(x => x >= 80 && x < 90);
+            OverallGrades[2] = listOfGrades.Count(x => x >= 70 && x < 80);
+            OverallGrades[3] = listOfGrades.Count(x => x >= 64 && x < 70);
+            OverallGrades[4] = listOfGrades.Count(x => x < 64);
 
             CourseName = $"{course.Department} {course.ClassNumber}";
 
