@@ -12,9 +12,24 @@ namespace CS3750Assignment1Test
     [TestClass]
     public class UnitTests
     {
+
+        /*
+        
+        PUT THIS IN EACH [TestMethod] you create, should work as is
+
+        DbContextOptions<ApplicationDbContext> options = new DbContextOptions<ApplicationDbContext>();
+        DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
+        SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;", null);
+        var _context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
+        
+         */
+
+
+
         [TestMethod]
         public void AddCourseTest()
         {
+
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                .UseInMemoryDatabase("InMemoryDb");
 
