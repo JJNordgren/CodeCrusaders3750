@@ -5,8 +5,42 @@
     ViewData["Title"] = Model.CourseName;
 }
 
-<div class="text-center mb-4 mt-4">
-    <h1>@Model.CourseName</h1>
+<HeadContent>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Grade', 'Number of Students'],
+                ['A', @Model.OverallGrades[0]],
+                ['B', @Model.OverallGrades[1]],
+                ['C', @Model.OverallGrades[2]],
+                ['D', @Model.OverallGrades[3]],
+                ['E', @Model.OverallGrades[4]]
+            ]);
+
+            var options = {
+                height: 400,
+                title: 'Overall Class Grade',
+                colors: ['#28A745', '#9ACD32', '#EAB308', '#FF8C00', '#DC3545'],
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</HeadContent>
+
+<div class="text-center mb-4 mt-4 titleNGrade">
+    <h1 class="title">@Model.CourseName</h1>
+    @if (@Model.CurrentGrade >= 0 && HttpContext.Session.GetString("UserType") == "S")
+    {
+        <h3 class="grade">Grade: @Model.CurrentGrade%</h3>
+    }
 </div>
 
 @if (HttpContext.Session.GetString("UserType") == "T")
@@ -28,6 +62,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Assignment[0].AssignmentType)
             </th>
+            @if (HttpContext.Session.GetString("UserType") == "S") {
+                <th>Grade</th>
+            }
             <th></th>
         </tr>
     </thead>
@@ -41,7 +78,14 @@
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AssignmentType)
+                    @if (item.AssignmentType == 'T')
+                    {
+                        @:Text Box
+                    }
+                    @if (item.AssignmentType == 'F')
+                    {
+                        @:File Upload
+                    }
             </td>
             @if (HttpContext.Session.GetString("UserType") == "T")
             {
@@ -49,18 +93,43 @@
                     <a class="btn btn-primary btn-sm" asp-page="/AssignmentGrading/ReviewSubmissions" asp-route-assignmentId="@item.Id">Submissions</a>
                 </td>
                 <td>
-                    <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-warning btn-sm" asp-page="/AssignmentButtons/EditAssignment" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-info btn-sm" asp-page="/AssignmentButtons/AssignmentDetails" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger btn-sm" asp-page="/AssignmentButtons/DeleteAssignment" asp-route-id="@item.Id">Delete</a>
                 </td>
             }
             @if (HttpContext.Session.GetString("UserType") == "S")
             {
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
-                </td>
+                    @if (HttpContext.Session.GetString("UserType") == "S")
+
+                    {
+
+                        var submission = Model.StudentSubmission.FirstOrDefault(s => s.AssignmentId == item.Id);
+                        @if (submission != null)
+                        {
+                            <td>@(submission.Grade != null ? submission.Grade.ToString() : "?") / @submission.TotalPoints</td>
+                        }
+
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                        <td>
+                            <!-- Submit button is always available -->
+                            <a class="btn btn-primary btn-sm" asp-page="/AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
+                            @if (submission != null)
+
+                            {
+                                <!-- Review button appears only if a submission exists -->
+                                <a class="btn btn-secondary btn-sm ms-1" asp-page="/ReviewStudentSubmission/ReviewSubmission" asp-route-id="@item.Id">Review</a>
+                            }
+                        </td>
+                    }
+
             }
         </tr>
 }
     </tbody>
 </table>
+
+<div id="donutchart"></div>

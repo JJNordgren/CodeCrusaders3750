@@ -1,0 +1,72 @@
+﻿@page "{id:int}"
+@model CS3750Assignment1.Pages.ReviewStudentSubmission.ReviewSubmissionModel
+@{
+    ViewData["Title"] = "Review Submission";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header text-center bg-secondary text-white">
+            <h2>Review Submission</h2>
+        </div>
+        <div class="card-body">
+            <!-- Assignment Information -->
+            <h3 class="card-title">@Model.Assignment.Title</h3>
+            <p class="card-text">@Model.Assignment.Description</p>
+            <p><strong>Due Date:</strong> @Model.Assignment.DueDate.ToString("MM/dd/yyyy")</p>
+            <p><strong>Max Points:</strong> @Model.Assignment.MaxPoints</p>
+
+            @if (Model.Submission != null)
+            {
+                @if (Model.Assignment.AssignmentType == 'T')
+                {
+                    <div class="mb-3">
+                        <h5>Your Answer:</h5>
+                        <p>@Model.Submission.TextSubmission</p>
+                    </div>
+                }
+                else if (Model.Assignment.AssignmentType == 'F')
+                {
+                    <div class="mb-3">
+                        <h5>Uploaded File(s):</h5>
+                        @if (Model.Submission.FilePath != null && Model.Submission.FilePath.Any())
+                        {
+                            foreach (var file in Model.Submission.FilePath)
+                            {
+                                <p>
+                                    <!-- Display the original file name without the GUID prefix -->
+                                    <a href="~/FileSubmissions/@file" target="_blank">@Model.DisplayFileName(file)</a>
+                                </p>
+                            }
+                        }
+                        else
+                        {
+                            <p>No file uploaded.</p>
+                        }
+                    </div>
+                }
+                <!-- this shows the grade out of total points unless not graded, then displays Not Graded -->
+                <div class="mb-3">
+                    <h5>Score:</h5>
+                    @if (Model.Submission.Grade.HasValue)
+                    {
+                        <p>@Model.Submission.Grade / @Model.Submission.TotalPoints</p>
+                    }
+                    else
+                    {
+                        <p>Not Graded</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="mb-3">
+                    <p>No submission found.</p>
+                </div>
+            }
+        </div>
+        <div class="card-footer text-center">
+            <a class="btn btn-primary" asp-page="/ClassDash">Return to Course</a>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,35 @@
     ViewData["Title"] = "Submit Assignment";
 }
 
+<HeadContent>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Grade', 'Number of Students'],
+                ['A', @Model.NumStudentsPerGrade[0]],
+                ['B', @Model.NumStudentsPerGrade[1]],
+                ['C', @Model.NumStudentsPerGrade[2]],
+                ['D', @Model.NumStudentsPerGrade[3]],
+                ['E', @Model.NumStudentsPerGrade[4]]
+            ]);
+
+            var options = {
+                height: 400,
+                title: 'Assignment Grade',
+                colors: ['#28A745', '#9ACD32', '#EAB308', '#FF8C00', '#DC3545']
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</HeadContent>
+
 <div class="container mt-4">
     <div class="card">
         <!-- Changed header background to a dark blue (or use bg-secondary as needed) -->
@@ -104,6 +133,19 @@
         </div>
     </div>
 </div>
+
+@if ((@Model.NumStudentsPerGrade[0] == 0)
+       && @Model.NumStudentsPerGrade[1] == 0
+       && @Model.NumStudentsPerGrade[2] == 0
+       && @Model.NumStudentsPerGrade[3] == 0
+       && @Model.NumStudentsPerGrade[4] == 0)
+{
+    <div></div>
+}
+else
+{
+    <div id="piechart" style="width: 900px; height: 400px;"></div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
