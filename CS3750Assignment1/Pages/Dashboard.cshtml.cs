@@ -84,14 +84,10 @@ namespace CS3750Assignment1.Pages
                     }
                 }
             }
-            else if (userType == "S") 
+            else if (userType == "S")
             {
-                // Check if the student's courses have changed
-                var studentCourseChanged = HttpContext.Session.GetString("StudentCourseChanged"); //This only loads when Student logs in, when a student registers or drops a course
-                if (studentCourseChanged == "true")
-                {
-                    // Load student's registered courses
-                    Registrations = await _context.Registrations
+                // Load student's registered courses
+                Registrations = await _context.Registrations
                     .Where(r => r.UserId == userId)
                     .ToListAsync();
 
@@ -110,33 +106,30 @@ namespace CS3750Assignment1.Pages
                     .OrderBy(a => a.DueDate)
                     .ToListAsync();
 
-                    // Store the data in the session
-                    HttpContext.Session.SetString("StudentCourses", JsonSerializer.Serialize(Course, _jsonOptions));
-                    HttpContext.Session.SetString("StudentAssignments", JsonSerializer.Serialize(Assignments, _jsonOptions));
+                // Store the data in the session
+                HttpContext.Session.SetString("StudentCourses", JsonSerializer.Serialize(Course, _jsonOptions));
+                HttpContext.Session.SetString("StudentAssignments", JsonSerializer.Serialize(Assignments, _jsonOptions));
 
-                    // Set the flag to false after loading the data
-                    HttpContext.Session.SetString("StudentCourseChanged", "false");
-                }
-                else //FIXME error is in here, when student doesnt add/drop a course and goes back to dashboard
+                // Set the flag to false after loading the data
+                HttpContext.Session.SetString("StudentCourseChanged", "false");
+            }
+            else
+            {
+                // Load the data from the previous session
+                var storedCourses = HttpContext.Session.GetString("StudentCourses");
+                var storedAssignments = HttpContext.Session.GetString("StudentAssignments");
+
+                if (!string.IsNullOrEmpty(storedCourses))
                 {
-                    // Load the data from the previous session
-                    var storedCourses = HttpContext.Session.GetString("StudentCourses"); //FIXME data isn't being loaded into courses?
-                    var storedAssignments = HttpContext.Session.GetString("StudentAssignments");
+                    Course = JsonSerializer.Deserialize<List<Course>>(storedCourses, _jsonOptions);
+                }
 
-                    Console.WriteLine($"Stored Courses: {storedCourses}"); // Debugging
-                    Console.WriteLine($"Stored Assignments: {storedAssignments}"); // Debugging
-
-                    if (!string.IsNullOrEmpty(storedCourses))
-                    {
-                        Course = JsonSerializer.Deserialize<List<Course>>(storedCourses, _jsonOptions); //FIXME The courses data is not being loaded to dashboard from previous session
-                    }
-                    
-                    if (!string.IsNullOrEmpty(storedAssignments))
-                    {
-                        Assignments = JsonSerializer.Deserialize<List<Assignment>>(storedAssignments, _jsonOptions);
-                    }
+                if (!string.IsNullOrEmpty(storedAssignments))
+                {
+                    Assignments = JsonSerializer.Deserialize<List<Assignment>>(storedAssignments, _jsonOptions);
                 }
             }
+
 
             return Page();
         }

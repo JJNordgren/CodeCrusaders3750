@@ -41,7 +41,7 @@ namespace CS3750Assignment1.Pages
             }
 
             var user = await _context.Users
-                .Where(u => u.email == Email) //take out password for encryption
+                .Where(u => u.email == Email)
                 .FirstOrDefaultAsync();
 
             if (user == null)
