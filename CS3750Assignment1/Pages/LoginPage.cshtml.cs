@@ -41,7 +41,7 @@ namespace CS3750Assignment1.Pages
             }
 
             var user = await _context.Users
-                .Where(u => u.email == Email) //take out password for encryption
+                .Where(u => u.email == Email)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -66,6 +66,21 @@ namespace CS3750Assignment1.Pages
             if (user.picturePath != null)
             {
                 HttpContext.Session.SetString("PicturePath", user.picturePath.ToString());
+            }
+
+            // Initialize the session flags to "false"
+            HttpContext.Session.SetString("InstructorCourseChanged", "false");
+            HttpContext.Session.SetString("StudentCourseChanged", "false");
+
+
+            // Set the session flag when a student or instructor logs in
+            if (user.userType == 'S')
+            {
+                HttpContext.Session.SetString("StudentCourseChanged", "true");
+            }
+            else if (user.userType == 'T')
+            {
+                HttpContext.Session.SetString("InstructorCourseChanged", "true");
             }
 
             return RedirectToPage("/Dashboard");

@@ -125,6 +125,9 @@ namespace CS3750Assignment1.Pages
             {
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Registration saved successfully.");
+
+                // Set the session flag when a student registers for a course
+                HttpContext.Session.SetString("StudentCourseChanged", "true");
             }
             catch (Exception ex)
             {
@@ -167,6 +170,9 @@ namespace CS3750Assignment1.Pages
             {
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Registration removed successfully.");
+
+                // Set the session flag when a student drops a course
+                HttpContext.Session.SetString("StudentCourseChanged", "true");
             }
             catch (Exception ex)
             {
