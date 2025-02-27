@@ -100,16 +100,32 @@
             }
             @if (HttpContext.Session.GetString("UserType") == "S")
             {
-                var submission = Model.StudentSubmission.FirstOrDefault(s => s.AssignmentId == item.Id);
-                @if (submission != null) {
-                    <td>@((@submission.Grade) != null ? submission.Grade : "?" ) / @submission.TotalPoints</td>
-                }
-                else {
-                    <td>N/A</td>
-                }
-                <td>
-                    <a class="btn btn-primary btn-sm" asp-page="./AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
-                </td>
+                    @if (HttpContext.Session.GetString("UserType") == "S")
+
+                    {
+
+                        var submission = Model.StudentSubmission.FirstOrDefault(s => s.AssignmentId == item.Id);
+                        @if (submission != null)
+                        {
+                            <td>@(submission.Grade != null ? submission.Grade.ToString() : "?") / @submission.TotalPoints</td>
+                        }
+
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                        <td>
+                            <!-- Submit button is always available -->
+                            <a class="btn btn-primary btn-sm" asp-page="/AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
+                            @if (submission != null)
+
+                            {
+                                <!-- Review button appears only if a submission exists -->
+                                <a class="btn btn-secondary btn-sm ms-1" asp-page="/ReviewStudentSubmission/ReviewSubmission" asp-route-id="@item.Id">Review</a>
+                            }
+                        </td>
+                    }
+
             }
         </tr>
 }
