@@ -20,7 +20,8 @@ namespace CS3750Assignment1Test
     [TestClass]
     public class AssignmentSubmissionUnitTest
     {
-        // --- Helper: Fake IWebHostEnvironment Implementation ---
+        // Helper: Fake IWebHostEnvironment Implementation
+        // This should be the same for all tests
         public class FakeWebHostEnvironment : Microsoft.AspNetCore.Hosting.IWebHostEnvironment
         {
             public string EnvironmentName { get; set; } = "Development";
@@ -34,7 +35,7 @@ namespace CS3750Assignment1Test
         [TestMethod]
         public async Task OnPostAsync_TextAssignmentSubmission_ValidSubmission_RedirectsToPage()
         {
-            // === SQL Server Context Initialization ===
+            // Include this in all tests to connect to the database (next 7 lines)
             DbContextOptions<ApplicationDbContext> options = new DbContextOptions<ApplicationDbContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
             SqlServerDbContextOptionsExtensions.UseSqlServer(
@@ -44,11 +45,15 @@ namespace CS3750Assignment1Test
             var context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
 
             // Begin a transaction so changes are not permanently saved.
+            // This makes temporary changes that we can then go and roll back after running the tests
+            // I originally had it as a BeginPostAsync and manually deleted what I pushed to the database after each entry
+            // but even though it worked, the Id counter was still being incremented which I did not want, so I found the transaction method.
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    // --- Arrange: Create and save instructor, course, assignment, student ---
+                    // Create and save instructor, course, assignment, student
+                    // these are dummy entries which will be dropped after the test is run so no permanent changes are made to the database.
                     var instructor = new User
                     {
                         email = "dummy@dummy.com",
@@ -57,9 +62,11 @@ namespace CS3750Assignment1Test
                         password = "password123",
                         BirthDate = DateTime.Now.AddYears(-30)
                     };
+                    // I don't know why but my code hates me if I don't have these two lines after each one of these variable creations
                     context.Users.Add(instructor);
                     await context.SaveChangesAsync();
 
+                    // Create a dummy course
                     var course = new Course
                     {
                         Department = "CS",
@@ -77,6 +84,7 @@ namespace CS3750Assignment1Test
                     context.Courses.Add(course);
                     await context.SaveChangesAsync();
 
+                    // Create a dummy assignment
                     var assignment = new Assignment
                     {
                         Title = "Text Assignment",
@@ -92,6 +100,7 @@ namespace CS3750Assignment1Test
                     context.Assignment.Add(assignment);
                     await context.SaveChangesAsync();
 
+                    // create a dummy student user
                     var student = new User
                     {
                         email = "student@dummy.com",
@@ -103,11 +112,11 @@ namespace CS3750Assignment1Test
                     context.Users.Add(student);
                     await context.SaveChangesAsync();
 
-                    // --- Setup Fake Web Host Environment and PageModel ---
+                    // Setup Fake Web Host Environment and PageModel
                     var fakeEnvironment = new FakeWebHostEnvironment { WebRootPath = Path.GetTempPath() };
                     var pageModel = new AssignmentSubmissionModel(context, fakeEnvironment);
 
-                    // --- Setup HttpContext and mock ISession using TryGetValue ---
+                    // Setup HttpContext and mock ISession using TryGetValue
                     var httpContext = new DefaultHttpContext();
                     var mockSession = new Mock<ISession>();
                     mockSession.Setup(s => s.TryGetValue("UserId", out It.Ref<byte[]>.IsAny))
@@ -117,7 +126,7 @@ namespace CS3750Assignment1Test
                     httpContext.Features.Set<ISessionFeature>(new SessionFeature { Session = mockSession.Object });
                     pageModel.PageContext = new PageContext { HttpContext = httpContext };
 
-                    // --- Prepare Submission (Text-based) ---
+                    // Prepare Submission (Text-based)
                     pageModel.Submission = new Submission
                     {
                         AssignmentId = assignment.Id,
@@ -126,10 +135,10 @@ namespace CS3750Assignment1Test
                     // Set the navigation property so that EF links the submission with the student.
                     pageModel.Submission.Student = student;
 
-                    // --- Act: Call OnPostAsync ---
+                    // Call OnPostAsync from the page
                     var result = await pageModel.OnPostAsync();
 
-                    // --- Assert: Validate Redirect and DB Persistence ---
+                    // Validate Redirect and DB Persistence
                     Assert.IsInstanceOfType(result, typeof(RedirectToPageResult));
                     var submissionInDb = await context.Submissions
                         .FirstOrDefaultAsync(s => s.AssignmentId == assignment.Id && s.UserId == student.Id);
@@ -140,7 +149,7 @@ namespace CS3750Assignment1Test
                 }
                 finally
                 {
-                    // Roll back the transaction so no changes are persisted.
+                    // Roll back the transaction so no changes are kept.
                     await transaction.RollbackAsync();
                 }
             }
@@ -149,7 +158,7 @@ namespace CS3750Assignment1Test
         [TestMethod]
         public async Task OnPostAsync_FileAssignmentSubmission_ValidSubmission_RedirectsToPage()
         {
-            // === SQL Server Context Initialization ===
+            // Include this in all tests to connect to the database (next 7 lines)
             DbContextOptions<ApplicationDbContext> options = new DbContextOptions<ApplicationDbContext>();
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
             SqlServerDbContextOptionsExtensions.UseSqlServer(
@@ -158,11 +167,12 @@ namespace CS3750Assignment1Test
                 null);
             var context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
 
-            // Begin transaction
+            // Begin transaction so changes are not permanently saved
             using (var transaction = await context.Database.BeginTransactionAsync())
             {
                 try
                 {
+                    // Create an instructor user type
                     var instructor2 = new User
                     {
                         email = "dummy2@dummy.com",
@@ -174,6 +184,7 @@ namespace CS3750Assignment1Test
                     context.Users.Add(instructor2);
                     await context.SaveChangesAsync();
 
+                    // create a dummy course
                     var course2 = new Course
                     {
                         Department = "CS",
@@ -191,6 +202,7 @@ namespace CS3750Assignment1Test
                     context.Courses.Add(course2);
                     await context.SaveChangesAsync();
 
+                    // Create another dummy assignment of fily type upload
                     var assignment = new Assignment
                     {
                         Title = "File Assignment",
@@ -206,6 +218,7 @@ namespace CS3750Assignment1Test
                     context.Assignment.Add(assignment);
                     await context.SaveChangesAsync();
 
+                    // Create another dummy student user
                     var student = new User
                     {
                         email = "student2@dummy.com",
@@ -217,13 +230,15 @@ namespace CS3750Assignment1Test
                     context.Users.Add(student);
                     await context.SaveChangesAsync();
 
-                    // --- Setup Fake Web Host Environment with a temporary folder ---
+                    // Setup Fake Web Host Environment with a temporary folder
                     string tempFolder = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+                    // creates a temporary folder at runtime to store a file upload, will be deleted after the test runs
                     Directory.CreateDirectory(tempFolder);
                     var fakeEnvironment = new FakeWebHostEnvironment { WebRootPath = tempFolder };
 
                     var pageModel = new AssignmentSubmissionModel(context, fakeEnvironment);
 
+                    // Setting up the moq session
                     var httpContext = new DefaultHttpContext();
                     var mockSession = new Mock<ISession>();
                     mockSession.Setup(s => s.TryGetValue("UserId", out It.Ref<byte[]>.IsAny))
@@ -233,7 +248,8 @@ namespace CS3750Assignment1Test
                     httpContext.Features.Set<ISessionFeature>(new SessionFeature { Session = mockSession.Object });
                     pageModel.PageContext = new PageContext { HttpContext = httpContext };
 
-                    // --- Create a Fake File for File Upload ---
+                    // Create a Fake File for File Upload, had to look this up
+                    // Kind of turned into one of those "Okay, it works, now don't touch it!" moments
                     var fileContent = "Dummy file content";
                     var stream = new MemoryStream();
                     var writer = new StreamWriter(stream);
@@ -254,10 +270,10 @@ namespace CS3750Assignment1Test
                     // Set the navigation property for the student.
                     pageModel.Submission.Student = student;
 
-                    // --- Act: Call OnPostAsync ---
+                    // Call OnPostAsync from the assignment submission file
                     var result = await pageModel.OnPostAsync();
 
-                    // --- Assert: Validate Redirect and DB Persistence ---
+                    // Validate Redirect and DB Persistence
                     Assert.IsInstanceOfType(result, typeof(RedirectToPageResult));
                     var submissionInDb = await context.Submissions
                         .FirstOrDefaultAsync(s => s.AssignmentId == assignment.Id && s.UserId == student.Id);
@@ -270,7 +286,7 @@ namespace CS3750Assignment1Test
                 }
                 finally
                 {
-                    // Roll back the transaction so that nothing is permanently written.
+                    // Roll back the transaction so that nothing is permanently saved.
                     await transaction.RollbackAsync();
                 }
             }
