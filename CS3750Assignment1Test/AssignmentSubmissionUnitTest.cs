@@ -41,6 +41,8 @@ namespace CS3750Assignment1Test
             SqlServerDbContextOptionsExtensions.UseSqlServer(
                 builder,
                 "Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;",
+                // The Azure server does not want to work easily
+                //"Server=tcp:codecrusadersserver.database.windows.net,1433;Initial Catalog=CodeCrusaders_3750_spr25;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";",
                 null);
             var context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
 
@@ -164,6 +166,8 @@ namespace CS3750Assignment1Test
             SqlServerDbContextOptionsExtensions.UseSqlServer(
                 builder,
                 "Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;",
+                // The Azure server does not want to work easily
+                //"Server=tcp:codecrusadersserver.database.windows.net,1433;Initial Catalog=CodeCrusaders_3750_spr25;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";",
                 null);
             var context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
 
