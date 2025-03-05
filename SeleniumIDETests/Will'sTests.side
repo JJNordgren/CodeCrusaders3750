@@ -86,24 +86,24 @@
       "value": ""
     }]
   }, {
-    "id": "828342f3-304c-4a09-9c8a-29997c88b720",
+    "id": "26fb9276-23ca-44dc-bf67-5665d199993a",
     "name": "AddCourse",
     "commands": [{
-      "id": "198d9bd3-fd05-424c-b3ce-56c149e1d044",
+      "id": "91f73508-e912-4ad2-a78c-2953ff4afd18",
       "comment": "",
       "command": "open",
       "target": "/",
       "targets": [],
       "value": ""
     }, {
-      "id": "bec381b9-a93e-44b8-8ea9-02e63bef4467",
+      "id": "644b30e7-a468-4290-a00b-71eedcbfe1b4",
       "comment": "",
       "command": "setWindowSize",
       "target": "1149x1002",
       "targets": [],
       "value": ""
     }, {
-      "id": "550282a8-8a7f-4797-bf78-a054338a60f3",
+      "id": "36784564-8282-411a-9201-0cc498346769",
       "comment": "",
       "command": "click",
       "target": "id=email",
@@ -116,7 +116,7 @@
       ],
       "value": ""
     }, {
-      "id": "60a02ba5-83c8-48ae-83cc-2e718107e613",
+      "id": "77770fae-703a-4902-9caf-96fb562243d4",
       "comment": "",
       "command": "type",
       "target": "id=email",
@@ -129,7 +129,7 @@
       ],
       "value": "WaldoWildcat@weber.edu"
     }, {
-      "id": "95d0af6b-ed72-49d4-b0d9-9a98f206000a",
+      "id": "346c93a4-70a3-482b-91c4-ff00f29c01f6",
       "comment": "",
       "command": "click",
       "target": "id=password",
@@ -142,7 +142,7 @@
       ],
       "value": ""
     }, {
-      "id": "4237d256-6188-45ee-af7a-89888b558726",
+      "id": "9e59c92a-34f6-4bdd-8cd4-3f453f0d50ca",
       "comment": "",
       "command": "type",
       "target": "id=password",
@@ -155,20 +155,19 @@
       ],
       "value": "12345678"
     }, {
-      "id": "88f96bfd-6afc-4827-9109-0879f3277a1e",
+      "id": "15fb7b24-7c77-4807-8793-ae53eb3104a3",
       "comment": "",
-      "command": "sendKeys",
-      "target": "id=password",
+      "command": "click",
+      "target": "css=.btn-primary",
       "targets": [
-        ["id=password", "id"],
-        ["name=Password", "name"],
-        ["css=#password", "css:finder"],
-        ["xpath=//input[@id='password']", "xpath:attributes"],
-        ["xpath=//div[2]/input", "xpath:position"]
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
       ],
-      "value": "${KEY_ENTER}"
+      "value": ""
     }, {
-      "id": "db8b509c-ea1a-41e4-b1a3-c15d9ea5f717",
+      "id": "3494b147-137d-4c77-937d-1f0ae15f297d",
       "comment": "",
       "command": "click",
       "target": "linkText=Classes",
@@ -182,7 +181,7 @@
       ],
       "value": ""
     }, {
-      "id": "e0eeac7c-e382-48b1-9e72-9d9a1bd29585",
+      "id": "7a1b6a9c-2f05-4cef-9f32-e260211e44eb",
       "comment": "",
       "command": "click",
       "target": "linkText=Create New",
@@ -196,7 +195,7 @@
       ],
       "value": ""
     }, {
-      "id": "dc71c28e-cb6b-4a43-92ad-e439c324eeef",
+      "id": "265bada7-79ac-470b-9ecc-d571a4dca26f",
       "comment": "",
       "command": "click",
       "target": "id=Department",
@@ -209,14 +208,14 @@
       ],
       "value": ""
     }, {
-      "id": "4fdf5851-1709-4a23-9aac-e6a6779007a5",
+      "id": "04142a6b-631c-45cd-9cf6-1470e463d47d",
       "comment": "",
       "command": "select",
       "target": "id=Department",
       "targets": [],
       "value": "label=CS"
     }, {
-      "id": "127e0131-fce1-43db-b5d7-c4434c5d0194",
+      "id": "b216fb79-c960-4371-b1a5-97b1d06bdb34",
       "comment": "",
       "command": "click",
       "target": "id=Name",
@@ -229,82 +228,7 @@
       ],
       "value": ""
     }, {
-      "id": "0c2c56fd-71bc-4095-a349-710749111a64",
-      "comment": "",
-      "command": "type",
-      "target": "id=Name",
-      "targets": [
-        ["id=Name", "id"],
-        ["name=Course.Name", "name"],
-        ["css=#Name", "css:finder"],
-        ["xpath=//input[@id='Name']", "xpath:attributes"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": "4580"
-    }, {
-      "id": "309fef3b-396c-4367-94af-c95ead20940a",
-      "comment": "",
-      "command": "click",
-      "target": "css=.pb-5 > .container",
-      "targets": [
-        ["css=.pb-5 > .container", "css:finder"],
-        ["xpath=//main/div", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "a53b6740-a0e6-4502-87ca-3076e4fce055",
-      "comment": "",
-      "command": "type",
-      "target": "id=Name",
-      "targets": [
-        ["id=Name", "id"],
-        ["name=Course.Name", "name"],
-        ["css=#Name", "css:finder"],
-        ["xpath=//input[@id='Name']", "xpath:attributes"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "7b5c80ec-1ff8-46f4-9ca9-e0b69ce162cf",
-      "comment": "",
-      "command": "click",
-      "target": "id=ClassNumber",
-      "targets": [
-        ["id=ClassNumber", "id"],
-        ["name=Course.ClassNumber", "name"],
-        ["css=#ClassNumber", "css:finder"],
-        ["xpath=//input[@id='ClassNumber']", "xpath:attributes"],
-        ["xpath=//div[4]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "cc63283c-ee92-4020-9845-5bf0b2c6608f",
-      "comment": "",
-      "command": "type",
-      "target": "id=ClassNumber",
-      "targets": [
-        ["id=ClassNumber", "id"],
-        ["name=Course.ClassNumber", "name"],
-        ["css=#ClassNumber", "css:finder"],
-        ["xpath=//input[@id='ClassNumber']", "xpath:attributes"],
-        ["xpath=//div[4]/input", "xpath:position"]
-      ],
-      "value": "4580"
-    }, {
-      "id": "a1b8d443-be94-43f4-b203-e3364e951280",
-      "comment": "",
-      "command": "click",
-      "target": "id=Name",
-      "targets": [
-        ["id=Name", "id"],
-        ["name=Course.Name", "name"],
-        ["css=#Name", "css:finder"],
-        ["xpath=//input[@id='Name']", "xpath:attributes"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "9e94ad4c-f020-4351-a344-5eb9918f564d",
+      "id": "be931e43-9d9a-4368-9a99-a221970abab4",
       "comment": "",
       "command": "type",
       "target": "id=Name",
@@ -317,20 +241,20 @@
       ],
       "value": "Data Analytics"
     }, {
-      "id": "937fba53-396f-4222-a0cd-57cafc417652",
+      "id": "7b730b4c-c0b1-4872-aaa1-e9500961bd72",
       "comment": "",
-      "command": "click",
-      "target": "id=CreditHours",
+      "command": "type",
+      "target": "id=ClassNumber",
       "targets": [
-        ["id=CreditHours", "id"],
-        ["name=Course.CreditHours", "name"],
-        ["css=#CreditHours", "css:finder"],
-        ["xpath=//input[@id='CreditHours']", "xpath:attributes"],
-        ["xpath=//div[5]/input", "xpath:position"]
+        ["id=ClassNumber", "id"],
+        ["name=Course.ClassNumber", "name"],
+        ["css=#ClassNumber", "css:finder"],
+        ["xpath=//input[@id='ClassNumber']", "xpath:attributes"],
+        ["xpath=//div[4]/input", "xpath:position"]
       ],
-      "value": ""
+      "value": "4580"
     }, {
-      "id": "1e5243a5-f3a3-4472-a124-853fd9ef1edf",
+      "id": "cb620966-3157-44e0-84bf-8056624cd584",
       "comment": "",
       "command": "type",
       "target": "id=CreditHours",
@@ -343,20 +267,7 @@
       ],
       "value": "4"
     }, {
-      "id": "841e15e0-de78-4461-bb03-847522a7d16a",
-      "comment": "",
-      "command": "click",
-      "target": "id=Capacity",
-      "targets": [
-        ["id=Capacity", "id"],
-        ["name=Course.Capacity", "name"],
-        ["css=#Capacity", "css:finder"],
-        ["xpath=//input[@id='Capacity']", "xpath:attributes"],
-        ["xpath=//div[6]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "a30a7676-5601-438b-a406-b5ea85baa7ac",
+      "id": "f82872cc-98de-4ac1-8f41-0fbc7527d6e7",
       "comment": "",
       "command": "type",
       "target": "id=Capacity",
@@ -369,20 +280,7 @@
       ],
       "value": "20"
     }, {
-      "id": "f61d8cb1-7794-456a-aab8-b2d16c067f9a",
-      "comment": "",
-      "command": "click",
-      "target": "id=Location",
-      "targets": [
-        ["id=Location", "id"],
-        ["name=Course.Location", "name"],
-        ["css=#Location", "css:finder"],
-        ["xpath=//input[@id='Location']", "xpath:attributes"],
-        ["xpath=//div[7]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "2db2ef7c-dd37-4b76-a3e8-057fba57a808",
+      "id": "fa9ffb4b-68f7-466c-8dd8-e344f874dc10",
       "comment": "",
       "command": "type",
       "target": "id=Location",
@@ -395,7 +293,19 @@
       ],
       "value": "Noorda Science Building"
     }, {
-      "id": "ce1790ce-d18a-4711-b40c-0151942d2d82",
+      "id": "e6b3fb9c-7dd5-43da-bbf8-74541b7efa0a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-success",
+      "targets": [
+        ["css=.btn-success", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[11]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create Class')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e0e0351f-c7be-4222-ac89-38e36dbf8180",
       "comment": "",
       "command": "click",
       "target": "id=Wednesday",
@@ -408,7 +318,7 @@
       ],
       "value": ""
     }, {
-      "id": "e18a29a1-2cd2-4f15-aa60-9cb6dc259926",
+      "id": "95b4930d-2d81-4edf-9f07-61d1809735d6",
       "comment": "",
       "command": "click",
       "target": "id=StartTime",
@@ -421,33 +331,7 @@
       ],
       "value": ""
     }, {
-      "id": "d428fc3c-59cd-4879-904e-f925a0136d0b",
-      "comment": "",
-      "command": "type",
-      "target": "id=StartTime",
-      "targets": [
-        ["id=StartTime", "id"],
-        ["name=Course.StartTime", "name"],
-        ["css=#StartTime", "css:finder"],
-        ["xpath=//input[@id='StartTime']", "xpath:attributes"],
-        ["xpath=//div[9]/input", "xpath:position"]
-      ],
-      "value": "22:00"
-    }, {
-      "id": "8383b30d-234f-4f56-8c33-968ffba1d546",
-      "comment": "",
-      "command": "type",
-      "target": "id=StartTime",
-      "targets": [
-        ["id=StartTime", "id"],
-        ["name=Course.StartTime", "name"],
-        ["css=#StartTime", "css:finder"],
-        ["xpath=//input[@id='StartTime']", "xpath:attributes"],
-        ["xpath=//div[9]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "bd14ec03-3f2f-4be5-b7c6-9bafc6d5ada3",
+      "id": "8ed95955-dd0f-4243-8fd2-02077003d8f5",
       "comment": "",
       "command": "type",
       "target": "id=StartTime",
@@ -460,7 +344,7 @@
       ],
       "value": "10:00"
     }, {
-      "id": "a5ac291e-3f67-4527-8e4d-e9d48b2baa2b",
+      "id": "cc3e2d65-3cc7-428f-9721-8d8cfaa87942",
       "comment": "",
       "command": "click",
       "target": "id=EndTime",
@@ -473,20 +357,7 @@
       ],
       "value": ""
     }, {
-      "id": "6231b85e-0ecc-4d0b-bb3c-87eb6bde4b83",
-      "comment": "",
-      "command": "click",
-      "target": "id=EndTime",
-      "targets": [
-        ["id=EndTime", "id"],
-        ["name=Course.EndTime", "name"],
-        ["css=#EndTime", "css:finder"],
-        ["xpath=//input[@id='EndTime']", "xpath:attributes"],
-        ["xpath=//div[10]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "bd40134e-058b-4eef-b63f-55ec30f44a36",
+      "id": "7a1adfc8-966f-45b1-a112-08d851bf46e8",
       "comment": "",
       "command": "type",
       "target": "id=EndTime",
@@ -499,7 +370,7 @@
       ],
       "value": "12:00"
     }, {
-      "id": "bcea7347-4af2-4f33-951f-70179e2d8878",
+      "id": "e99358b6-8703-40b7-b227-9f887aae02a0",
       "comment": "",
       "command": "click",
       "target": "css=.btn-success",
@@ -511,19 +382,19 @@
       ],
       "value": ""
     }, {
-      "id": "7f86b583-5bfd-4c92-b508-021701f02499",
+      "id": "28d3a62f-72ff-43c6-8923-64de821bb939",
       "comment": "",
       "command": "click",
-      "target": "css=.course-list:nth-child(11) .btn-danger",
+      "target": "css=.course-list:nth-child(13) .btn-danger",
       "targets": [
-        ["css=.course-list:nth-child(11) .btn-danger", "css:finder"],
-        ["xpath=(//a[contains(text(),'Delete')])[11]", "xpath:link"],
-        ["xpath=//a[contains(@href, '/DeleteCourse/60')]", "xpath:href"],
-        ["xpath=//tr[11]/td[7]/a[3]", "xpath:position"]
+        ["css=.course-list:nth-child(13) .btn-danger", "css:finder"],
+        ["xpath=(//a[contains(text(),'Delete')])[13]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/DeleteCourse/64')]", "xpath:href"],
+        ["xpath=//tr[13]/td[7]/a[3]", "xpath:position"]
       ],
       "value": ""
     }, {
-      "id": "d360ff50-3923-4c2c-97ce-8dd0df640bba",
+      "id": "856154b0-3d5c-4ff7-908f-718339d7f3f6",
       "comment": "",
       "command": "click",
       "target": "css=.btn-danger",
@@ -536,24 +407,24 @@
       "value": ""
     }]
   }, {
-    "id": "37a15737-e44f-4baf-8270-2bd71de9911e",
+    "id": "7b535abc-12c9-465b-acee-58cf34988666",
     "name": "StudentRegisterCourse",
     "commands": [{
-      "id": "eb1e9a24-37da-4417-95ca-44e57ef309fa",
+      "id": "cc9d96d2-d91e-4bfc-968f-65aed9faed7f",
       "comment": "",
       "command": "open",
       "target": "/",
       "targets": [],
       "value": ""
     }, {
-      "id": "e5cb712f-e5a9-40ba-98d1-320b66c6da36",
+      "id": "3ea71760-f760-4eb6-b7d9-08f753a17d1c",
       "comment": "",
       "command": "setWindowSize",
       "target": "1149x1002",
       "targets": [],
       "value": ""
     }, {
-      "id": "c53a2a48-2488-4090-854f-6649ef13adbd",
+      "id": "c7b014e2-7486-431e-9267-8d923ead9fbe",
       "comment": "",
       "command": "click",
       "target": "id=email",
@@ -566,7 +437,7 @@
       ],
       "value": ""
     }, {
-      "id": "e58d7fc7-95d9-47ab-b093-4b122c2e7d67",
+      "id": "162c43bb-34be-488f-ae2b-fe0f0a443e9f",
       "comment": "",
       "command": "type",
       "target": "id=email",
@@ -579,7 +450,7 @@
       ],
       "value": "JohnyTest@weber.edu"
     }, {
-      "id": "4abf3066-8b13-4f3e-9acb-b7adef149661",
+      "id": "22370cc8-11f4-4e69-8351-1f6fbce10cb8",
       "comment": "",
       "command": "click",
       "target": "id=password",
@@ -592,7 +463,7 @@
       ],
       "value": ""
     }, {
-      "id": "59a0a05f-4ed7-48de-b570-74f4113fb19f",
+      "id": "08cd5611-d047-41e8-ba5e-f313de11d538",
       "comment": "",
       "command": "type",
       "target": "id=password",
@@ -605,20 +476,19 @@
       ],
       "value": "12345678"
     }, {
-      "id": "577c631e-6dd0-4a79-8b79-eae276e030f4",
+      "id": "ddc15d44-4dbf-499c-8e7b-55658289321f",
       "comment": "",
-      "command": "sendKeys",
-      "target": "id=password",
+      "command": "click",
+      "target": "css=.btn-primary",
       "targets": [
-        ["id=password", "id"],
-        ["name=Password", "name"],
-        ["css=#password", "css:finder"],
-        ["xpath=//input[@id='password']", "xpath:attributes"],
-        ["xpath=//div[2]/input", "xpath:position"]
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
       ],
-      "value": "${KEY_ENTER}"
+      "value": ""
     }, {
-      "id": "ae95c8b9-58d2-439b-8589-906e80f3f253",
+      "id": "abb1fa23-8e81-43a6-b577-14ae8cd6de4d",
       "comment": "",
       "command": "click",
       "target": "linkText=Register",
@@ -632,7 +502,7 @@
       ],
       "value": ""
     }, {
-      "id": "8ac60362-e5bf-46dc-9758-ad28e4b1c99e",
+      "id": "f7e27b14-5807-4846-b9bc-e2a9172e019d",
       "comment": "",
       "command": "click",
       "target": "css=.course-list:nth-child(3) .btn",
@@ -644,7 +514,7 @@
       ],
       "value": ""
     }, {
-      "id": "b13b13e5-4e90-4c86-a049-f3f98aa87154",
+      "id": "69e48acc-1bd5-4da3-851b-b25db8a7900d",
       "comment": "",
       "command": "click",
       "target": "css=.course-list:nth-child(3) .btn",
