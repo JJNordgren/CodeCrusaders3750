@@ -6,6 +6,11 @@ using CS3750Assignment1.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System.Threading.Tasks;
+
 
 namespace CS3750Assignment1Test
 {
@@ -15,8 +20,12 @@ namespace CS3750Assignment1Test
 
         /*
         
-        PUT THIS IN EACH [TestMethod] you create, should work as is
+        Implementation below:
+        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
+
+        Professor Christ Instructions:
         DbContextOptions<ApplicationDbContext> options = new DbContextOptions<ApplicationDbContext>();
         DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
         SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;", null);
@@ -29,11 +38,12 @@ namespace CS3750Assignment1Test
         [TestMethod]
         public void AddCourseTest()
         {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-               .UseInMemoryDatabase("InMemoryDb");
 
             // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
+            //using (var db = new ApplicationDbContext(options))
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
@@ -63,15 +73,16 @@ namespace CS3750Assignment1Test
 
                 // Assert: Verify expected results
                 Assert.IsTrue(M == N + 1);
+
+                db.Courses.Remove(course);
             }
         }
 
         [TestMethod]
         public async Task StudentRegisterCourse()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()); // Use unique database name
-            //.UseInMemoryDatabase("InMemoryDb");
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
           // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But the data is empty
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
@@ -162,7 +173,11 @@ namespace CS3750Assignment1Test
 
                 // Assert: Verify expected results
                 Assert.IsTrue(M == N + 1);
+
+                db.Registrations.Remove(registration);
             }
         }
+
+        
     }
 }
