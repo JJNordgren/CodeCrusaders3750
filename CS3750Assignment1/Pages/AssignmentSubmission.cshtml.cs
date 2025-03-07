@@ -41,8 +41,6 @@ namespace CS3750Assignment1.Pages
         // This flag tells the view whether to display the submission details or the form.
         public bool SubmissionCompleted { get; set; } = false;
 
-        // An array to be used to make the pie chart      A   B  C  D  E
-        public int[] NumStudentsPerGrade { get; set; } = [0, 0, 0, 0, 0];
         public IList<Submission> Submissions { get; set; } = new List<Submission>();
 
         // OnGetAsync checks if a submission exists for the current user and assignment.
@@ -94,24 +92,6 @@ namespace CS3750Assignment1.Pages
                 {
                     Submission = existingSubmission;
                     SubmissionCompleted = true;
-
-                    // If the student has a submission, make the pie chart
-                    List<double> listOfGrades = new List<double>();
-                    foreach (var s in gradedSubmissions)
-                    {
-                        // First, let's turn the grade into a percentage:
-                        double percentGrade = ((double)s.Grade! / s.TotalPoints) * 100;
-                        listOfGrades.Add(percentGrade);
-
-                        // Now count how many grades fall under each category
-                        // [ A, B, C, D, E ]
-                        // [ 0, 1, 2, 3, 4 ]
-                        NumStudentsPerGrade[0] = listOfGrades.Count(x => x >= 90);
-                        NumStudentsPerGrade[1] = listOfGrades.Count(x => x >= 80 && x < 90);
-                        NumStudentsPerGrade[2] = listOfGrades.Count(x => x >= 70 && x < 80);
-                        NumStudentsPerGrade[3] = listOfGrades.Count(x => x >= 64 && x < 70);
-                        NumStudentsPerGrade[4] = listOfGrades.Count(x => x < 64);
-                    }
                 }
                 else
                 {

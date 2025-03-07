@@ -23,9 +23,10 @@
 
             var options = {
                 height: 400,
-                title: 'Overall Class Grade',
+                title: 'Class Grades (Your Grade is in the Separated Slice)',
                 colors: ['#28A745', '#9ACD32', '#EAB308', '#FF8C00', '#DC3545'],
                 pieHole: 0.4,
+                slices: { @Model.LetterGradeIndexNumber: {offset: 0.2} },
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -39,7 +40,7 @@
     <h1 class="title">@Model.CourseName</h1>
     @if (@Model.CurrentGrade >= 0 && HttpContext.Session.GetString("UserType") == "S")
     {
-        <h3 class="grade">Grade: @Model.CurrentGrade%</h3>
+        <h3 class="grade">Grade: @Model.CurrentGrade% (@Model.LetterGrade)</h3>
     }
 </div>
 
@@ -118,7 +119,6 @@
                             <!-- Submit button is always available -->
                             <a class="btn btn-primary btn-sm" asp-page="/AssignmentSubmission" asp-route-id="@item.Id">Submit</a>
                             @if (submission != null)
-
                             {
                                 <!-- Review button appears only if a submission exists -->
                                 <a class="btn btn-secondary btn-sm ms-1" asp-page="/ReviewStudentSubmission/ReviewSubmission" asp-route-id="@item.Id">Review</a>
@@ -132,4 +132,15 @@
     </tbody>
 </table>
 
-<div id="donutchart"></div>
+@if ((@Model.OverallGrades[0] == 0)
+      && @Model.OverallGrades[1] == 0
+      && @Model.OverallGrades[2] == 0
+      && @Model.OverallGrades[3] == 0
+      && @Model.OverallGrades[4] == 0)
+{
+    <div></div>
+}
+else
+{
+    <div id="donutchart" style="width: 900px; height: 400px;"></div>
+}
