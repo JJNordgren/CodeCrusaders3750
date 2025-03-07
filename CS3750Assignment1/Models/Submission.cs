@@ -32,6 +32,7 @@ namespace CS3750Assignment1.Models
         [Required]
         public int TotalPoints { get; set; }
 
+        [Range(0, 1000, ErrorMessage = "Max points must be between 1 and 1000.")]
         public int? Grade { get; set; }
 
         [BindNever]
