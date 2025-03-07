@@ -29,6 +29,9 @@ namespace CS3750Assignment1.Pages
         public double TotalPoints { get; set; } = 0;
         public int[] OverallGrades { get; set; } = new int[5];
 
+        public string LetterGrade { get; set; } = "";
+        public int LetterGradeIndexNumber { get; set; } = -1;
+
         /// <summary>
         /// We're going to need this in at least two places
         /// </summary>
@@ -123,6 +126,37 @@ namespace CS3750Assignment1.Pages
                     StudentSubmission = submission;
                     TotalPoints = sumOfPoints;
                     CurrentGrade = resultingGrade;
+
+                    // Find which letter the user's grade is
+                    if (CurrentGrade >= 90)
+                    {
+                        LetterGrade = "A";
+                        LetterGradeIndexNumber = 0;
+                    }
+                    else if (CurrentGrade >= 80)
+                    {
+                        LetterGrade = "B";
+                        LetterGradeIndexNumber = 1;
+                    }
+                    else if (CurrentGrade >= 70)
+                    {
+                        LetterGrade = "C";
+                        LetterGradeIndexNumber = 2;
+                    }
+                    else if (CurrentGrade >= 64)
+                    {
+                        LetterGrade = "D";
+                        LetterGradeIndexNumber = 3;
+                    }
+                    else if (CurrentGrade >= 0)
+                    {
+                        LetterGrade = "E";
+                        LetterGradeIndexNumber = 4;
+                    }
+                    else
+                    {
+                        LetterGrade = "N/A";
+                    }
                 }
             }
 
