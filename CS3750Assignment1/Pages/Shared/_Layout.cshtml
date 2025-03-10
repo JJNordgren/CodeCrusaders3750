@@ -116,72 +116,23 @@
     <div class="form-popup" id="NotificationForm">
     <form class="form-container">
                 <h1 class="text-center mb-4 mt-4">Notifications</h1>
+               
+                    <div id="notifications">
             <div class="row">
                 <div class="col">
                     <div class="mx-auto card mb-3" style="max-width: 18rem;">
                         <a style="text-decoration: none;">
                             <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
+                                <h5 class="card-title" style="text-decoration: none;">CS 2750 American History</h5>
+                                <h6 class="card-title" style="text-decoration: none;">Assignment 1</h6>
+                                <p class="card-text">Graded</p>
                                 <button type="button" onclick="closeNotificationRow(this)">Close</button>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 2 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 3 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 4 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 5 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-         
         </form>
     </div>
 
@@ -199,6 +150,83 @@
             var row = button.closest('.row');
             row.style.display = 'none';
         }
+
+        function addNotification(courseTitle, assignmentTitle, status) {
+            // Get the notifications container
+            const notificationsContainer = document.getElementById('notifications');
+
+            // Create the row
+            const row = document.createElement('div');
+            row.className = 'row';
+
+            // Create the column
+            const col = document.createElement('div');
+            col.className = 'col';
+
+            // Create the card
+            const card = document.createElement('div');
+            card.className = 'mx-auto card mb-3';
+            card.style.maxWidth = '18rem';
+
+            // Create the anchor
+            const anchor = document.createElement('a');
+            anchor.style.textDecoration = 'none';
+
+            // Create the card header
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            cardHeader.style.textDecoration = 'none';
+            cardHeader.style.color = 'black';
+
+            // Create the course title
+            const h5 = document.createElement('h5');
+            h5.className = 'card-title';
+            h5.style.textDecoration = 'none';
+            h5.textContent = courseTitle;
+
+            // Create the assignment title
+            const h6 = document.createElement('h6');
+            h6.className = 'card-title';
+            h6.style.textDecoration = 'none';
+            h6.textContent = assignmentTitle;
+
+            // Create the status
+            const p = document.createElement('p');
+            p.className = 'card-text';
+            p.textContent = status;
+
+            // Create the close button
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'Close';
+            button.onclick = function () {
+                closeNotificationRow(button);
+            };
+
+            // Assemble the card elements
+            cardHeader.appendChild(h5);
+            cardHeader.appendChild(h6);
+            cardHeader.appendChild(p);
+            cardHeader.appendChild(button);
+            anchor.appendChild(cardHeader);
+            card.appendChild(anchor);
+            col.appendChild(card);
+            row.appendChild(col);
+
+            // Append the row to the notifications container
+            notificationsContainer.appendChild(row);
+        }
+        function notifyGradedAssignments(courses) {
+            courses.forEach(course => {
+                course.assignments.forEach(assignment => {
+                    if (assignment.status === "Graded") {
+                        addNotification(course.courseName, assignment.name, assignment.status);
+                    }
+                });
+            });
+
+        addNotification("CS 2750 American History", "Assignment 2", "Graded");
+
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
