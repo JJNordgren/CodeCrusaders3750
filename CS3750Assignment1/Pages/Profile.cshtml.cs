@@ -8,12 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
+using CS3750Assignment1.Utilities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CS3750Assignment1.Pages
 {
     public class ProfileModel : PageModel
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
+
+        public string userPassword { get; set; }
 
         [BindProperty]
         public IFormFile? Image { get; set; }
@@ -71,6 +75,9 @@ namespace CS3750Assignment1.Pages
                 Text = file.Substring(file.IndexOf('_') + 1) // Remove GUID part
             }).ToList();
 
+            // Filler for password
+            userPassword = "********";
+
             return Page();
         }
 
@@ -86,13 +93,21 @@ namespace CS3750Assignment1.Pages
             {
                 myuser.firstName = User.firstName;
                 myuser.lastName = User.lastName;
-                myuser.BirthDate = User.BirthDate;
+                // Only retrieve the Date
+                myuser.BirthDate = User.BirthDate.Date;
                 myuser.addressLine1 = User.addressLine1;
                 myuser.addressLine2 = User.addressLine2;
                 myuser.city = User.city;
                 myuser.state = User.state;
                 myuser.zip = User.zip;
                 myuser.phone = User.phone;
+
+                if (!string.IsNullOrEmpty(User.password) && User.password != "********")
+                {
+                    string salt;
+                    myuser.password = PasswordHelper.HashPassword(User.password, out salt);
+                    myuser.Salt = salt;
+                }
 
             }
             //If no user exists redirect to main
@@ -101,13 +116,18 @@ namespace CS3750Assignment1.Pages
                 return RedirectToPage("./Index");
             }
 
-            
+
+
 
             _context.Users.Update(myuser);
             await _context.SaveChangesAsync();
-           
 
-            return Page();
+            // Filler for password
+            userPassword = "********";
+
+
+            //return Page();
+            return RedirectToPage(new { id = User.Id });
         }
 
         public async Task<IActionResult> OnPostUploadImageAsync()
