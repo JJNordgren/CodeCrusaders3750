@@ -38,6 +38,9 @@ namespace CS3750Assignment1.Pages
             // Clear confirmPassword since it is not stored
             User.confirmPassword = null;
 
+            // Only store the Date
+            User.BirthDate = User.BirthDate.Date;
+
             // Save the user to the database with the hashed password and salt
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
