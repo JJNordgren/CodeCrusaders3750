@@ -11,14 +11,19 @@
     function enableTextBoxes() {
         event.preventDefault(); // Prevent the form from submitting
 
-        var textboxes = document.querySelectorAll('input[type="text"]');
+        var textboxes = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="date"]');
         textboxes.forEach(function (textbox) {
             textbox.removeAttribute('readonly');
         });
-        var textboxes = document.querySelectorAll('input[type="date"]');
-        textboxes.forEach(function (textbox) {
-            textbox.removeAttribute('readonly');
-        });
+
+        // var textboxes = document.querySelectorAll('input[type="text"]');
+        // textboxes.forEach(function (textbox) {
+        //     textbox.removeAttribute('readonly');
+        // });
+        // var textboxes = document.querySelectorAll('input[type="date"]');
+        // textboxes.forEach(function (textbox) {
+        //     textbox.removeAttribute('readonly');
+        // });
         document.getElementById('saveButton').style.display = 'block'; // Show the Save button
         document.getElementById('editButton').style.display = 'none';  // Hide the Edit button
     }
@@ -26,7 +31,7 @@
 <div class="row justify-content-center min-vh-100">
     <div class="col-md-4" style="padding: 20px; margin-bottom: 20px;">
             <h1 class="text-center">Profile</h1>
-            <form method="post">
+        <form method="post" id="profileForm">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First Name:</label>
                 <input type="text" id="firstName" asp-for="User.firstName" class="form-control" readonly value="@Model.User.firstName" />
@@ -75,6 +80,38 @@
             </div>
             </form>
     </div>
+    
+    @* Profile Image Form *@
+    <div class="col-md-4" style="padding: 20px; margin-bottom: 20px;">
+        <h1 class="text-center">Edit Image</h1>
+        <div class="row p-3">
+            <div class="col-md-4">
+                <div>
+                    @if (Model.User.picturePath == null)
+                    {
+                        <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; text-align: center;" />
+                    }
+                    else
+                    {
+                        <img src="@Model.User.picturePath" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; text-align: center;" />
+                    }
+
+                </div>
+
+                <form id="uploadForm" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
+                    <fieldset>
+                        @* <legend style="white-space: nowrap; text-align: center;"> Upload Image </legend> *@
+                        <label for="Image">Image</label>
+                        <input type="file" name="Image" />
+                        <br />
+                        <input type="submit" value="Upload" />
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 @section Scripts {

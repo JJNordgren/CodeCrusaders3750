@@ -15,6 +15,14 @@ namespace CS3750Assignment1.Pages
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
 
+        [BindProperty]
+        public IFormFile? Image { get; set; }
+
+        [BindProperty]
+        public string? ImagePath { get; set; }
+
+        public List<SelectListItem> ImageFiles { get; set; } = new List<SelectListItem>();
+
         public ProfileModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -51,11 +59,24 @@ namespace CS3750Assignment1.Pages
             User = await _context.Users.FindAsync(userId);
             //await _context.SaveChangesAsync();
 
+            var imageDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProfileImages");
+            var imageFiles = Directory.GetFiles(imageDirectory)
+                                      .Select(Path.GetFileName)
+                                      .ToList();
+
+            // Remove GUID from file names for display purposes
+            ImageFiles = imageFiles.Select(file => new SelectListItem
+            {
+                Value = "/ProfileImages/" + file,
+                Text = file.Substring(file.IndexOf('_') + 1) // Remove GUID part
+            }).ToList();
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {  
+        {
+
             //Selecting the user to update
             var myuser = await _context.Users.FirstOrDefaultAsync(x => x.email == User.email);
            
@@ -74,6 +95,11 @@ namespace CS3750Assignment1.Pages
                 myuser.phone = User.phone;
 
             }
+            //If no user exists redirect to main
+            else
+            {
+                return RedirectToPage("./Index");
+            }
 
             
 
@@ -83,6 +109,48 @@ namespace CS3750Assignment1.Pages
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostUploadImageAsync()
+        {
+            if (Image != null)
+            {
+                var newFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(Image.FileName);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProfileImages", newFileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await Image.CopyToAsync(stream);
+                }
+
+                ImagePath = "/ProfileImages/" + newFileName;
+
+                var userId = HttpContext.Session.GetInt32("UserId");
+                if (userId == null)
+                {
+                    return NotFound();
+                }
+
+                var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == userId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    User = user;
+                }
+
+                // Update the user's profile picture path in the model
+                User.picturePath = ImagePath;
+
+                _context.Attach(User).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+
+
+            return RedirectToPage(new { id = User.Id });
+        }
+
     }
              
 }
