@@ -10,6 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Threading.Tasks;
+using CS3750Assignment1.Pages;
 
 
 namespace CS3750Assignment1Test
@@ -25,13 +26,23 @@ namespace CS3750Assignment1Test
             optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
 
-        Professor Christ Instructions:
+        Professor Christi Instructions:
         DbContextOptions<ApplicationDbContext> options = new DbContextOptions<ApplicationDbContext>();
         DbContextOptionsBuilder builder = new DbContextOptionsBuilder(options);
         SqlServerDbContextOptionsExtensions.UseSqlServer(builder, "Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;", null);
         var _context = new ApplicationDbContext((DbContextOptions<ApplicationDbContext>)builder.Options);
 
          */
+
+        // I'm pretty sure this is what the professor's above code is referring to (also going off of the razor page unit test documentation)
+        // So with a particular test I can just call `using(var _context = new ApplicationDbContext(TestDbContextOptions()))`  -Matt
+        public static DbContextOptions<ApplicationDbContext> TestDbContextOptions()
+        {
+            return new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;")
+                .Options;
+        }
+
 
         [TestMethod]
         public async Task ViewClassDetailsTest()
@@ -233,7 +244,5 @@ namespace CS3750Assignment1Test
                 db.SaveChanges();
             }
         }
-
-
     }
 }
