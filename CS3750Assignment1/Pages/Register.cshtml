@@ -47,10 +47,12 @@
                 <label class="form-label d-block">Account Type:</label>
                 <div class="form-check form-check-inline">
                     <input type="radio" id="student" name="User.userType" value="S" class="form-check-input" required />
+                    <textarea hidden></textarea>
                     <label for="student" class="form-check-label">Student</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input type="radio" id="teacher" name="User.userType" value="T" class="form-check-input" required />
+                    <textarea hidden>Not visible nor meant to be. It's here so that when you click the radio buttons this gets cleared instead of the label.</textarea>
                     <label for="teacher" class="form-check-label">Teacher</label>
                 </div>
             </div>
