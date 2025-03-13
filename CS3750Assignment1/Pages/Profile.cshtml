@@ -5,157 +5,138 @@
     ViewData["Title"] = "Profile";
 }
 
-
-<hr />
-<script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        function enableTextBoxes(event) {
-            event.preventDefault(); // Prevent the form from submitting
-
-            var textboxes = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="date"], #profileForm input[type="password"], #profileForm input[type="email"]');
-            textboxes.forEach(function (textbox) {
-                textbox.removeAttribute('readonly');
-            });
-
-            document.getElementById('saveButton').style.display = 'block'; // Show the Save button
-            document.getElementById('editButton').style.display = 'none';  // Hide the Edit button
-        }
-
-        // Code for Passwords
-        const passwordField = document.getElementById('password');
-        const confirmPasswordField = document.getElementById('confirmPassword');
-        const passwordError = document.getElementById('passwordError');
-
-        function validatePasswords() {
-            // Check if passwords match
-            if (passwordField.value !== confirmPasswordField.value) {
-                passwordError.textContent = 'Passwords do not match.';
-            } else {
-                passwordError.textContent = '';
-            }
-        }
-
-        // Add event listeners for real-time validation
-        if (passwordField && confirmPasswordField) {
-            passwordField.addEventListener('input', validatePasswords);
-            confirmPasswordField.addEventListener('input', validatePasswords);
-        }
-
-        // Function to clear error message when user starts typing
-        function clearError(event) {
-            event.target.nextElementSibling.textContent = ''; // Clears the next sibling span (error message)
-        }
-
-        // Select all input fields and attach event listeners
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', clearError);
-        });
-
-        // Attach enableTextBoxes function to the Edit Profile button
-        document.getElementById('editButton').addEventListener('click', enableTextBoxes);
-    });
-
-
-</script>
-<div class="row justify-content-center min-vh-100">
-    <div class="col-md-4" style="padding: 20px; margin-bottom: 20px;">
-            <h1 class="text-center">Profile</h1>
-        <form method="post" id="profileForm">
-            <div asp-validation-summary="All" class="text-danger"></div> <!--shows all errors at top of the page-->
-            <div class="mb-3">
-                <label for="firstName" class="form-label">First Name:</label>
-                <input type="text" id="firstName" asp-for="User.firstName" class="form-control" readonly value="@Model.User.firstName" />
-            </div>
-            <div class="mb-3">
-                <label for="lastName" class="form-label">Last Name:</label>
-                <input type="text" id="lastName" asp-for="User.lastName" class="form-control" readonly value="@Model.User.lastName" />
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address:</label>
-                <input type="email" id="User.email" name="User.email" class="form-control" readonly value="@Model.User.email" />
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password:</label>
-                <input type="password" id="password" name="User.password" class="form-control" readonly value="@Model.userPassword" />
-                <span asp-validation-for="User.password" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="User.confirmPassword" class="form-control" readonly value="@Model.userPassword" />
-                <span asp-validation-for="User.confirmPassword" class="text-danger"></span>
-                <span id="passwordError" class="text-danger"></span> <!-- For immediate feedback -->
-            </div>
-            <div class="mb-3">
-                <label for="birthdate" class="form-label">Birth Date:</label>
-                <input type="date" id="BirthDate" asp-for="User.BirthDate" class="form-control" readonly value="@Model.User.BirthDate.ToString("yyyy-MM-dd")" />
-            </div>
-            <div class="mb-3">
-                <label for="addressLine1" class="form-label">Address Line 1:</label>
-                <input type="text" id="addressLine1" asp-for="User.addressLine1" class="form-control" readonly value="@Model.User.addressLine1" />
-            </div>
-            <div class="mb-3">
-                <label for="addressLine2" class="form-label">Address Line 2:</label>
-                <input type="text" id="addressLine2" asp-for="User.addressLine2" class="form-control" readonly value="@Model.User.addressLine2" />
-            </div>
-            <div class="mb-3">
-                <label for="city" class="form-label">City:</label>
-                <input type="text" id="city" asp-for="User.city" class="form-control" readonly value="@Model.User.city" />
-            </div>
-            <div class="mb-3">
-                <label for="state" class="form-label">State:</label>
-                <input type="text" id="state" asp-for="User.state" class="form-control" readonly value="@Model.User.state" />
-            </div>
-            <div class="mb-3">
-                <label for="zip" class="form-label">Zip:</label>
-                <input type="text" id="zip" asp-for="User.zip" class="form-control" readonly value="@Model.User.zip" />
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone:</label>
-                <input type="text" id="phone" asp-for="User.phone" class="form-control" readonly value="@Model.User.phone" />
-            </div>
-
-            <div class="d-grid">
-                <button onclick="enableTextBoxes()" id="editButton" class="btn btn-primary">Edit Profile</button>
-                <button type="submit" id="saveButton" class="btn btn-success" style="display: none;">Save Changes</button>
-                <button onclick="window.location.href='/Dashboard'" class="btn btn-secondary">Back</button>
-            </div>
-            </form>
-    </div>
-    
-    @* Profile Image Form *@
-    <div class="col-md-4" style="padding: 20px; margin-bottom: 20px;">
-        <h1 class="text-center">Edit Image</h1>
-        <div class="row p-3">
-            <div class="col-md-4">
-                <div>
-                    @if (Model.User.picturePath == null)
-                    {
-                        <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; text-align: center;" />
-                    }
-                    else
-                    {
-                        <img src="@Model.User.picturePath" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; text-align: center;" />
-                    }
-
-                </div>
-
-                <form id="uploadForm" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data">
-                    <fieldset>
-                        @* <legend style="white-space: nowrap; text-align: center;"> Upload Image </legend> *@
-                        <label for="Image">Image</label>
-                        <input type="file" name="Image" />
-                        <br />
-                        <input type="submit" value="Upload" />
-                    </fieldset>
+<div class="container my-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-header text-center">
+            <h1>Profile</h1>
+        </div>
+        <div class="card-body">
+            <!-- Profile Image Section -->
+            <div class="text-center mb-4">
+                @if (Model.User.picturePath == null)
+                {
+                    <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px;" />
+                }
+                else
+                {
+                    <img src="@Model.User.picturePath" alt="Profile Picture" class="rounded-circle" style="width: 120px; height: 120px;" />
+                }
+                <form id="uploadForm" method="post" asp-page-handler="UploadImage" enctype="multipart/form-data" class="mt-2">
+                    <div class="mb-2">
+                        <input type="file" name="Image" class="form-control-file" />
+                    </div>
+                    <input type="submit" value="Change Image" />
                 </form>
             </div>
+
+            <hr />
+
+            <!-- Profile Details Form -->
+            <form method="post" id="profileForm">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name:</label>
+                    <input type="text" id="firstName" asp-for="User.firstName" class="form-control" readonly value="@Model.User.firstName" />
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name:</label>
+                    <input type="text" id="lastName" asp-for="User.lastName" class="form-control" readonly value="@Model.User.lastName" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address:</label>
+                    <input type="email" id="User.email" name="User.email" class="form-control" readonly value="@Model.User.email" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" id="password" name="User.password" class="form-control" readonly value="@Model.userPassword" />
+                    <span asp-validation-for="User.password" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="User.confirmPassword" class="form-control" readonly value="@Model.userPassword" />
+                    <span asp-validation-for="User.confirmPassword" class="text-danger"></span>
+                    <span id="passwordError" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="birthdate" class="form-label">Birth Date:</label>
+                    <input type="date" id="BirthDate" asp-for="User.BirthDate" class="form-control" readonly value="@Model.User.BirthDate.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine1" class="form-label">Address Line 1:</label>
+                    <input type="text" id="addressLine1" asp-for="User.addressLine1" class="form-control" readonly value="@Model.User.addressLine1" />
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine2" class="form-label">Address Line 2:</label>
+                    <input type="text" id="addressLine2" asp-for="User.addressLine2" class="form-control" readonly value="@Model.User.addressLine2" />
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City:</label>
+                    <input type="text" id="city" asp-for="User.city" class="form-control" readonly value="@Model.User.city" />
+                </div>
+                <div class="mb-3">
+                    <label for="state" class="form-label">State:</label>
+                    <input type="text" id="state" asp-for="User.state" class="form-control" readonly value="@Model.User.state" />
+                </div>
+                <div class="mb-3">
+                    <label for="zip" class="form-label">Zip:</label>
+                    <input type="text" id="zip" asp-for="User.zip" class="form-control" readonly value="@Model.User.zip" />
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone:</label>
+                    <input type="text" id="phone" asp-for="User.phone" class="form-control" readonly value="@Model.User.phone" />
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" id="editButton" class="btn btn-primary">Edit Profile</button>
+                    <button type="submit" id="saveButton" class="btn btn-success" style="display: none;">Save Changes</button>
+                    <button type="button" onclick="window.location.href='/Dashboard'" class="btn btn-secondary">Back</button>
+                </div>
+            </form>
         </div>
     </div>
-
-
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function enableTextBoxes(event) {
+                event.preventDefault(); // Prevent form submission
+                var textboxes = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="date"], #profileForm input[type="password"], #profileForm input[type="email"]');
+                textboxes.forEach(function (textbox) {
+                    textbox.removeAttribute('readonly');
+                });
+                document.getElementById('saveButton').style.display = 'block';
+                document.getElementById('editButton').style.display = 'none';
+            }
+
+            // Password validation
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirmPassword');
+            const passwordError = document.getElementById('passwordError');
+
+            function validatePasswords() {
+                if (passwordField.value !== confirmPasswordField.value) {
+                    passwordError.textContent = 'Passwords do not match.';
+                } else {
+                    passwordError.textContent = '';
+                }
+            }
+            if (passwordField && confirmPasswordField) {
+                passwordField.addEventListener('input', validatePasswords);
+                confirmPasswordField.addEventListener('input', validatePasswords);
+            }
+
+            // Clear error messages on input
+            function clearError(event) {
+                event.target.nextElementSibling.textContent = '';
+            }
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', clearError);
+            });
+
+            document.getElementById('editButton').addEventListener('click', enableTextBoxes);
+        });
+    </script>
 }
