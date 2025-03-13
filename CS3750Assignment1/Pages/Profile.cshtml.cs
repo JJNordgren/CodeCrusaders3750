@@ -162,6 +162,7 @@ namespace CS3750Assignment1.Pages
 
                 // Update the user's profile picture path in the model
                 User.picturePath = ImagePath;
+                HttpContext.Session.SetString("PicturePath", ImagePath);
 
                 _context.Attach(User).State = EntityState.Modified;
                 await _context.SaveChangesAsync();

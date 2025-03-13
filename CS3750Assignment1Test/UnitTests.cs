@@ -11,6 +11,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Threading.Tasks;
 using CS3750Assignment1.Pages;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace CS3750Assignment1Test
@@ -168,6 +170,8 @@ namespace CS3750Assignment1Test
         }
         [TestMethod]
         public async Task ViewClassDetailsTest()
+        [TestMethod] //Kaylee Unit Test 1
+        public void SuccessfulUserRegistrationTest()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
@@ -175,80 +179,7 @@ namespace CS3750Assignment1Test
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
-
-                // Ensure the instructor exists
-                var instructorId = 1;
-                var instructor = await db.Users.FirstOrDefaultAsync(u => u.Id == instructorId);
-                if (instructor == null)
-                {
-                    instructor = new User
-                    {
-                        firstName = "John",
-                        lastName = "Doe",
-                        email = "johndoe@weber.edu",
-                        password = "password123",
-                        confirmPassword = "password123",
-                        BirthDate = DateTime.Parse("01-01-1980"),
-                        userType = 'T'
-                    };
-                    db.Users.Add(instructor);
-                    await db.SaveChangesAsync();
-                    instructorId = instructor.Id; // Update instructorId with the newly created instructor's Id
-                }
-
-                var course = new Course
-                {
-                    Department = "CS",
-                    Name = "Software Engineering II",
-                    ClassNumber = "3750",
-                    CreditHours = 4,
-                    Capacity = 35,
-                    Location = "Noorda 318",
-                    MeetingDays = new List<string> { "Monday", "Wednesday" },
-                    StartTime = new TimeSpan(8, 30, 0),
-                    EndTime = new TimeSpan(10, 30, 0),
-                    InstructorId = instructorId
-                };
-
-                db.Courses.Add(course);
-                await db.SaveChangesAsync();
-
-                // Act: Retrieve the course details
-                var retrievedCourse = await db.Courses.FirstOrDefaultAsync(c => c.ClassNumber == "3750");
-
-                // Assert: Verify the course details
-                Assert.IsNotNull(retrievedCourse);
-                Assert.AreEqual("Software Engineering II", retrievedCourse.Name);
-                Assert.AreEqual("CS", retrievedCourse.Department);
-                Assert.AreEqual(4, retrievedCourse.CreditHours);
-                Assert.AreEqual(35, retrievedCourse.Capacity);
-                Assert.AreEqual("Noorda 318", retrievedCourse.Location);
-                Assert.AreEqual(new TimeSpan(8, 30, 0), retrievedCourse.StartTime);
-                Assert.AreEqual(new TimeSpan(10, 30, 0), retrievedCourse.EndTime);
-                Assert.AreEqual(instructorId, retrievedCourse.InstructorId);
-
-                // Clean up: Remove the test data
-                db.Courses.Remove(course);
-                db.Users.Remove(instructor);
-                await db.SaveChangesAsync();
-            }
-        }
-
-
-
-
-        [TestMethod]
-        public void UserRegistrationTest()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
-            // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
-            //using (var db = new ApplicationDbContext(options))
-            using (var db = new ApplicationDbContext(optionsBuilder.Options))
-            {
-                // Arrange: Set up test data
-                int N = db.Users.Count();
-                User user = new User
+                User NewUser = new User
                 {
                     firstName = "User",
                     lastName = "Test",
@@ -257,19 +188,71 @@ namespace CS3750Assignment1Test
                     confirmPassword = "12345678",
                     BirthDate = DateTime.Parse("01-01-1999"),
                     userType = 'S'
-
                 };
-                db.Users.Add(user);
 
-                db.SaveChanges();
+                // Create an instance of RegisterModel
+                var registerModel = new RegisterModel(db);
 
-                int M = db.Users.Count();
+                // ACT
+                registerModel.UnitTestSuccessfulRegistration(NewUser);
 
-                Assert.IsTrue(M == N + 1);
-                db.Users.Remove(user);
+                // VERIFY
+                var registeredUser = db.Users.FirstOrDefault(u => u.email == NewUser.email);
+                Assert.IsNotNull(registeredUser);
+
+                db.Users.Remove(registeredUser);
                 db.SaveChanges();
             }
         }
+
+        [TestMethod] //Kaylee Unit Test 2
+        public void UnsuccessfulUserRegistrationTest()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
+
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+
+                // Arrange: Set up test data with mismatched passwords
+                User NewUser = new User
+                {
+                    firstName = "User",
+                    lastName = "Test",
+                    email = "usertest@gmail.com",
+                    password = "12345678",
+                    confirmPassword = "notMatchingPass", //passwords does not match, invalid
+                    BirthDate = DateTime.Parse("01-01-1999"),
+                    userType = 'S'
+                };
+
+                // Manually validate the User model
+                var validationContext = new ValidationContext(NewUser);
+                var validationResults = new List<ValidationResult>();
+                bool isValid = Validator.TryValidateObject(NewUser, validationContext, validationResults, true);
+               
+                // Assert that the validation fails
+                Assert.IsFalse(isValid, "User validation should fail but passed.");
+
+                // Make sure the password mismatch is caught
+                Assert.IsTrue(validationResults.Any(vr => vr.ErrorMessage == "The password and confirmation password do not match."),
+                    "Expected password mismatch validation error not found.");
+
+                // Create an instance of RegisterModel
+                var registerModel = new RegisterModel(db);
+
+                // ACT: Expect an exception
+                Assert.ThrowsException<InvalidOperationException>(() =>
+                {
+                    registerModel.UnitTestSuccessfulRegistration(NewUser);
+                }, "Expected InvalidOperationException due to validation errors, but no exception was thrown.");
+
+                // VERIFY: Ensure user was NOT added to the database
+                var registeredUser = db.Users.FirstOrDefault(u => u.email == NewUser.email);
+                Assert.IsNull(registeredUser, "User should not be in the database after failed validation.");
+            }
+        }
+
 
 
         [TestMethod]

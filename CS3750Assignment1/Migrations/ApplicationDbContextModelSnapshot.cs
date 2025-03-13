@@ -215,6 +215,9 @@ namespace CS3750Assignment1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("notification")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
