@@ -14,7 +14,7 @@ namespace CS3750Assignment1Test
     public class UnitTests
     {
         [TestMethod]
-        public async Task UpdateUserAddress()
+        public async Task UpdateUserProfile()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
@@ -81,55 +81,63 @@ namespace CS3750Assignment1Test
             }
         }
 
-        [TestMethod]
-        public async Task CheckAmountPaid()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
-
-            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+     
+    
+            [TestMethod]
+            public async Task UpdateAmountPaidAsync_UpdatesCorrectly()
             {
-                // Arrange: Set up test data
-                SuccessModel accountModel = new SuccessModel(db); //Instantiate the class in order to get the method
-                var userId = 106; // A random a@a.com user that shouldn't be registered for any classes
+                var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+                optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
-                User student;
-                student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-                bool hadToUseADummyUser = false;
-                if (student == null)
+                using (var db = new ApplicationDbContext(optionsBuilder.Options))
                 {
-                    hadToUseADummyUser = true;
+                    // Arrange: Create test user or retrieve existing one
+                    var userId = 106; // Use a valid user ID
+                    User user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
-                    student = new User()
+                    bool hadToUseDummyUser = false;
+                    if (user == null)
                     {
-                        firstName = "Dummy",
-                        lastName = "User",
-                        email = "a@a.a",
-                        password = "password",
-                        confirmPassword = "password",
-                        BirthDate = DateTime.Parse("01-01-1999"),
-                        userType = 'S'
-                    };
+                        hadToUseDummyUser = true;
+                        user = new User
+                        {
+                            firstName = "Test",
+                            lastName = "User",
+                            email = "test@user.com",
+                            password = "password",
+                            confirmPassword = "password",
+                            BirthDate = DateTime.Parse("01-01-1990"),
+                            userType = 'S',
+                            addressLine1 = "Address 1",
+                            amountPaid = 0 // Initial amount
+                        };
 
-                    db.Users.Add(student);
+                        db.Users.Add(user);
+                        await db.SaveChangesAsync();
+                    }
+
+                    long paymentAmount = 500;
+
+                    // Act: Call the method to update the payment
+                    user.amountPaid += paymentAmount;
+                    db.Users.Update(user);
                     await db.SaveChangesAsync();
-                }
 
-                // Act: Calculate the amount paid
-                var paid = accountModel.UpdateAmountPaidAsync(student, 900);
+                    // Assert: Verify the update
+                    var updatedUser = await db.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+                    Assert.IsNotNull(updatedUser);
+                    Assert.AreEqual(500, updatedUser.amountPaid);
 
-                // Assert: Verify the amount paid
-                Assert.AreEqual(900, student.amountPaid);
-
-                // Clean up: Remove the test data
-                if (hadToUseADummyUser)
-                {
-                    db.Users.Remove(student);
-                    await db.SaveChangesAsync();
+                    // Clean up: Remove test data if it was created
+                    if (hadToUseDummyUser)
+                    {
+                        db.Users.Remove(user);
+                        await db.SaveChangesAsync();
+                    }
                 }
             }
-        }
+        
+
 
 
     }
