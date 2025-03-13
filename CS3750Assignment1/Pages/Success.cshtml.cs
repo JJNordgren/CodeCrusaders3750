@@ -14,7 +14,7 @@ namespace CS3750Assignment1.Pages
 {
     public class SuccessModel : PageModel
     {
-       private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
+        private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
 
         public IList<Course> Course { get; set; } = default!;
         public IList<CS3750Assignment1.Models.Registration> Registrations { get; set; } = default!;
@@ -26,6 +26,11 @@ namespace CS3750Assignment1.Pages
         public double totalAmountPaid { get; set; }
         public string ReceiptPath { get; set; } = default!;
 
+        public async Task UpdateAmountPaidAsync(User user, long amount)
+        {
+            user.amountPaid += amount;
+            await _context.SaveChangesAsync();
+        }
 
         public SuccessModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
@@ -50,9 +55,9 @@ namespace CS3750Assignment1.Pages
             {
                 return RedirectToPage("/LoginPage");
             }
-           
-            user.amountPaid += amount;
-            await _context.SaveChangesAsync();
+
+            await UpdateAmountPaidAsync(user, amount);
+
             totalAmountPaid = user.amountPaid ?? 0.0;
 
             // Retrieves courses
@@ -95,7 +100,8 @@ namespace CS3750Assignment1.Pages
         }
 
         // Add the GenerateReceipt method to create and display the receipt
-        private string GenerateReceipt(User user, long amount) { 
+        private string GenerateReceipt(User user, long amount)
+        {
             var uniqueFileName = Guid.NewGuid().ToString() + "_receipt.pdf";
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Receipts");
             if (!Directory.Exists(uploadsFolder))
@@ -107,8 +113,8 @@ namespace CS3750Assignment1.Pages
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 Document document = new Document(PageSize.A4, 25, 25, 30, 30);
-            PdfWriter writer = PdfWriter.GetInstance(document, fs);
-            document.Open();
+                PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                document.Open();
                 Font boldLargeFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
 
                 // Create a chunk with the bold and large font
