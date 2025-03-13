@@ -26,6 +26,11 @@ namespace CS3750Assignment1.Pages
         public double totalAmountPaid { get; set; }
         public string ReceiptPath { get; set; } = default!;
 
+        public async Task UpdateAmountPaidAsync(User user, long amount)
+        {
+            user.amountPaid += amount;
+            await _context.SaveChangesAsync();
+        }
 
         public SuccessModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
@@ -50,9 +55,9 @@ namespace CS3750Assignment1.Pages
             {
                 return RedirectToPage("/LoginPage");
             }
-           
-            user.amountPaid += amount;
-            await _context.SaveChangesAsync();
+
+            await UpdateAmountPaidAsync(user, amount);
+            
             totalAmountPaid = user.amountPaid ?? 0.0;
 
             // Retrieves courses

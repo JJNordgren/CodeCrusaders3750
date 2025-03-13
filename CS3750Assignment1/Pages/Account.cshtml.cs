@@ -66,15 +66,14 @@ namespace CS3750Assignment1.Pages
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
 
-            Credits = CalculateCredits(userId.Value);
+            string? userType = HttpContext.Session.GetString("UserType");
+            Credits = CalculateCredits(userId.Value, userType);
             Tuition = Credits * 100;
             Tuition = Tuition - totalAmountPaid;
         }
 
-        public int CalculateCredits(int userId)
+        public int CalculateCredits(int userId, string? userType)
         {
-            var userType = HttpContext.Session.GetString("UserType");
-
             int credits = 0;
 
             if (userType == "S")

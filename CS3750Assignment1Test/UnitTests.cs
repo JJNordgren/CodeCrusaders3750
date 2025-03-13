@@ -244,5 +244,55 @@ namespace CS3750Assignment1Test
                 db.SaveChanges();
             }
         }
+
+        [TestMethod]
+        public async Task CalculateCredits_IsZero_IfNoClassesAreRegistered()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
+
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+                // Arrange: Set up test data
+                AccountModel accountModel = new AccountModel(db); //Instantiate the class in order to get the method
+                var userId = 106; // A random a@a.com user that shouldn't be registered for any classes
+
+                User student;
+                student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+                bool hadToUseADummyUser = false;
+                if (student == null)
+                {
+                    hadToUseADummyUser = true;
+
+                    student = new User()
+                    {
+                        firstName = "Dummy",
+                        lastName = "User",
+                        email = "a@a.a",
+                        password = "password",
+                        confirmPassword = "password",
+                        BirthDate = DateTime.Parse("01-01-1999"),
+                        userType = 'S'
+                    };
+
+                    db.Users.Add(student);
+                    await db.SaveChangesAsync();
+                }
+
+                // Act: Calculate the credits
+                var credits = accountModel.CalculateCredits(student.Id, "S");
+
+                // Assert: Verify the credits
+                Assert.AreEqual(0, credits);
+
+                // Clean up: Remove the test data
+                if (hadToUseADummyUser)
+                {
+                    db.Users.Remove(student);
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
     }
 }
