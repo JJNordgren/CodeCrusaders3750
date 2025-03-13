@@ -44,7 +44,7 @@ namespace CS3750Assignment1Test
                 .UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;")
                 .Options;
         }
-
+        //JaKota's Test 1
         [TestMethod]
         public async Task UpdateUserProfile()
         {
@@ -114,7 +114,7 @@ namespace CS3750Assignment1Test
         }
 
 
-
+        //JaKota's Test 2
         [TestMethod]
         public async Task UpdateAmountPaidAsync_UpdatesCorrectly()
         {
