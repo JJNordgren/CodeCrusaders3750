@@ -17,6 +17,9 @@ namespace CS3750Assignment1.Pages
         public AddAssignmentModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
+
+            // Initialize lists if they are null
+            Notification = Notification ?? new List<Notification>();
         }
 
         public IActionResult OnGet()

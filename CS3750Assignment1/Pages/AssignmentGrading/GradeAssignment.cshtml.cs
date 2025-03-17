@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
+using Stripe.Tax;
 
 namespace CS3750Assignment1.Pages.AssignmentGrading
 {
@@ -13,6 +14,9 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
         public GradeAssignmentModel(ApplicationDbContext context)
         {
             _context = context;
+
+            // Initialize lists if they are null
+            Notification = Notification ?? new List<Notification>();
         }
 
         // The submissionId is passed in the URL.

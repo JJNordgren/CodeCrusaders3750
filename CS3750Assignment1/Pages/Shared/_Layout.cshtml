@@ -1,5 +1,6 @@
 ﻿﻿@using Newtonsoft.Json
-@using CS3750Assignment1.Models
+@using static CS3750Assignment1.Models.User
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,11 +27,14 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="bg-dark-blue text-light-green">
+
+       
         @if (Context.Session.GetInt32("UserId") == null)
         {
             <div class="text-center py-3 bg-dark-blue text-light-green">
                 <h1 class="m-0">CourseHub</h1>
             </div>
+            <label>@Model.</label>
         }
         else
         {
