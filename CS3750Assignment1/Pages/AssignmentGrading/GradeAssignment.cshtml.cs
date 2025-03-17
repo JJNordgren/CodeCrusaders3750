@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
-using Stripe.Tax;
 
 namespace CS3750Assignment1.Pages.AssignmentGrading
 {
@@ -75,9 +74,21 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
 
             // Update the submission with the teacher-entered points.
             submissionToUpdate.Grade = ReceivedPoints;
-            // Optionally, you might also update the Grade field:
-            // submissionToUpdate.Grade = ReceivedPoints;
 
+            // Create and add a notification to the database
+            var notification = new Notification
+            {
+                CourseName = submissionToUpdate.Assignment.Course.Name,
+                AssignmentName = submissionToUpdate.Assignment.Title,
+                Message = "Graded",
+                UserId = submissionToUpdate.Student.Id,
+                CourseId = submissionToUpdate.Assignment.Course.Id,
+                Deleted = false
+            };
+
+            _context.Notifications.Add(notification);
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
             // Redirect back to the submissions list (or another page as needed).
