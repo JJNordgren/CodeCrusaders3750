@@ -60,7 +60,31 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
+            // Add the assignment to the database
             _context.Assignment.Add(Assignment);
+            await _context.SaveChangesAsync();
+
+            // Create notifications for all students in the course
+            var studentsInCourse = _context.Users
+                .Where(user => user.Courses.Any(course => course.Id == cId))
+                .ToList();
+
+            foreach (var student in studentsInCourse)
+            {
+                var notification = new Notification
+                {
+                    CourseName = Assignment.Course.ClassNumber,
+                    AssignmentName = Assignment.Title,
+                    Message = "Created",
+                    UserId = student.Id,
+                    CourseId = Assignment.CourseId,
+                    Deleted = false
+                };
+
+                _context.Notifications.Add(notification);
+            }
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./ClassDash");
