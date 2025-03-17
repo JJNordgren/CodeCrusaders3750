@@ -19,6 +19,7 @@ namespace CS3750Assignment1.Data
         public DbSet<Assignment> Assignment { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
 
         /// <summary>
@@ -58,24 +59,36 @@ namespace CS3750Assignment1.Data
                 .HasForeignKey(a => a.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //the database can't recognize a dictionary, so I have to convert it to json and deserialize it when you call it.
-            var notificationConverter = new ValueConverter<Dictionary<string, string>?, string>(
-            v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-            v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null));
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Student)
+                .WithMany()
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            //makes sure it updates correctly using a value comparer
-            var notificationComparer = new ValueComparer<Dictionary<string, string>?>(
-                (d1, d2) =>
-                    d1 == null && d2 == null ||
-                    d1 != null && d2 != null && d1.Count == d2.Count && !d1.Except(d2).Any(),
-                d => d == null ? 0 : d.Aggregate(0, (a, v) => HashCode.Combine(a, v.Key.GetHashCode(), v.Value.GetHashCode())),
-                d => d == null ? null : new Dictionary<string, string>(d)
-            );
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Course)
+                .WithMany()
+                .HasForeignKey(n => n.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<User>()
-                .Property(u => u.notification)
-                .HasConversion(notificationConverter)
-                .Metadata.SetValueComparer(notificationComparer);
+            ////the database can't recognize a dictionary, so I have to convert it to json and deserialize it when you call it.
+            //var notificationConverter = new ValueConverter<Dictionary<string, string>?, string>(
+            //v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+            //v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null));
+
+            ////makes sure it updates correctly using a value comparer
+            //var notificationComparer = new ValueComparer<Dictionary<string, string>?>(
+            //    (d1, d2) =>
+            //        d1 == null && d2 == null ||
+            //        d1 != null && d2 != null && d1.Count == d2.Count && !d1.Except(d2).Any(),
+            //    d => d == null ? 0 : d.Aggregate(0, (a, v) => HashCode.Combine(a, v.Key.GetHashCode(), v.Value.GetHashCode())),
+            //    d => d == null ? null : new Dictionary<string, string>(d)
+            //);
+
+            //modelBuilder.Entity<User>()
+            //    .Property(u => u.notification)
+            //    .HasConversion(notificationConverter)
+            //    .Metadata.SetValueComparer(notificationComparer);
         }
         //public DbSet<CS3750Assignment1.Models.Assignment> Assignment { get; set; } = default!;
     }

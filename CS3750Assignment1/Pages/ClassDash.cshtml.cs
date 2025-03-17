@@ -19,11 +19,11 @@ namespace CS3750Assignment1.Pages
             _context = context;
         }
 
-        public IList<Assignment> Assignment { get;set; } = default!;
+        public IList<Assignment> Assignment { get; set; } = new List<Assignment>();
 
-        public IList<Submission> Submission { get; set; } = default!;
+        public IList<Submission> Submission { get; set; } = new List<Submission>();
 
-        public IList<Submission> StudentSubmission { get; set; } = default!;
+        public IList<Submission> StudentSubmission { get; set; } = new List<Submission>();
 
         public double? CurrentGrade { get; set; } = null;
         public double TotalPoints { get; set; } = 0;

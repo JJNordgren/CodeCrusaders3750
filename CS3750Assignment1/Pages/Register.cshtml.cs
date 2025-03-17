@@ -22,7 +22,7 @@ namespace CS3750Assignment1.Pages
 
         [BindProperty]
         public User User { get; set; } = default!;
-        
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
