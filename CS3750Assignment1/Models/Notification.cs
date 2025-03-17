@@ -31,7 +31,7 @@ namespace CS3750Assignment1.Models
         [ForeignKey("CourseId")]
         [ValidateNever]
         public Course Course { get; set; }
-        public bool Deleted { get; set; }
+        public bool Deleted { get; set; } //not actually used in the project, just delete the notification when closed
         //public int Id { get; set; }
         //public string? CourseName { get; set; }
         //public string? AssignmentName { get; set; }
