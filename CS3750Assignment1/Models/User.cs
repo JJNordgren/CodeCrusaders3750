@@ -30,7 +30,7 @@ namespace CS3750Assignment1.Models
         public string? phone { get; set; } = string.Empty;
 
         /// Dictionary to store notification data
-        public Dictionary<string, string>? notification { get; set; }
+        //public Dictionary<string, string>? notification { get; set; }
 
         /// Stores a Char for user type, T for teacher, S for student. Left it as char so 
         /// we could add more user types if we ever needed to.

@@ -19,8 +19,8 @@ namespace CS3750Assignment1.Data
         public DbSet<Assignment> Assignment { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
-
         public DbSet<Notification> Notifications { get; set; }
+
 
 
         /// <summary>
