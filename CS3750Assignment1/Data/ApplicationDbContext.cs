@@ -20,6 +20,8 @@ namespace CS3750Assignment1.Data
 
         public DbSet<Submission> Submissions { get; set; }
 
+        //public DbSet<Notification> Notifications { get; set; }
+
 
         /// <summary>
         /// ensures that the entity framework is aware of the foreign key instructorId 
