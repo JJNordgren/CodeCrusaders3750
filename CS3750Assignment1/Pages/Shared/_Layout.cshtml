@@ -118,23 +118,7 @@
     <div class="form-popup" id="NotificationForm">
         <form class="form-container">
             <h1 class="text-center mb-4 mt-4">Notifications</h1>
-
-            <div id="notifications">
-                <div class="row">
-                    <div class="col">
-                        <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                            <a style="text-decoration: none;">
-                                <div class="card-header" style="text-decoration: none; color: black;">
-                                    <h5 class="card-title" style="text-decoration: none;">CS 2750</h5>
-                                    <h6 class="card-title" style="text-decoration: none;">Assignment 1</h6>
-                                    <p class="card-text">Graded</p>
-                                    <button type="button" onclick="closeNotificationRow(this, 1)">Close</button> <!-- Pass notification ID here-->
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @await Component.InvokeAsync("Notifications")
         </form>
     </div>
 
