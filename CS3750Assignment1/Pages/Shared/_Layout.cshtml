@@ -137,8 +137,11 @@
             row.style.display = 'none';
 
             // Call the API to delete the notification
-            fetch(`/api/Notifications/${notificationId}`, {
-                method: 'DELETE'
+            fetch(`/api/Notifications/${parseInt(notificationId)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
             .then(response => {
                 if (!response.ok) {

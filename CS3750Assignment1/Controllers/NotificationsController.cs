@@ -19,7 +19,7 @@ namespace CS3750Assignment1.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteNotification(int id)
+        public IActionResult DeleteNotification([FromRoute] int id)
         {
             _logger.LogInformation($"Received request to delete notification with ID: {id}");
 
@@ -36,6 +36,7 @@ namespace CS3750Assignment1.Controllers
             _logger.LogInformation($"Notification with ID: {id} deleted successfully");
             return NoContent();
         }
+
     }
 }
 
