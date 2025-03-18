@@ -1,10 +1,11 @@
 ﻿﻿@using Newtonsoft.Json
 @using static CS3750Assignment1.Models.User
-
+@using static CS3750Assignment1.Models.Notification
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CourseHub</title>
@@ -126,12 +127,9 @@
                     <div class="col">
                         <div class="mx-auto card mb-3" style="max-width: 18rem;">
                             <a style="text-decoration: none;">
-                                <div class="card-header" style="text-decoration: none; color: black;">
-                                    <h5 class="card-title" style="text-decoration: none;">CS 2750</h5>
-                                    <h6 class="card-title" style="text-decoration: none;">Assignment 1</h6>
-                                    <p class="card-text">Graded</p>
-                                    <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                                </div>
+                               <div>
+
+                               </div>
                             </a>
                         </div>
                     </div>
@@ -220,16 +218,16 @@
             // Append the row to the notifications container
             notificationsContainer.appendChild(row);
         }
+        addNotification("CourseName", "AssignmentName", "Message");
 
         // Loop through notifications and add only those for the current user
-        Notification.forEach(Notification => {
-            if (notification.userId === @Context.Session.GetInt32("UserId")) {
-                addNotification(Notification.courseName, Notification.assignmentName, Notification.message);
+        Model.Notification.forEach(Notification => {
+            if (Notification.userId === @Context.Session.GetInt32("UserId")) {
+                addNotification(Notification.CourseName, Notification.AssignmentName, Notification.Message);
             }
         });
  
 
-        addNotification("CourseName", "AssignmentName", "Message");
 
     </script>
 
