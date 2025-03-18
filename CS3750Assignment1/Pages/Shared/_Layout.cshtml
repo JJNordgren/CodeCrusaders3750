@@ -1,7 +1,6 @@
 ﻿﻿@using Newtonsoft.Json
 @using static CS3750Assignment1.Models.User
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,14 +26,11 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="bg-dark-blue text-light-green">
-
-       
         @if (Context.Session.GetInt32("UserId") == null)
         {
             <div class="text-center py-3 bg-dark-blue text-light-green">
                 <h1 class="m-0">CourseHub</h1>
             </div>
-            <label>@Model.</label>
         }
         else
         {
@@ -130,7 +126,7 @@
                                     <h5 class="card-title" style="text-decoration: none;">CS 2750</h5>
                                     <h6 class="card-title" style="text-decoration: none;">Assignment 1</h6>
                                     <p class="card-text">Graded</p>
-                                    <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                                    <button type="button" onclick="closeNotificationRow(this, 1)">Close</button> <!-- Pass notification ID here-->
                                 </div>
                             </a>
                         </div>
@@ -150,12 +146,25 @@
             }
         }
 
-        function closeNotificationRow(button) {
+        function closeNotificationRow(button, notificationId) {
             var row = button.closest('.row');
             row.style.display = 'none';
+
+            // Call the API to delete the notification
+            fetch(`/api/Notifications/${notificationId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Failed to delete notification');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
 
-        function addNotification(courseTitle, assignmentTitle, status) {
+        function addNotification(courseTitle, assignmentTitle, status, notificationId) {
             // Get the notifications container
             const notificationsContainer = document.getElementById('notifications');
 
@@ -204,7 +213,7 @@
             button.type = 'button';
             button.textContent = 'Close';
             button.onclick = function () {
-                closeNotificationRow(button);
+                closeNotificationRow(button, notificationId);
             };
 
             // Assemble the card elements
@@ -220,14 +229,12 @@
             // Append the row to the notifications container
             notificationsContainer.appendChild(row);
         }
- 
 
-
-
-        addNotification("CS 2750", "Assignment 2", "Graded");
-
+        // Example usage
+        addNotification("CS 2750", "Assignment 2", "Graded", 1); // Pass the notification ID here
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
