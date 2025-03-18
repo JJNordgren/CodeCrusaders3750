@@ -14,8 +14,6 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
         {
             _context = context;
 
-            // Initialize lists if they are null
-            Notification = Notification ?? new List<Notification>();
         }
 
         // The submissionId is passed in the URL.
@@ -56,6 +54,8 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
             // Retrieve the submission to update.
             var submissionToUpdate = await _context.Submissions
                 .Include(s => s.Assignment)
+                    .ThenInclude(a => a.Course)
+                .Include(s => s.Student)
                 .FirstOrDefaultAsync(s => s.Id == SubmissionId);
 
             if (submissionToUpdate == null)
@@ -86,7 +86,7 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
                 Deleted = false
             };
 
-            _context.Notifications.Add(notification);
+            _context.Notification.Add(notification);
 
             // Save changes to the database
             await _context.SaveChangesAsync();

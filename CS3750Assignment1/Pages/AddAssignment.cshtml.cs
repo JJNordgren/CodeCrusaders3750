@@ -17,9 +17,6 @@ namespace CS3750Assignment1.Pages
         public AddAssignmentModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
-
-            // Initialize lists if they are null
-            Notification = Notification ?? new List<Notification>();
         }
 
         public IActionResult OnGet()
@@ -46,11 +43,15 @@ namespace CS3750Assignment1.Pages
         [BindProperty]
         public Assignment Assignment { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             var cId = HttpContext.Session.GetInt32("CourseId");
             var uId = HttpContext.Session.GetInt32("UserId");
+
+            if (cId == null || uId == null)
+            {
+                return RedirectToPage("/LoginPage");
+            }
 
             Assignment.CourseId = cId.Value;
             Assignment.InstructorId = uId.Value;
@@ -64,9 +65,16 @@ namespace CS3750Assignment1.Pages
             _context.Assignment.Add(Assignment);
             await _context.SaveChangesAsync();
 
+            var course = await _context.Courses.FindAsync(cId.Value);
+
+            var studentIds = _context.Registrations
+                .Where(r => r.CourseId == cId.Value)
+                .Select(r => r.UserId)
+                .Distinct()
+                .ToList();
             // Create notifications for all students in the course
             var studentsInCourse = _context.Users
-                .Where(user => user.Courses.Any(course => course.Id == cId))
+                .Where(u => studentIds.Contains(u.Id))
                 .ToList();
 
             foreach (var student in studentsInCourse)
@@ -81,7 +89,7 @@ namespace CS3750Assignment1.Pages
                     Deleted = false
                 };
 
-                _context.Notifications.Add(notification);
+                _context.Notification.Add(notification);
             }
 
             // Save changes to the database
