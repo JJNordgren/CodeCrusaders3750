@@ -34,7 +34,7 @@
             <div class="text-center py-3 bg-dark-blue text-light-green">
                 <h1 class="m-0">CourseHub</h1>
             </div>
-            <label>@Model.</label>
+    
         }
         else
         {
@@ -220,11 +220,16 @@
             // Append the row to the notifications container
             notificationsContainer.appendChild(row);
         }
+
+        // Loop through notifications and add only those for the current user
+        Notification.forEach(Notification => {
+            if (notification.userId === @Context.Session.GetInt32("UserId")) {
+                addNotification(Notification.courseName, Notification.assignmentName, Notification.message);
+            }
+        });
  
 
-
-
-        addNotification("CS 2750", "Assignment 2", "Graded");
+        addNotification("CourseName", "AssignmentName", "Message");
 
     </script>
 
