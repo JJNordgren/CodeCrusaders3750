@@ -3,7 +3,7 @@
 <div id="notifications">
     @foreach (var notification in Model)
     {
-        <div class="row">
+        <div class="row" data-notification-id="@notification.Id">
             <div class="col">
                 <div class="mx-auto card mb-3" style="max-width: 18rem;">
                     <a style="text-decoration: none;">
@@ -11,7 +11,7 @@
                             <h5 class="card-title" style="text-decoration: none;">@notification.CourseName</h5>
                             <h6 class="card-title" style="text-decoration: none;">@notification.AssignmentName</h6>
                             <p class="card-text">@notification.Message</p>
-                            <button type="button" onclick="closeNotificationRow(this)">Close</button>
+                            <button type="button" onclick="closeNotificationRow(this, @notification.Id)">Close</button>
                         </div>
                     </a>
                 </div>
