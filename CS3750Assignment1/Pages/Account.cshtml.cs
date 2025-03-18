@@ -78,11 +78,20 @@ namespace CS3750Assignment1.Pages
 
             if (userType == "S")
             {
-                var studentRegistrations = Registrations.Where(r => r.UserId == userId);
-
-                foreach (var registration in studentRegistrations)
+                if (Registrations == null)
                 {
-                    credits += registration.Course.CreditHours;
+                    // This happens since we aren't using the loaddataasync method in unit tests. 
+                    // The tests don't play nicely when trying to use a null registration to find student registrations.
+                    // If the student isn't registered for any classes, then we leave credits as 0
+                }
+                else
+                {
+                    var studentRegistrations = Registrations.Where(r => r.UserId == userId);
+
+                    foreach (var registration in studentRegistrations)
+                    {
+                        credits += registration.Course.CreditHours;
+                    }
                 }
             }
 

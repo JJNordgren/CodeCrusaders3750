@@ -168,8 +168,7 @@ namespace CS3750Assignment1Test
                 }
             }
         }
-        [TestMethod]
-        public async Task ViewClassDetailsTest()
+
         [TestMethod] //Kaylee Unit Test 1
         public void SuccessfulUserRegistrationTest()
         {
@@ -360,7 +359,7 @@ namespace CS3750Assignment1Test
             {
                 // Arrange: Set up test data
                 AccountModel accountModel = new AccountModel(db); //Instantiate the class in order to get the method
-                var userId = 106; // A random a@a.com user that shouldn't be registered for any classes
+                var userId = 100; // A random a@a.com user that shouldn't be registered for any classes
 
                 User student;
                 student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -372,11 +371,11 @@ namespace CS3750Assignment1Test
 
                     student = new User()
                     {
-                        firstName = "Dummy",
-                        lastName = "User",
+                        firstName = "Nicholas",
+                        lastName = "Deer",
                         email = "a@a.a",
-                        password = "password",
-                        confirmPassword = "password",
+                        password = "deleteMe",
+                        confirmPassword = "deleteMe",
                         BirthDate = DateTime.Parse("01-01-1999"),
                         userType = 'S'
                     };
@@ -391,7 +390,7 @@ namespace CS3750Assignment1Test
                 // Assert: Verify the credits
                 Assert.AreEqual(0, credits);
 
-                // Clean up: Remove the test data
+                //Clean up: Remove the test data
                 if (hadToUseADummyUser)
                 {
                     db.Users.Remove(student);
