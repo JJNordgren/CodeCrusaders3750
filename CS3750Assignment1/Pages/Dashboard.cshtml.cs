@@ -18,12 +18,11 @@ namespace CS3750Assignment1.Pages
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
         private readonly JsonSerializerOptions _jsonOptions;
-        private readonly ILogger<DashboardModel> _logger; //FIX ME DELETE after testing
 
-        public DashboardModel(CS3750Assignment1.Data.ApplicationDbContext context, ILogger<DashboardModel> logger) //FIXME DELETE after testing ", ILogger<DashboardModel> logger"
+        // Add this to reimplement the logger, ILogger<DashboardModel> logger
+        public DashboardModel(CS3750Assignment1.Data.ApplicationDbContext context) 
         {
             _context = context;
-            _logger = logger; //FIX ME DELETE ME AFTER TESTING
 
             // Initialize lists if they are null
             Course = Course ?? new List<Course>();
