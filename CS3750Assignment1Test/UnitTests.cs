@@ -169,6 +169,8 @@ namespace CS3750Assignment1Test
                 }
             }
         }
+        //[TestMethod]
+        //public async Task ViewClassDetailsTest()
 
         [TestMethod] //Kaylee Unit Test 1
         public void SuccessfulUserRegistrationTest()

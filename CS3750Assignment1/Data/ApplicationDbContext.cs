@@ -19,7 +19,8 @@ namespace CS3750Assignment1.Data
         public DbSet<Assignment> Assignment { get; set; }
 
         public DbSet<Submission> Submissions { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Notification> Notification  { get; set; }
+
 
 
         /// <summary>
@@ -58,18 +59,6 @@ namespace CS3750Assignment1.Data
                 .WithMany()
                 .HasForeignKey(a => a.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Notification>()
-                .HasOne(n => n.Student)
-                .WithMany()
-                .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Notification>()
-                .HasOne(n => n.Course)
-                .WithMany()
-                .HasForeignKey(n => n.CourseId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             ////the database can't recognize a dictionary, so I have to convert it to json and deserialize it when you call it.
             //var notificationConverter = new ValueConverter<Dictionary<string, string>?, string>(

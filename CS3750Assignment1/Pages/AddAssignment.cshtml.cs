@@ -51,18 +51,57 @@ namespace CS3750Assignment1.Pages
             await _context.SaveChangesAsync();
         }
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             var cId = HttpContext.Session.GetInt32("CourseId");
             var uId = HttpContext.Session.GetInt32("UserId");
+
+            if (cId == null || uId == null)
+            {
+                return RedirectToPage("/LoginPage");
+            }
+
+            Assignment.CourseId = cId.Value;
+            Assignment.InstructorId = uId.Value;
 
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            await AddAsignmentAsync(Assignment, cId.Value, uId.Value);
+            // Add the assignment to the database
+            _context.Assignment.Add(Assignment);
+            await _context.SaveChangesAsync();
+
+            var course = await _context.Courses.FindAsync(cId.Value);
+
+            var studentIds = _context.Registrations
+                .Where(r => r.CourseId == cId.Value)
+                .Select(r => r.UserId)
+                .Distinct()
+                .ToList();
+            // Create notifications for all students in the course
+            var studentsInCourse = _context.Users
+                .Where(u => studentIds.Contains(u.Id))
+                .ToList();
+
+            foreach (var student in studentsInCourse)
+            {
+                var notification = new Notification
+                {
+                    CourseName = Assignment.Course.ClassNumber,
+                    AssignmentName = Assignment.Title,
+                    Message = "Created",
+                    UserId = student.Id,
+                    CourseId = Assignment.CourseId,
+                    Deleted = false
+                };
+
+                _context.Notification.Add(notification);
+            }
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./ClassDash");
         }
