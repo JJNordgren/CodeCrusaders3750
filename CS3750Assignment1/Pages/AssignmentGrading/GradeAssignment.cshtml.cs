@@ -13,6 +13,7 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
         public GradeAssignmentModel(ApplicationDbContext context)
         {
             _context = context;
+
         }
 
         // The submissionId is passed in the URL.
@@ -53,6 +54,8 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
             // Retrieve the submission to update.
             var submissionToUpdate = await _context.Submissions
                 .Include(s => s.Assignment)
+                    .ThenInclude(a => a.Course)
+                .Include(s => s.Student)
                 .FirstOrDefaultAsync(s => s.Id == SubmissionId);
 
             if (submissionToUpdate == null)
@@ -71,9 +74,21 @@ namespace CS3750Assignment1.Pages.AssignmentGrading
 
             // Update the submission with the teacher-entered points.
             submissionToUpdate.Grade = ReceivedPoints;
-            // Optionally, you might also update the Grade field:
-            // submissionToUpdate.Grade = ReceivedPoints;
 
+            // Create and add a notification to the database
+            var notification = new Notification
+            {
+                CourseName = submissionToUpdate.Assignment.Course.Name,
+                AssignmentName = submissionToUpdate.Assignment.Title,
+                Message = "Graded",
+                UserId = submissionToUpdate.Student.Id,
+                CourseId = submissionToUpdate.Assignment.Course.Id,
+                Deleted = false
+            };
+
+            _context.Notification.Add(notification);
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
             // Redirect back to the submissions list (or another page as needed).

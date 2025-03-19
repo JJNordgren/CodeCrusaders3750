@@ -1,9 +1,11 @@
-﻿@using Newtonsoft.Json
-@using CS3750Assignment1.Models
+﻿﻿@using Newtonsoft.Json
+<!--@using static CS3750Assignment1.Models.User--> 
+@using static CS3750Assignment1.Models.Notification
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CourseHub</title>
@@ -76,7 +78,7 @@
                     @if (string.IsNullOrEmpty(@Context.Session.GetString("PicturePath")))
                     {
                         <div class="d-flex align-items-center">
-                            <a asp-page="/Profile" asp-route-id="@Context.Session.GetInt32("UserId")">
+                            <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
                                 <img src="/ProfileImages/bc10aade-00e1-4e39-acd8-eee7f423a4b9_user.png" alt="Default Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;" />
                             </a>
                         </div>
@@ -85,7 +87,7 @@
                     {
                         var picturePath = Context.Session.GetString("PicturePath");
                         <div class="d-flex align-items-center">
-                            <a asp-page="/Profile" asp-route-id="@Context.Session.GetInt32("UserId")">
+                            <a asp-page="/ProfilePicture/Edit" asp-route-id="@Context.Session.GetInt32("UserId")">
                                 <img src="@picturePath" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;" />
                             </a>
                         </div>
@@ -114,74 +116,9 @@
 
     <!-- Notification popup -->
     <div class="form-popup" id="NotificationForm">
-    <form class="form-container">
-                <h1 class="text-center mb-4 mt-4">Notifications</h1>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 1 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 2 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 3 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 4 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto card mb-3" style="max-width: 18rem;">
-                        <a style="text-decoration: none;">
-                            <div class="card-header" style="text-decoration: none; color: black;">
-                                <h5 class="card-title" style="text-decoration: none;">American History</h5>
-                                <p class="card-text">Assignment 5 90/100</p>
-                                <button type="button" onclick="closeNotificationRow(this)">Close</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-         
+        <form class="form-container">
+            <h1 class="text-center mb-4 mt-4">Notifications</h1>
+            @await Component.InvokeAsync("Notifications")
         </form>
     </div>
 
@@ -195,12 +132,98 @@
             }
         }
 
-        function closeNotificationRow(button) {
+        function closeNotificationRow(button, notificationId) {
             var row = button.closest('.row');
             row.style.display = 'none';
+
+            // Call the API to delete the notification
+            fetch(`/api/Notifications/${parseInt(notificationId)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Failed to delete notification');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
+
+        function addNotification(courseTitle, assignmentTitle, status, notificationId) {
+            // Get the notifications container
+            const notificationsContainer = document.getElementById('notifications');
+
+            // Create the row
+            const row = document.createElement('div');
+            row.className = 'row';
+
+            // Create the column
+            const col = document.createElement('div');
+            col.className = 'col';
+
+            // Create the card
+            const card = document.createElement('div');
+            card.className = 'mx-auto card mb-3';
+            card.style.maxWidth = '18rem';
+
+            // Create the anchor
+            const anchor = document.createElement('a');
+            anchor.style.textDecoration = 'none';
+
+            // Create the card header
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            cardHeader.style.textDecoration = 'none';
+            cardHeader.style.color = 'black';
+
+            // Create the course title
+            const h5 = document.createElement('h5');
+            h5.className = 'card-title';
+            h5.style.textDecoration = 'none';            // Change the 1 in the next line out for the ID of the assignment, if you can get and pass it in
+            h5.innerHTML = '<a asp-page="./AssignmentSubmission" asp-route-id="@@' + 1 + '" style="text-decoration: none;">' + courseTitle + '</a>';
+
+            // Create the assignment title
+            const h6 = document.createElement('h6');
+            h6.className = 'card-title';
+            h6.style.textDecoration = 'none';
+            h6.textContent = assignmentTitle;
+
+            // Create the status
+            const p = document.createElement('p');
+            p.className = 'card-text';
+            p.textContent = status;
+
+            // Create the close button
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'Close';
+            button.onclick = function () {
+                closeNotificationRow(button, notificationId);
+            };
+
+            // Assemble the card elements
+            cardHeader.appendChild(h5);
+            cardHeader.appendChild(h6);
+            cardHeader.appendChild(p);
+            cardHeader.appendChild(button);
+            anchor.appendChild(cardHeader);
+            card.appendChild(anchor);
+            col.appendChild(card);
+            row.appendChild(col);
+
+            // Append the row to the notifications container
+            notificationsContainer.appendChild(row);
+        }
+
+        // Example usage
+        addNotification("CS 2750", "Assignment 2", "Graded", 1); // Pass the notification ID here
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
