@@ -349,6 +349,7 @@ namespace CS3750Assignment1Test
             }
         }
 
+        // Matt's unit test 1
         [TestMethod]
         public async Task CalculateCredits_IsZero_IfNoClassesAreRegistered()
         {
@@ -359,7 +360,7 @@ namespace CS3750Assignment1Test
             {
                 // Arrange: Set up test data
                 AccountModel accountModel = new AccountModel(db); //Instantiate the class in order to get the method
-                var userId = 100; // A random a@a.com user that shouldn't be registered for any classes
+                var userId = 42; // A random a@a.com user that shouldn't be registered for any classes
 
                 User student;
                 student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -398,5 +399,105 @@ namespace CS3750Assignment1Test
                 }
             }
         }
+
+        // Matt's second unit test
+        [TestMethod]
+        public async Task AddAsignmentAsync_CreatesNewAssignmentSuccessfully()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
+
+            using (var db = new ApplicationDbContext(optionsBuilder.Options))
+            {
+                AddAssignmentModel addAssignment = new AddAssignmentModel(db); //Instantiate the class in order to get the method
+
+                // Arrange: Set up test data
+                int instructorId = 5;
+                int courseId = 10;
+
+                User instructor = await db.Users.FirstOrDefaultAsync(u => u.Id == instructorId);
+                Course course = await db.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
+
+                bool hadToUseDummyInstructor = false;
+                if (instructor == null)
+                {
+                    hadToUseDummyInstructor = true;
+                    instructor = new User()
+                    {
+                        firstName = "Sam",
+                        lastName = "Gamgee",
+                        email = "b@b.b",
+                        password = "deleteMe",
+                        confirmPassword = "deleteMe",
+                        BirthDate = DateTime.Parse("02-02-2002"),
+                        userType = 'T'
+                    };
+
+                    db.Users.Add(instructor);
+                    await db.SaveChangesAsync();
+
+                    instructorId = instructor.Id;
+                }
+
+                bool hadToUseDummyCourse = false;
+                if (course == null)
+                {
+                    hadToUseDummyCourse = true;
+                    course = new Course()
+                    {
+                        Department = "CS",
+                        Name = "Scripting Languages",
+                        ClassNumber = "3030",
+                        CreditHours = 3,
+                        Capacity = 30,
+                        Location = "NB 202",
+                        StartTime = DateTime.Parse("08:00 AM").TimeOfDay,
+                        EndTime = DateTime.Parse("09:00 PM").TimeOfDay,
+                        InstructorId = instructorId,
+                        MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
+                    };
+
+                    db.Courses.Add(course);
+                    await db.SaveChangesAsync();
+
+                    courseId = course.Id;
+                }
+
+                int oldAssignmentCount = await db.Assignment.Where(Assignment => Assignment.CourseId == courseId && Assignment.InstructorId == instructorId).CountAsync();
+
+                // Act: Add a new assignment
+                Assignment assignment = new Assignment()
+                {
+                    Title = "Really boring script",
+                    Description = "Write a script that does nothing",
+                    DueDate = DateTime.Parse("05-05-2025"),
+                    MaxPoints = 1000,
+                    AssignmentType = 'T'
+                };
+
+                await addAssignment.AddAsignmentAsync(assignment, courseId, instructorId);
+
+                int newAssignmentCount = await db.Assignment.Where(Assignment => Assignment.CourseId == courseId && Assignment.InstructorId == instructorId).CountAsync();
+
+                // Assert: Verify the assignment was added
+                Assert.AreEqual(oldAssignmentCount + 1, newAssignmentCount);
+
+                // Clean up: Remove the test data, starting with the most dependant to least
+                //Assignment a = await db.Assignment.Where(assignment => assignment.CourseId == courseId && assignment.InstructorId == instructorId).OrderByDescending(a => a.Id).FirstAsync();
+                db.Assignment.Remove(assignment);
+                if (hadToUseDummyCourse)
+                {
+                    db.Courses.Remove(course);
+                }
+                if (hadToUseDummyInstructor)
+                {
+                    db.Users.Remove(instructor);
+                }
+
+                await db.SaveChangesAsync();
+            }
+        }
+
+
     }
 }

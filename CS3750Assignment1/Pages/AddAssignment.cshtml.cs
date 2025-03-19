@@ -14,6 +14,9 @@ namespace CS3750Assignment1.Pages
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
 
+        [BindProperty]
+        public Assignment Assignment { get; set; } = default!;
+
         public AddAssignmentModel(CS3750Assignment1.Data.ApplicationDbContext context)
         {
             _context = context;
@@ -40,8 +43,13 @@ namespace CS3750Assignment1.Pages
             return Page();
         }
 
-        [BindProperty]
-        public Assignment Assignment { get; set; } = default!;
+        public async Task AddAsignmentAsync(Assignment a, int courseId, int instructorId)
+        {
+            a.CourseId = courseId;
+            a.InstructorId = instructorId;
+            _context.Assignment.Add(a);
+            await _context.SaveChangesAsync();
+        }
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -49,16 +57,12 @@ namespace CS3750Assignment1.Pages
             var cId = HttpContext.Session.GetInt32("CourseId");
             var uId = HttpContext.Session.GetInt32("UserId");
 
-            Assignment.CourseId = cId.Value;
-            Assignment.InstructorId = uId.Value;
-
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Assignment.Add(Assignment);
-            await _context.SaveChangesAsync();
+            await AddAsignmentAsync(Assignment, cId.Value, uId.Value);
 
             return RedirectToPage("./ClassDash");
         }
