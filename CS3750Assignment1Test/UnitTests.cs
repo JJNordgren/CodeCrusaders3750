@@ -255,7 +255,7 @@ namespace CS3750Assignment1Test
 
 
 
-        [TestMethod]
+        [TestMethod] // Will's Unit Test 1
         public async Task AddCourseTest()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
@@ -263,8 +263,7 @@ namespace CS3750Assignment1Test
             // Create a logger for the correct Model
             ILogger<CreateAClassModel> logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<CreateAClassModel>();
 
-            // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
-            //using (var db = new ApplicationDbContext(options))
+            // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations,etc.
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
@@ -288,11 +287,6 @@ namespace CS3750Assignment1Test
                 bool result = await createaclassmodel.CreateAClass(course);
                 await db.SaveChangesAsync();
 
-                //Old Code
-                //db.Courses.Add(course);
-                // Saves it to the database
-                //db.SaveChanges();
-
                 int M = await db.Courses.CountAsync();
 
                 // Assert: Verify expected results
@@ -303,7 +297,7 @@ namespace CS3750Assignment1Test
             }
         }
 
-        [TestMethod]
+        [TestMethod] // Will's Unit Test 2
         public async Task StudentRegisterCourse()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
@@ -313,7 +307,7 @@ namespace CS3750Assignment1Test
             ILogger<StudentClassesModel> logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<StudentClassesModel>();
 
 
-            // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But the data is empty
+            // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc.
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
@@ -337,17 +331,6 @@ namespace CS3750Assignment1Test
 
                 bool result = await studentclassesmodel.AddARegistration(registration);
                 await db.SaveChangesAsync();
-
-                //db.Registrations.Add(registration);
-                //try
-                //{
-                //    //Saves data to the database
-                //    await db.SaveChangesAsync();
-                //}
-                //catch (Exception ex)
-                //{
-                //    Assert.Fail($"Error saving registration: {ex.Message}");
-                //}
 
                 int M = await db.Registrations.CountAsync();
 
