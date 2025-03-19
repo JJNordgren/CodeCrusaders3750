@@ -183,8 +183,8 @@
             // Create the course title
             const h5 = document.createElement('h5');
             h5.className = 'card-title';
-            h5.style.textDecoration = 'none';
-            h5.textContent = courseTitle;
+            h5.style.textDecoration = 'none';            // Change the 1 in the next line out for the ID of the assignment, if you can get and pass it in
+            h5.innerHTML = '<a asp-page="./AssignmentSubmission" asp-route-id="@@' + 1 + '" style="text-decoration: none;">' + courseTitle + '</a>';
 
             // Create the assignment title
             const h6 = document.createElement('h6');
