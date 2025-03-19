@@ -1,0 +1,201 @@
+{
+  "id": "ecbc1435-3bde-41ca-aa9d-e04558cd0f18",
+  "version": "2.0",
+  "name": "MattsSeleniumTest",
+  "url": "http://localhost:5097",
+  "tests": [{
+    "id": "80c2cfd9-faea-489d-a586-90af612aad76",
+    "name": "GradeAnAssignment",
+    "commands": [{
+      "id": "21e3a8ef-9371-4e39-b28d-81eeea7a4350",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2ed6b0ca-2be4-4633-9aef-204cd8d8070f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1550x830",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "11f611fd-e081-41a4-961b-b6420600ef27",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=Email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b9fd9461-d69b-4f87-aea0-e2bd49282872",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=Email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "waldowildcat@weber.edu"
+    }, {
+      "id": "c9de815e-e562-40bf-8321-0e7d4147300a",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=Password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "12345678"
+    }, {
+      "id": "02b9e919-deda-4f22-b8ec-35d8c618fc23",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7153ee87-9a85-40d4-94ad-349ce2dca7c1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col:nth-child(4) .card-header",
+      "targets": [
+        ["css=.col:nth-child(4) .card-header", "css:finder"],
+        ["xpath=//div[4]/div/a/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "02772161-5214-4876-96f1-36d5fbe2087d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Submissions",
+      "targets": [
+        ["linkText=Submissions", "linkText"],
+        ["css=td > .btn-primary", "css:finder"],
+        ["xpath=//a[contains(text(),'Submissions')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/AssignmentGrading/ReviewSubmissions/18')]", "xpath:href"],
+        ["xpath=//td[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Submissions')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c92b09b9-8973-4f0b-b10f-1be81c15c6fb",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Grade",
+      "targets": [
+        ["linkText=Grade", "linkText"],
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//a[contains(text(),'Grade')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/AssignmentGrading/GradeAssignment/13')]", "xpath:href"],
+        ["xpath=//td[7]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Grade')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "57049a98-de0b-455e-a954-9a2eec1013e8",
+      "comment": "",
+      "command": "mouseDownAt",
+      "target": "id=ReceivedPoints",
+      "targets": [
+        ["id=ReceivedPoints", "id"],
+        ["name=ReceivedPoints", "name"],
+        ["css=#ReceivedPoints", "css:finder"],
+        ["xpath=//input[@id='ReceivedPoints']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "-17.800003051757812,14.399993896484375"
+    }, {
+      "id": "b952d6dd-2d02-485f-a266-be1737f06d2d",
+      "comment": "",
+      "command": "mouseMoveAt",
+      "target": "id=ReceivedPoints",
+      "targets": [
+        ["id=ReceivedPoints", "id"],
+        ["name=ReceivedPoints", "name"],
+        ["css=#ReceivedPoints", "css:finder"],
+        ["xpath=//input[@id='ReceivedPoints']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "-17.800003051757812,14.399993896484375"
+    }, {
+      "id": "a5bab787-a3e1-4d39-bc24-07ddcbd11892",
+      "comment": "",
+      "command": "mouseUpAt",
+      "target": "id=ReceivedPoints",
+      "targets": [
+        ["id=ReceivedPoints", "id"],
+        ["name=ReceivedPoints", "name"],
+        ["css=#ReceivedPoints", "css:finder"],
+        ["xpath=//input[@id='ReceivedPoints']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "-17.800003051757812,14.399993896484375"
+    }, {
+      "id": "6ee32dd0-12fe-461e-9d83-06fd1946eb8a",
+      "comment": "",
+      "command": "click",
+      "target": "id=ReceivedPoints",
+      "targets": [
+        ["id=ReceivedPoints", "id"],
+        ["name=ReceivedPoints", "name"],
+        ["css=#ReceivedPoints", "css:finder"],
+        ["xpath=//input[@id='ReceivedPoints']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5c208e44-a4a5-4501-92dc-ea55e6353cff",
+      "comment": "",
+      "command": "type",
+      "target": "id=ReceivedPoints",
+      "targets": [
+        ["id=ReceivedPoints", "id"],
+        ["name=ReceivedPoints", "name"],
+        ["css=#ReceivedPoints", "css:finder"],
+        ["xpath=//input[@id='ReceivedPoints']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "80"
+    }, {
+      "id": "c9b1ccc7-542b-45fa-a765-ec103098a648",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Grade')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "344fb632-908f-4744-b2b6-ec0756719f30",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["80c2cfd9-faea-489d-a586-90af612aad76"]
+  }],
+  "urls": ["http://localhost:5097/"],
+  "plugins": []
+}
