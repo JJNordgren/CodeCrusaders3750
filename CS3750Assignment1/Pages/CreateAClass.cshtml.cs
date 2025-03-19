@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CS3750Assignment1.Data;
 using CS3750Assignment1.Models;
+using Stripe;
 
 namespace CS3750Assignment1.Pages
 {
     public class CreateAClassModel : PageModel
     {
         private readonly CS3750Assignment1.Data.ApplicationDbContext _context;
+        private readonly ILogger<CreateAClassModel> _logger;
 
-        public CreateAClassModel(CS3750Assignment1.Data.ApplicationDbContext context)
+        public CreateAClassModel(CS3750Assignment1.Data.ApplicationDbContext context, ILogger<CreateAClassModel> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -65,14 +68,42 @@ namespace CS3750Assignment1.Pages
                 return Page();
             }
 
-            _context.Courses.Add(Course);
-            
-            await _context.SaveChangesAsync();
+            // Create the class
+            bool result = await CreateAClass(Course);
+
+            // If create a class fails show the error
+            if (!result)
+            {
+                ModelState.AddModelError("", "Failed to create the class. Please try again.");
+                DepartmentOptions = new List<string> { "CS", "Math", "Science", "History", "Health" };
+                return Page();
+            }
 
             // Set the session flag when an instructor adds or deletes a course
             HttpContext.Session.SetString("InstructorCourseChanged", "true");
 
             return RedirectToPage("./InstructorClasses");
+        }
+
+        // Create a class and add it to the database
+        public async Task<bool> CreateAClass(Course course)
+        {
+            try
+            {
+                // Add the course to the database   
+                _context.Courses.Add(course);
+                await _context.SaveChangesAsync();
+
+            }
+            // Catch any errors that occur during the process
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating a class.");
+                return false;
+            }
+
+            return true;
+            
         }
     }
 }

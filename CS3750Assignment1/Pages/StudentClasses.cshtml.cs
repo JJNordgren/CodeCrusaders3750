@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CS3750Assignment1.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using iTextSharp.text.pdf.qrcode;
+using Stripe;
 
 namespace CS3750Assignment1.Pages
 {
@@ -118,28 +119,60 @@ namespace CS3750Assignment1.Pages
                 Course = course
             };
 
-            _context.Registrations.Add(registration);
-            _logger.LogInformation("Adding registration: {Registration}", registration);
+            bool result = await AddARegistration(registration);
 
-            try
+            // If register a class fails show the error
+            if (result)
             {
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("Registration saved successfully.");
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _logger.LogInformation("Registration saved successfully.");
 
-                // Set the session flag when a student registers for a course
-                HttpContext.Session.SetString("StudentCourseChanged", "true");
+                    // Set the session flag when a student registers for a course
+                    HttpContext.Session.SetString("StudentCourseChanged", "true");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error saving registration.");
+                    ModelState.AddModelError("", "Error saving registration.");
+                    await LoadCoursesAsync(userId.Value);
+                    return Page();
+                }
             }
-            catch (Exception ex)
+            // Log the successful registration
+            else
             {
-                _logger.LogError(ex, "Error saving registration.");
+                _logger.LogError("Error saving registration.");
                 ModelState.AddModelError("", "Error saving registration.");
                 await LoadCoursesAsync(userId.Value);
                 return Page();
             }
 
+           
+
             // Re-load the courses after form submission
             await LoadCoursesAsync(userId.Value);
             return Page();
+        }
+
+        public async Task<bool> AddARegistration(Registration registration)
+        {
+            try
+            {
+                // Add the course to the database   
+                _context.Registrations.Add(registration);
+                await _context.SaveChangesAsync();
+
+            }
+            // Catch any errors that occur during the process
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering a class.");
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<IActionResult> OnPostDropAsync(int courseId)

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using CS3750Assignment1.Pages;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
 
 
 namespace CS3750Assignment1Test
@@ -255,19 +256,20 @@ namespace CS3750Assignment1Test
 
 
         [TestMethod]
-        public void AddCourseTest()
+        public async Task AddCourseTest()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
-
+            // Create a logger for the correct Model
+            ILogger<CreateAClassModel> logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<CreateAClassModel>();
 
             // This will pull the variables we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But these variables are empty because this doesn't pull from the database just the context
             //using (var db = new ApplicationDbContext(options))
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
                 // Arrange: Set up test data
-
-                int N = db.Courses.Count();
+                CreateAClassModel createaclassmodel = new CreateAClassModel(db, logger);
+                int N = await db.Courses.CountAsync();
 
                 Course course = new Course
                 {
@@ -283,17 +285,21 @@ namespace CS3750Assignment1Test
                     MeetingDays = new List<string> { "Monday", "Wednesday", "Friday" }
                 };
 
-                db.Courses.Add(course);
-                // Saves it to the database
-                db.SaveChanges();
+                bool result = await createaclassmodel.CreateAClass(course);
+                await db.SaveChangesAsync();
 
-                int M = db.Courses.Count();
+                //Old Code
+                //db.Courses.Add(course);
+                // Saves it to the database
+                //db.SaveChanges();
+
+                int M = await db.Courses.CountAsync();
 
                 // Assert: Verify expected results
                 Assert.IsTrue(M == N + 1);
 
                 db.Courses.Remove(course);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -303,19 +309,22 @@ namespace CS3750Assignment1Test
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer("Data Source=titan.cs.weber.edu,10433;Initial Catalog=3750_Spr25_CodeCrusaders;User ID=3750_Spr25_CodeCrusaders;Password=Burrito9*;TrustServerCertificate=True;");
 
+            // Create a logger for the correct Model
+            ILogger<StudentClassesModel> logger = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<StudentClassesModel>();
+
+
             // This will pull the datatypes we have in the ApplicationDbContext like Courses, Users, Registrations, etc. But the data is empty
             using (var db = new ApplicationDbContext(optionsBuilder.Options))
             {
-                int N = db.Registrations.Count();
+                // Arrange: Set up test data
+                StudentClassesModel studentclassesmodel = new StudentClassesModel(db, logger);
+                int N = await db.Registrations.CountAsync();
 
-                //Recogniz
-                var userId = 19; // Random Number
-                var courseId = 11; // Random Number
+                var userId = 39; // Random Number
+                var courseId = 10; // Random Number
 
-                // This variables is null becasue the database is empty
                 var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
 
-                // This variables is null becasue the database is empty
                 var student = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
                 var registration = new Registration
@@ -326,26 +335,27 @@ namespace CS3750Assignment1Test
                     Course = course
                 };
 
-                db.Registrations.Add(registration);
+                bool result = await studentclassesmodel.AddARegistration(registration);
+                await db.SaveChangesAsync();
 
-                try
-                {
-                    //Saves data to the database
-                    await db.SaveChangesAsync();
-                }
-                catch (Exception ex)
-                {
-                    Assert.Fail($"Error saving registration: {ex.Message}");
-                }
+                //db.Registrations.Add(registration);
+                //try
+                //{
+                //    //Saves data to the database
+                //    await db.SaveChangesAsync();
+                //}
+                //catch (Exception ex)
+                //{
+                //    Assert.Fail($"Error saving registration: {ex.Message}");
+                //}
 
-
-                int M = db.Registrations.Count();
+                int M = await db.Registrations.CountAsync();
 
                 // Assert: Verify expected results
                 Assert.IsTrue(M == N + 1);
 
                 db.Registrations.Remove(registration);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
