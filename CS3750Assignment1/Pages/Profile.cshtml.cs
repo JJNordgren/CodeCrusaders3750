@@ -118,7 +118,7 @@ namespace CS3750Assignment1.Pages
             //If no user exists redirect to main
             else
             {
-                return RedirectToPage("./LoginPage");
+                return RedirectToPage("./Home");
             }
 
 
