@@ -84,28 +84,49 @@ namespace CS3750Assignment1.Pages.ReviewStudentSubmission
             
             if (studentsPercentGrade >= 90)
             {
-                LetterGrade = "A";
                 LetterGradeIndexNumber = 0;
+                if (studentsPercentGrade >= 94)
+                {
+                    LetterGrade = "A";
+                }
+                else
+                {
+                    LetterGrade = "A-";
+                }
             }
             else if (studentsPercentGrade >= 80)
             {
-                LetterGrade = "B";
                 LetterGradeIndexNumber = 1;
+                if (studentsPercentGrade >= 84)
+                {
+                    if (studentsPercentGrade >= 87) { LetterGrade = "B+"; } else { LetterGrade = "B"; }
+                }
+                else
+                {
+                    LetterGrade = "B-";
+                }
             }
             else if (studentsPercentGrade >= 70)
             {
-                LetterGrade = "C";
                 LetterGradeIndexNumber = 2;
+                if (studentsPercentGrade >= 74)
+                {
+                    if (studentsPercentGrade >= 77) { LetterGrade = "C+"; } else { LetterGrade = "C"; }
+                }
+                else
+                {
+                    LetterGrade = "C-";
+                }
             }
             else if (studentsPercentGrade >= 64)
             {
-                LetterGrade = "D";
                 LetterGradeIndexNumber = 3;
+                if (studentsPercentGrade >= 67) { LetterGrade = "D+"; } else { LetterGrade = "D"; }
             }
             else if (studentsPercentGrade >= 0)
             {
-                LetterGrade = "E";
                 LetterGradeIndexNumber = 4;
+                LetterGrade = "E";
             }
             else
             {

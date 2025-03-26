@@ -8,6 +8,8 @@
 <HeadContent>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
+        var pieTitle = "@Model.PieChartTitle";
+
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
@@ -23,7 +25,7 @@
 
             var options = {
                 height: 400,
-                title: 'Class Grades (Your Grade is in the Separated Slice)',
+                title: pieTitle,
                 colors: ['#28A745', '#9ACD32', '#EAB308', '#FF8C00', '#DC3545'],
                 pieHole: 0.4,
                 slices: { @Model.LetterGradeIndexNumber: {offset: 0.2} },

@@ -31,6 +31,7 @@ namespace CS3750Assignment1.Pages
 
         public string LetterGrade { get; set; } = "";
         public int LetterGradeIndexNumber { get; set; } = -1;
+        public string PieChartTitle { get; set; } = "Class Grades(Your Grade is in the Separated Slice)";
 
         /// <summary>
         /// We're going to need this in at least two places
@@ -130,34 +131,61 @@ namespace CS3750Assignment1.Pages
                     // Find which letter the user's grade is
                     if (CurrentGrade >= 90)
                     {
-                        LetterGrade = "A";
                         LetterGradeIndexNumber = 0;
+                        if (CurrentGrade >= 94)
+                        {
+                            LetterGrade = "A";
+                        }
+                        else
+                        {
+                            LetterGrade = "A-";
+                        }
                     }
                     else if (CurrentGrade >= 80)
                     {
-                        LetterGrade = "B";
                         LetterGradeIndexNumber = 1;
+                        if (CurrentGrade >= 84)
+                        {
+                            if (CurrentGrade >= 87) { LetterGrade = "B+"; } else { LetterGrade = "B"; }
+                        }
+                        else
+                        {
+                            LetterGrade = "B-";
+                        }
                     }
                     else if (CurrentGrade >= 70)
                     {
-                        LetterGrade = "C";
                         LetterGradeIndexNumber = 2;
+                        if (CurrentGrade >= 74)
+                        {
+                            if (CurrentGrade >= 77) { LetterGrade = "C+"; } else { LetterGrade = "C"; }
+                        }
+                        else
+                        {
+                            LetterGrade = "C-";
+                        }
                     }
                     else if (CurrentGrade >= 64)
                     {
-                        LetterGrade = "D";
                         LetterGradeIndexNumber = 3;
+                        if (CurrentGrade >= 67) { LetterGrade = "D+"; } else { LetterGrade = "D"; }
                     }
                     else if (CurrentGrade >= 0)
                     {
-                        LetterGrade = "E";
                         LetterGradeIndexNumber = 4;
+                        LetterGrade = "E";
                     }
                     else
                     {
                         LetterGrade = "N/A";
                     }
                 }
+            }
+
+            if (userType == "T")
+            { // Meaning if the teacher is viewing this page, we don't want to highlight a specific pie slice
+                LetterGradeIndexNumber = 100; //A pie slice number that won't be in the slices included.
+                PieChartTitle = "Class Grades";
             }
 
             OverallGrades[0] = listOfGrades.Count(x => x >= 90);
