@@ -4,115 +4,6 @@
   "name": "JaKota'sTest",
   "url": "http://localhost:5097",
   "tests": [{
-    "id": "52e28d30-b180-451d-bb0f-0d63a55f9f6b",
-    "name": "Untitled",
-    "commands": [{
-      "id": "8760d095-12f2-4c67-95f9-0c7c62423865",
-      "comment": "",
-      "command": "open",
-      "target": "/",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "10784040-2a0e-45c8-a264-78b84afc04c6",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "1550x830",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "da7c7d4e-8c0e-4ee7-bbce-ea9c96256a34",
-      "comment": "",
-      "command": "click",
-      "target": "id=email",
-      "targets": [
-        ["id=email", "id"],
-        ["name=Email", "name"],
-        ["css=#email", "css:finder"],
-        ["xpath=//input[@id='email']", "xpath:attributes"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "4dc4773c-8a93-4770-933e-ca576538516e",
-      "comment": "",
-      "command": "type",
-      "target": "id=email",
-      "targets": [
-        ["id=email", "id"],
-        ["name=Email", "name"],
-        ["css=#email", "css:finder"],
-        ["xpath=//input[@id='email']", "xpath:attributes"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": "johnytest@weber.edu"
-    }, {
-      "id": "4c831961-a7d2-4ca3-bf82-f4e3b80560cb",
-      "comment": "",
-      "command": "click",
-      "target": "id=password",
-      "targets": [
-        ["id=password", "id"],
-        ["name=Password", "name"],
-        ["css=#password", "css:finder"],
-        ["xpath=//input[@id='password']", "xpath:attributes"],
-        ["xpath=//div[2]/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "5d00daf8-6ae3-4cfe-bc76-283c58c90af5",
-      "comment": "",
-      "command": "type",
-      "target": "id=password",
-      "targets": [
-        ["id=password", "id"],
-        ["name=Password", "name"],
-        ["css=#password", "css:finder"],
-        ["xpath=//input[@id='password']", "xpath:attributes"],
-        ["xpath=//div[2]/input", "xpath:position"]
-      ],
-      "value": "12345678"
-    }, {
-      "id": "774d593c-04e2-43b1-b4a0-12e5d348e8fa",
-      "comment": "",
-      "command": "click",
-      "target": "css=.btn-primary",
-      "targets": [
-        ["css=.btn-primary", "css:finder"],
-        ["xpath=//button[@type='submit']", "xpath:attributes"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "c1a5ab00-fbcc-4a6b-add3-64ef043c0b75",
-      "comment": "",
-      "command": "click",
-      "target": "css=.justify-content-center",
-      "targets": [
-        ["css=.justify-content-center", "css:finder"],
-        ["xpath=//main/div", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "c6e41213-0c89-4606-a905-e5064813fb4c",
-      "comment": "",
-      "command": "click",
-      "target": "css=.justify-content-center",
-      "targets": [
-        ["css=.justify-content-center", "css:finder"],
-        ["xpath=//main/div", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "90fdefac-950b-4cf0-a480-9fddf4dd76b1",
-      "comment": "",
-      "command": "close",
-      "target": "",
-      "targets": [],
-      "value": ""
-    }]
-  }, {
     "id": "cd3fda5b-3d85-47c1-add8-4ea3ef579fa3",
     "name": "Edit user profile ",
     "commands": [{
@@ -120,13 +11,6 @@
       "comment": "",
       "command": "open",
       "target": "/",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "b0d85d70-c458-4b3d-be7a-8588cc9ea8f1",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "1550x830",
       "targets": [],
       "value": ""
     }, {
@@ -481,7 +365,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["52e28d30-b180-451d-bb0f-0d63a55f9f6b"]
+    "tests": []
   }],
   "urls": ["http://localhost:5097/"],
   "plugins": []

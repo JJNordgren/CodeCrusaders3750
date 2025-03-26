@@ -83,6 +83,11 @@ namespace CS3750Assignment1.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // Validate the model state
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             //Selecting the user to update
             var myuser = await _context.Users.FirstOrDefaultAsync(x => x.email == User.email);
@@ -113,10 +118,8 @@ namespace CS3750Assignment1.Pages
             //If no user exists redirect to main
             else
             {
-                return RedirectToPage("./Index");
+                return RedirectToPage("./Home");
             }
-
-
 
 
             _context.Users.Update(myuser);

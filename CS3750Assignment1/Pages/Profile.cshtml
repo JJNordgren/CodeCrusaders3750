@@ -103,7 +103,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             function enableTextBoxes(event) {
                 event.preventDefault(); // Prevent form submission
-                var textboxes = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="date"], #profileForm input[type="password"], #profileForm input[type="email"]');
+                var textboxes = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="date"], #profileForm input[type="password"]');
                 textboxes.forEach(function (textbox) {
                     textbox.removeAttribute('readonly');
                 });
